@@ -29,6 +29,8 @@
       --warning: #f59e0b;
     }
 
+    
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
@@ -140,6 +142,7 @@
       background: linear-gradient(to bottom, rgba(10,10,15,0.85), rgba(10,10,15,0.45), transparent);
     }
     
+
     .nav {
       display: flex;
       gap: 10px;
@@ -177,14 +180,70 @@
     /* Panels */
     .main {
       padding: 18px 0 54px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Force isolation des panneaux */
+    .main > .panel:not(.active) {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      height: 0 !important;
+      min-height: 0 !important;
+      max-height: 0 !important;
+      overflow: hidden !important;
+      position: absolute !important;
+      left: -9999px !important;
+      top: 0 !important;
+      width: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      pointer-events: none !important;
+      z-index: 0 !important;
+    }
+    
+    .main > .panel.active {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      height: auto !important;
+      overflow: visible !important;
+      position: relative !important;
+      left: auto !important;
+      top: auto !important;
+      width: 100% !important;
+      pointer-events: auto !important;
+      z-index: 1 !important;
     }
 
     .panel {
-      display: none;
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      height: 0 !important;
+      overflow: hidden !important;
       animation: fadeIn .18s ease-out both;
+      position: absolute !important;
+      left: -9999px !important;
+      top: 0 !important;
+      width: 100% !important;
+      z-index: 1;
+      pointer-events: none !important;
     }
 
-    .panel.active { display: block; }
+    .panel.active { 
+      display: block !important; 
+      visibility: visible !important;
+      opacity: 1 !important;
+      height: auto !important;
+      overflow: visible !important;
+      position: relative !important;
+      left: auto !important;
+      top: auto !important;
+      z-index: 2;
+      pointer-events: auto !important;
+    }
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(6px); }
@@ -345,6 +404,8 @@
       outline: none;
     }
 
+    
+
     .form-input::placeholder { color: var(--text-tertiary); }
 
     .input-row {
@@ -371,7 +432,7 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-      transition: transform .15s ease, filter .15s;
+      transition: transform .15s ease, filter .15s ease;
     }
 
     .submit-btn:hover { transform: translateY(-1px); filter: brightness(1.05); }
@@ -421,9 +482,22 @@
     }
 
     .small { font-size: 13px; color: var(--text-secondary); }
-
+  
     /* ===== Accueil (capture) ===== */
-    .ic-home { min-height: calc(100vh - 40px); display:flex; align-items:center; justify-content:center; }
+    .ic-home { 
+      min-height: calc(100vh - 40px); 
+      display:flex; 
+      align-items:center; 
+      justify-content:center; 
+    }
+    
+    /* S'assurer que ic-home n'est visible que dans le panneau actif */
+    .panel:not(.active) .ic-home {
+      display: none !important;
+      visibility: hidden !important;
+      height: 0 !important;
+      overflow: hidden !important;
+    }
     .ic-container{ width:100%; max-width:420px; padding:24px; text-align:center; margin:0 auto; }
     .ic-logo{ font-size:24px; font-weight:700; letter-spacing:.5px; }
     .ic-green{ color:#0f7a3a; }
@@ -461,6 +535,7 @@
     .ic-g{ background:#006233; }
     .ic-r{ background:#c1272d; }
 
+  
     /* === Fix dropdown visibility (select/options) === */
     select, .form-select, .form-input select {
       color: var(--text);
@@ -476,8 +551,9 @@
       color: #ffffff;
     }
 
-    /* === Confetti canvas must overlay (no layout space) === */
-    #confettiCanvas{
+  
+        /* === Confetti canvas must overlay (no layout space) === */
+        #confettiCanvas{
             position: fixed !important;
             inset: 0 !important;
             width: 100vw !important;
@@ -489,6 +565,7 @@
             padding: 0 !important;
         }
 
+    
     /* === Auto country label === */
     .auto-country-label{
       margin-top: 6px;
@@ -500,6 +577,7 @@
       display: block;
     }
 
+    
     /* === Harmonisation couleur champs select (pays / souhaits) avec email === */
     select,
     select#country,
@@ -526,3 +604,1694 @@
       background-color: #0f121a;
       color: #ffffff;
     }
+
+    
+    /* === FORÇAGE STYLE SELECT = EMAIL === */
+    .form-group select,
+    select#country,
+    select#interest {
+      background: linear-gradient(135deg, rgba(59,130,246,0.25), rgba(168,85,247,0.25)) !important;
+      color: #ffffff !important;
+      border: 1px solid rgba(99,102,241,0.55) !important;
+      box-shadow: inset 0 0 0 9999px rgba(0,0,0,0) !important;
+    }
+
+    .form-group select:focus {
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.35) !important;
+    }
+
+    /* === RÉDUCTION LARGEUR FORMULAIRE === */
+    .landing-form,
+    form {
+      max-width: 50% !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    @media (max-width: 900px) {
+      .landing-form,
+      form {
+        max-width: 100% !important;
+      }
+    }
+
+    
+    /* === ALIGNEMENT COULEURS EMAIL / SELECT === */
+    .form-group input[type="email"],
+    .form-group select,
+    input[type="email"],
+    select#country,
+    select#interest {
+      background: linear-gradient(135deg,
+        rgba(59,130,246,0.35),
+        rgba(168,85,247,0.35)
+      ) !important;
+      color: #ffffff !important;
+      border: 1px solid rgba(99,102,241,0.6) !important;
+      border-radius: 14px !important;
+      box-shadow: inset 0 0 0 9999px rgba(0,0,0,0) !important;
+    }
+
+    .form-group input[type="email"]:focus,
+    .form-group select:focus {
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.35) !important;
+      background: linear-gradient(135deg,
+        rgba(59,130,246,0.45),
+        rgba(168,85,247,0.45)
+      ) !important;
+    }
+
+    /* === RÉDUCTION RÉELLE LARGEUR FICHE / FORMULAIRE === */
+    .landing-form,
+    .form-card,
+    .card,
+    form {
+      max-width: 520px !important;   /* ≈ moitié écran desktop */
+      width: 100% !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    @media (max-width: 900px) {
+      .landing-form,
+      .form-card,
+      .card,
+      form {
+        max-width: 100% !important;
+      }
+    }
+
+    
+    /* === RÉDUCTION STRICTE DE LA LARGEUR (CONFORME CAPTURE) === */
+    .landing,
+    .landing-container,
+    .landing-card,
+    .form-card,
+    .card,
+    .landing-form {
+      max-width: 760px !important;   /* strictement inférieur à la zone entourée en rouge */
+      width: 100% !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    /* Champs restent fluides à l'intérieur */
+    .landing-form input,
+    .landing-form select,
+    .landing-form button {
+      width: 100%;
+    }
+
+    @media (max-width: 900px) {
+      .landing,
+      .landing-container,
+      .landing-card,
+      .form-card,
+      .card,
+      .landing-form {
+        max-width: 100% !important;
+      }
+    }
+
+    
+    /* === ALIGNEMENT LANDING SUR LA CARTE ACCUEIL ("Merci au Maroc") === */
+    /* On force la même logique: carte centrée, largeur maîtrisée, même rayon, même padding */
+    #landing .landing,
+    #landing .landing-container,
+    #landing .panel-content,
+    #landing .content,
+    #landing .container {
+      width: 100% !important;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+    }
+
+    /* Si le landing est structuré en section.panel, on centre verticalement */
+    #landing.panel,
+    section#landing.panel {
+      min-height: calc(100vh - 40px) !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
+    /* Cible principale: la "carte" du landing (quel que soit son nom) */
+    #landing .landing-card,
+    #landing .form-card,
+    #landing .card,
+    #landing .landing-form {
+      max-width: 420px !important;   /* même gabarit que la carte accueil */
+      width: 100% !important;
+      margin: 0 auto !important;
+      border-radius: 18px !important;
+    }
+
+    /* On garde les infos, mais on évite que le titre prenne toute la largeur écran */
+    #landing h1, #landing h2, #landing .title, #landing .headline {
+      max-width: 420px !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      text-align: left;
+    }
+
+    /* Responsive: sur mobile, plein écran */
+    @media (max-width: 520px) {
+      #landing .landing-card,
+      #landing .form-card,
+      #landing .card,
+      #landing .landing-form,
+      #landing h1, #landing h2, #landing .title, #landing .headline {
+        max-width: 100% !important;
+      }
+      #landing h1, #landing h2, #landing .title, #landing .headline {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+    }
+
+    
+    /* === CENTRAGE TITRE "Rejoignez Initiatives Citoyennes" === */
+    .landing-title,
+    #landing h1,
+    #landing .headline {
+      text-align: center !important;
+    }
+
+    /* Forcer chaque ligne à être centrée visuellement */
+    .landing-title span,
+    #landing h1 span,
+    #landing .headline span {
+      display: inline-block;
+      width: 100%;
+      text-align: center;
+    }
+
+    
+    /* === TITRE STRUCTURÉ : Rejoignez Initiatives / Citoyennes centré dessous === */
+    #landing h1,
+    .landing-title,
+    .headline {
+      text-align: center !important;
+      line-height: 1.15;
+    }
+
+    /* Ligne 1 : Rejoignez Initiatives */
+    #landing h1 .line-top,
+    .landing-title .line-top {
+      display: inline-flex;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+    }
+
+    /* Ligne 2 : Citoyennes centrée */
+    #landing h1 .line-bottom,
+    .landing-title .line-bottom {
+      display: block;
+      width: 100%;
+      text-align: center;
+      margin-top: 6px;
+    }
+
+    
+    /* === TITRE CONFORME AUX CAPTURES === */
+    .landing-title{
+      text-align: center;
+      line-height: 1.1;
+    }
+    .landing-title .title-row{
+      display: inline-flex;
+      gap: 10px;
+      align-items: baseline;
+      justify-content: center;
+    }
+    .landing-title .title-citoyennes{
+      display: block;
+      width: 100%;
+      text-align: center;
+      margin-top: 4px;
+    }
+
+    
+    /* === TITRE (STRUCTURE DEMANDÉE) === */
+    .landing-title{
+      text-align: center;
+      line-height: 1.1;
+    }
+    .landing-title .title-row{
+      display: inline-flex;
+      gap: 10px;
+      align-items: baseline;
+      justify-content: center;
+      width: 100%;
+    }
+    .landing-title .title-rejoignez{
+      display: block;
+      width: 100%;
+      text-align: center;
+      margin-top: 6px;
+    }
+
+    
+/* === TITRE LANDING : Rejoignez Initiatives / Citoyennes === */
+.landing-title{
+  text-align:center;
+  line-height:1.1;
+}
+.landing-title .title-row{
+  display:inline-flex;
+  gap:10px;
+  justify-content:center;
+  align-items:baseline;
+  width:100%;
+}
+.landing-title .title-citoyennes{
+  display:block;
+  width:100%;
+  text-align:center;
+  margin-top:4px;
+}
+
+
+/* === TITRE LANDING (FORCÉ) : Rejoignez Initiatives / Citoyennes === */
+#landing .landing-title{
+  text-align:center !important;
+  line-height:1.05 !important;
+  margin: 0 auto 10px auto !important;
+}
+#landing .landing-title .title-row{
+  display:flex !important;
+  flex-wrap:nowrap !important;
+  gap:10px !important;
+  align-items:baseline !important;
+  justify-content:center !important;
+  width:auto !important;
+  white-space:nowrap !important;
+}
+#landing .landing-title .title-rejoignez,
+#landing .landing-title .title-initiatives{
+  display:inline !important;
+  width:auto !important;
+}
+#landing .landing-title .title-citoyennes{
+  display:block !important;
+  width:100% !important;
+  text-align:center !important;
+  margin-top:6px !important;
+}
+
+/* Si l'espace est trop serré, on réduit légèrement la ligne 1 plutôt que de la casser */
+@media (max-width: 520px){
+  #landing .landing-title{ font-size: 36px !important; }
+}
+
+
+    /* === Language switcher === */
+    .lang-switch{
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 10050;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      padding: 8px 10px;
+      border-radius: 14px;
+      background: rgba(10,12,18,0.55);
+      border: 1px solid rgba(99,102,241,0.25);
+      backdrop-filter: blur(10px);
+    }
+    .lang-label{
+      font-size: 12px;
+      color: rgba(255,255,255,0.75);
+    }
+    .lang-select{
+      background: rgba(15,18,26,0.85);
+      color:#fff;
+      border: 1px solid rgba(99,102,241,0.35);
+      border-radius: 10px;
+      padding: 6px 10px;
+      outline:none;
+    }
+
+    /* === RTL support (Arabic) === */
+    html.rtl body { direction: rtl; }
+    html.rtl .landing-content, html.rtl .section-header { text-align: right; }
+    html.rtl .tab-pill { direction: ltr; } /* keep pills layout stable */
+    /* Keep email field readable */
+    input[type="email"]{ direction:ltr; }
+
+
+    /* === Engagement commitments === */
+    .commitments{
+      margin: 12px auto 18px auto;
+      max-width: 420px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.8);
+      text-align: left;
+    }
+    .commitments div{
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+
+    
+    /* === Toast close button (visible) === */
+    .success-toast{ position: relative !important; padding-right: 44px !important; }
+    .toast-close{
+      position: absolute !important;
+      top: 8px !important;
+      right: 10px !important;
+      z-index: 10 !important;
+      width: 28px !important;
+      height: 28px !important;
+      border-radius: 10px !important;
+      border: 1px solid rgba(255,255,255,0.45) !important;
+      background: rgba(255,255,255,0.12) !important;
+      color: #ffffff !important;
+      font-size: 16px !important;
+      font-weight: 700 !important;
+      cursor: pointer;
+      line-height: 1 !important;
+      display: grid !important;
+      place-items: center !important;
+    }
+    .toast-close:hover{ background: rgba(255,255,255,0.18) !important; }
+
+
+    /* === Landing close button (top-right) === */
+    .landing-close{
+      position: fixed;
+      top: 14px;
+      right: 14px;
+      z-index: 10070;
+      width: 36px;
+      height: 36px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(10,12,18,0.55);
+      color: rgba(255,255,255,0.9);
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      display: none; /* shown only on landing */
+      place-items: center;
+    }
+    .landing-close:hover{ background: rgba(10,12,18,0.7); color:#fff; }
+    .panel#landing.active ~ .landing-close,
+    #landing.active .landing-close{ display: grid; }
+
+
+    /* === Consent line (mailing) === */
+    .consent-line{
+      margin: 8px auto 14px auto;
+      max-width: 520px;
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: rgba(255,255,255,0.72);
+      text-align: center;
+    }
+
+
+    /* === Honeypot anti-spam === */
+    .hp-field{
+      position:absolute;
+      left:-10000px;
+      top:auto;
+      width:1px;
+      height:1px;
+      overflow:hidden;
+      opacity:0;
+      pointer-events:none;
+    }
+
+</style>
+</head>
+
+<body>
+
+<div class="lang-switch" aria-label="Language selector">
+  <label for="langSelect" class="lang-label">Langue</label>
+  <select id="langSelect" class="lang-select">
+    <option value="fr">Français</option>
+    <option value="ar">العربية</option>
+    <option value="en">English</option>
+    <option value="es">Español</option>
+    <option value="nl">Nederlands</option>
+    <option value="de">Deutsch</option>
+    <option value="it">Italiano</option>
+  </select>
+</div>
+
+  <canvas id="confettiCanvas"></canvas>
+
+  
+
+  <div class="bg-gradient"></div>
+  <div class="grid-overlay"></div>
+
+  <div class="container">
+    
+
+    
+    </div>
+
+    <main class="main">
+      <!-- ACCUEIL -->
+      <section class="panel active" id="home">
+        <div class="ic-home">
+          <div class="ic-container">
+
+            <div class="ic-logo">
+              <span class="ic-green">Initiatives</span>
+              <span class="ic-red">Citoyennes</span>
+            </div>
+            <div class="ic-subtitle" id="hubSubtitle">Strategy Hub</div>
+
+            <div class="ic-card">
+              <div class="ic-ar">شكراً للمغرب</div>
+
+              <div class="ic-text" id="tributeText">Un hommage sincère à cette terre d'histoire, de culture et
+                d'hospitalité. Le Maroc, carrefour des civilisations, où
+                tradition et modernité s'entrelacent avec élégance.
+              </div>
+
+              <div class="ic-divider">
+                <span></span><i></i><span></span>
+              </div>
+
+              <div class="ic-motto-ar">« الله، الوطن، الملك »</div>
+              <div class="ic-motto-fr">Dieu, la Patrie, le Roi</div>
+            </div>
+
+            
+
+            <div class="ic-footer">
+              <div class="ic-flag" aria-hidden="true">
+                <span class="ic-g"></span>
+                <span class="ic-r"></span>
+              </div>
+              <span id="madeRespect">Fait avec respect</span>
+            </div>
+            <div style="margin-top:14px;">
+              <a href="#landing" class="ic-btn" data-go="landing"><span id="continueText">continuer &gt;&gt;</span></a>
+            </div>
+
+
+          </div>
+        </div>
+      </section>
+
+      <!-- LANDING -->
+      <section class="panel" id="landing" style="display: none !important; visibility: hidden !important; opacity: 0 !important; height: 0 !important; overflow: hidden !important; position: absolute !important; left: -9999px !important; pointer-events: none !important;">
+  <button id="landingClose" class="landing-close" type="button" aria-label="Fermer">✕</button>
+
+        <div class="section-header">
+          <h2></h2>
+          <p></p>
+        </div>
+
+        <div class="landing-hero">
+          <div class="landing-glow"></div>
+          <div class="landing-content">
+            <h2 class="landing-title" id="landingTitle">Rejoignez <span>Initiatives Citoyennes</span></h2>
+            <p class="landing-subtitle" id="landingSubtitle">« Inscrivez-vous pour suivre l’évolution d’une initiative citoyenne ouverte et non partisane, portée par les Marocains du Monde et les amis du Maroc, et être informé des étapes, travaux et dynamiques qui en découlent. »</p>
+
+            <div class="form-wrapper">
+              <div class="input-group">
+                <input type="email" class="form-input" id="email" placeholder="Votre adresse email" autocomplete="email" />
+                <div class="input-row">
+                  <select class="form-select" id="country">
+        <option value="">Pays de résidence</option>
+        <option value="Afghanistan">Afghanistan</option>
+        <option value="Afrique du Sud">Afrique du Sud</option>
+        <option value="Albanie">Albanie</option>
+        <option value="Algérie">Algérie</option>
+        <option value="Allemagne">Allemagne</option>
+        <option value="Andorre">Andorre</option>
+        <option value="Angola">Angola</option>
+        <option value="Antigua-et-Barbuda">Antigua-et-Barbuda</option>
+        <option value="Arabie saoudite">Arabie saoudite</option>
+        <option value="Argentine">Argentine</option>
+        <option value="Arménie">Arménie</option>
+        <option value="Australie">Australie</option>
+        <option value="Autriche">Autriche</option>
+        <option value="Azerbaïdjan">Azerbaïdjan</option>
+        <option value="Bahamas">Bahamas</option>
+        <option value="Bahreïn">Bahreïn</option>
+        <option value="Bangladesh">Bangladesh</option>
+        <option value="Barbade">Barbade</option>
+        <option value="Belgique">Belgique</option>
+        <option value="Belize">Belize</option>
+        <option value="Bénin">Bénin</option>
+        <option value="Bhoutan">Bhoutan</option>
+        <option value="Biélorussie">Biélorussie</option>
+        <option value="Bolivie">Bolivie</option>
+        <option value="Bosnie-Herzégovine">Bosnie-Herzégovine</option>
+        <option value="Botswana">Botswana</option>
+        <option value="Brésil">Brésil</option>
+        <option value="Brunei">Brunei</option>
+        <option value="Bulgarie">Bulgarie</option>
+        <option value="Burkina Faso">Burkina Faso</option>
+        <option value="Burundi">Burundi</option>
+        <option value="Cambodge">Cambodge</option>
+        <option value="Cameroun">Cameroun</option>
+        <option value="Canada">Canada</option>
+        <option value="Cap-Vert">Cap-Vert</option>
+        <option value="Chili">Chili</option>
+        <option value="Chine">Chine</option>
+        <option value="Chypre">Chypre</option>
+        <option value="Colombie">Colombie</option>
+        <option value="Comores">Comores</option>
+        <option value="Congo">Congo</option>
+        <option value="Costa Rica">Costa Rica</option>
+        <option value="Côte d’Ivoire">Côte d’Ivoire</option>
+        <option value="Croatie">Croatie</option>
+        <option value="Cuba">Cuba</option>
+        <option value="Danemark">Danemark</option>
+        <option value="Djibouti">Djibouti</option>
+        <option value="Dominique">Dominique</option>
+        <option value="Égypte">Égypte</option>
+        <option value="Émirats arabes unis">Émirats arabes unis</option>
+        <option value="Équateur">Équateur</option>
+        <option value="Érythrée">Érythrée</option>
+        <option value="Espagne">Espagne</option>
+        <option value="Estonie">Estonie</option>
+        <option value="Eswatini">Eswatini</option>
+        <option value="États-Unis">États-Unis</option>
+        <option value="Éthiopie">Éthiopie</option>
+        <option value="Fidji">Fidji</option>
+        <option value="Finlande">Finlande</option>
+        <option value="France">France</option>
+        <option value="Gabon">Gabon</option>
+        <option value="Gambie">Gambie</option>
+        <option value="Géorgie">Géorgie</option>
+        <option value="Ghana">Ghana</option>
+        <option value="Grèce">Grèce</option>
+        <option value="Grenade">Grenade</option>
+        <option value="Guatemala">Guatemala</option>
+        <option value="Guinée">Guinée</option>
+        <option value="Guinée équatoriale">Guinée équatoriale</option>
+        <option value="Guinée-Bissau">Guinée-Bissau</option>
+        <option value="Guyana">Guyana</option>
+        <option value="Haïti">Haïti</option>
+        <option value="Honduras">Honduras</option>
+        <option value="Hongrie">Hongrie</option>
+        <option value="Inde">Inde</option>
+        <option value="Indonésie">Indonésie</option>
+        <option value="Irak">Irak</option>
+        <option value="Iran">Iran</option>
+        <option value="Irlande">Irlande</option>
+        <option value="Islande">Islande</option>
+        <option value="Israël">Israël</option>
+        <option value="Italie">Italie</option>
+        <option value="Jamaïque">Jamaïque</option>
+        <option value="Japon">Japon</option>
+        <option value="Jordanie">Jordanie</option>
+        <option value="Kazakhstan">Kazakhstan</option>
+        <option value="Kenya">Kenya</option>
+        <option value="Kirghizistan">Kirghizistan</option>
+        <option value="Kiribati">Kiribati</option>
+        <option value="Koweït">Koweït</option>
+        <option value="Laos">Laos</option>
+        <option value="Lesotho">Lesotho</option>
+        <option value="Lettonie">Lettonie</option>
+        <option value="Liban">Liban</option>
+        <option value="Liberia">Liberia</option>
+        <option value="Libye">Libye</option>
+        <option value="Liechtenstein">Liechtenstein</option>
+        <option value="Lituanie">Lituanie</option>
+        <option value="Luxembourg">Luxembourg</option>
+        <option value="Macédoine du Nord">Macédoine du Nord</option>
+        <option value="Madagascar">Madagascar</option>
+        <option value="Malaisie">Malaisie</option>
+        <option value="Malawi">Malawi</option>
+        <option value="Maldives">Maldives</option>
+        <option value="Mali">Mali</option>
+        <option value="Malte">Malte</option>
+        <option value="Maroc">Maroc</option>
+        <option value="Maurice">Maurice</option>
+        <option value="Mauritanie">Mauritanie</option>
+        <option value="Mexique">Mexique</option>
+        <option value="Micronésie">Micronésie</option>
+        <option value="Moldavie">Moldavie</option>
+        <option value="Monaco">Monaco</option>
+        <option value="Mongolie">Mongolie</option>
+        <option value="Monténégro">Monténégro</option>
+        <option value="Mozambique">Mozambique</option>
+        <option value="Namibie">Namibie</option>
+        <option value="Népal">Népal</option>
+        <option value="Nicaragua">Nicaragua</option>
+        <option value="Niger">Niger</option>
+        <option value="Nigeria">Nigeria</option>
+        <option value="Norvège">Norvège</option>
+        <option value="Nouvelle-Zélande">Nouvelle-Zélande</option>
+        <option value="Oman">Oman</option>
+        <option value="Ouganda">Ouganda</option>
+        <option value="Ouzbékistan">Ouzbékistan</option>
+        <option value="Pakistan">Pakistan</option>
+        <option value="Panama">Panama</option>
+        <option value="Papouasie-Nouvelle-Guinée">Papouasie-Nouvelle-Guinée</option>
+        <option value="Paraguay">Paraguay</option>
+        <option value="Pays-Bas">Pays-Bas</option>
+        <option value="Pérou">Pérou</option>
+        <option value="Philippines">Philippines</option>
+        <option value="Pologne">Pologne</option>
+        <option value="Portugal">Portugal</option>
+        <option value="Qatar">Qatar</option>
+        <option value="Roumanie">Roumanie</option>
+        <option value="Royaume-Uni">Royaume-Uni</option>
+        <option value="Russie">Russie</option>
+        <option value="Rwanda">Rwanda</option>
+        <option value="Saint-Kitts-et-Nevis">Saint-Kitts-et-Nevis</option>
+        <option value="Saint-Marin">Saint-Marin</option>
+        <option value="Saint-Vincent-et-les-Grenadines">Saint-Vincent-et-les-Grenadines</option>
+        <option value="Sainte-Lucie">Sainte-Lucie</option>
+        <option value="Salvador">Salvador</option>
+        <option value="Samoa">Samoa</option>
+        <option value="Sao Tomé-et-Principe">Sao Tomé-et-Principe</option>
+        <option value="Sénégal">Sénégal</option>
+        <option value="Serbie">Serbie</option>
+        <option value="Seychelles">Seychelles</option>
+        <option value="Sierra Leone">Sierra Leone</option>
+        <option value="Singapour">Singapour</option>
+        <option value="Slovaquie">Slovaquie</option>
+        <option value="Slovénie">Slovénie</option>
+        <option value="Somalie">Somalie</option>
+        <option value="Soudan">Soudan</option>
+        <option value="Soudan du Sud">Soudan du Sud</option>
+        <option value="Sri Lanka">Sri Lanka</option>
+        <option value="Suède">Suède</option>
+        <option value="Suisse">Suisse</option>
+        <option value="Suriname">Suriname</option>
+        <option value="Syrie">Syrie</option>
+        <option value="Tadjikistan">Tadjikistan</option>
+        <option value="Tanzanie">Tanzanie</option>
+        <option value="Tchad">Tchad</option>
+        <option value="Thaïlande">Thaïlande</option>
+        <option value="Timor oriental">Timor oriental</option>
+        <option value="Togo">Togo</option>
+        <option value="Tonga">Tonga</option>
+        <option value="Trinité-et-Tobago">Trinité-et-Tobago</option>
+        <option value="Tunisie">Tunisie</option>
+        <option value="Turkménistan">Turkménistan</option>
+        <option value="Turquie">Turquie</option>
+        <option value="Ukraine">Ukraine</option>
+        <option value="Uruguay">Uruguay</option>
+        <option value="Vanuatu">Vanuatu</option>
+        <option value="Vatican">Vatican</option>
+        <option value="Venezuela">Venezuela</option>
+        <option value="Vietnam">Vietnam</option>
+        <option value="Yémen">Yémen</option>
+        <option value="Zambie">Zambie</option>
+        <option value="Zimbabwe">Zimbabwe</option>
+</select>
+                <div class="auto-country-label" id="autoCountryLabel">Pays détecté automatiquement</div>
+                  <select class="form-select" id="interest">
+                    <option value="">Je souhaite…</option>
+                    <option value="group">suivre cette initiative</option>
+                    <option value="propose">Proposer une initiative</option>
+                    <option value="partner">Devenir partenaire / financeur</option>
+                    <option value="all">Tout découvrir</option>
+                  </select>
+                </div>
+              </div>
+              <!-- honeypot (anti-spam) -->
+              <input type="text" id="hp" name="hp" autocomplete="off" tabindex="-1" aria-hidden="true" class="hp-field" />
+
+
+
+              <button class="submit-btn" id="submitBtn">
+                <i class="fas fa-bell"></i> <span id="submitText">Rejoindre la liste</span>
+              </button>
+
+              
+
+<div class="commitments">
+  <div><span id="commit1">✔️ Engagement volontaire & progressif</span></div>
+  <div><span id="commit2">✔️ Sans mandat politique</span></div>
+  <div><span id="commit3">✔️ Sans obligation financière</span></div>
+</div>
+
+<div class="consent-line" id="consentLine">
+  En laissant votre email, vous acceptez d’être informé des suites de l’initiative citoyenne.
+</div>
+
+<div 
+<div class="success-toast" id="successToast" role="status" aria-live="polite">
+  <button class="toast-close" type="button" aria-label="Fermer">✕</button>
+  
+  <i class="fas fa-check-circle" style="color: var(--success);"></i>
+  <span id="successText">Inscription enregistrée. Nous vous recontacterons prochainement.</span>
+</div>
+
+
+              <div class="metrics-bar">
+                <div class="metric">
+                  <div class="metric-value" id="metricCount">847</div>
+                  <div class="metric-label" id="kpiPreLabel"><span id="kpiPreLabel">Pré-inscrits</span></div>
+                </div>
+                <div class="metric">
+                  <div class="metric-value" id="metricCountries">4</div>
+                  <div class="metric-label" id="kpiCountriesLabel"><span id="kpiCountriesLabel">Pays prioritaires (v1)</span></div>
+                </div>
+                <div class="metric">
+                  <div class="metric-value" id="metricGroups">3</div>
+                  <div class="metric-label" id="kpiGroupsLabel"><span id="kpiGroupsLabel">Groupes (France / MRE / Europe)</span></div>
+                </div>
+              </div>
+
+              <p class="small" style="margin-top:10px;"></p>
+            </div>
+          </div>
+        </div>
+
+        <footer>
+          <div class="small"></div>
+        </footer>
+      
+<div style="text-align:center; margin-top:32px;">
+  
+</div>
+</section>
+    </main>
+  </div>
+
+  <script>
+    // ============ INITIALISATION IMMÉDIATE (avant DOMContentLoaded) ============
+    (function() {
+      // Script inline qui s'exécute immédiatement
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+          const panels = document.querySelectorAll('.panel');
+          panels.forEach(function(p) {
+            if (!p.classList.contains('active')) {
+              p.style.display = 'none';
+              p.style.visibility = 'hidden';
+              p.style.opacity = '0';
+              p.style.height = '0';
+              p.style.overflow = 'hidden';
+              p.style.position = 'absolute';
+              p.style.left = '-9999px';
+              p.style.pointerEvents = 'none';
+            }
+          });
+        });
+      } else {
+        // DOM déjà chargé
+        const panels = document.querySelectorAll('.panel');
+        panels.forEach(function(p) {
+          if (!p.classList.contains('active')) {
+            p.style.display = 'none';
+            p.style.visibility = 'hidden';
+            p.style.opacity = '0';
+            p.style.height = '0';
+            p.style.overflow = 'hidden';
+            p.style.position = 'absolute';
+            p.style.left = '-9999px';
+            p.style.pointerEvents = 'none';
+          }
+        });
+      }
+    })();
+
+    // ============ THEME TOGGLE ============
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle?.addEventListener('click', () => {
+      
+    });
+
+    // ============ NAVIGATION (ACCUEIL / LANDING) ============
+    const navItems = document.querySelectorAll('.nav-item');
+    const panels = document.querySelectorAll('.panel');
+
+    window.setActivePanel = function setActivePanel(panelId) {
+      // D'abord, désactiver TOUS les panneaux de manière agressive
+      panels.forEach(p => {
+        p.classList.remove('active');
+        p.style.display = 'none';
+        p.style.visibility = 'hidden';
+        p.style.opacity = '0';
+        p.style.height = '0';
+        p.style.overflow = 'hidden';
+        p.style.position = 'absolute';
+        p.style.left = '-9999px';
+        p.style.pointerEvents = 'none';
+      });
+      
+      // Désactiver tous les boutons de navigation
+      navItems.forEach(btn => {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-selected', 'false');
+      });
+      
+      // Ensuite, activer uniquement le panneau demandé
+      const targetPanel = document.getElementById(panelId);
+      if (targetPanel) {
+        targetPanel.classList.add('active');
+        targetPanel.style.display = 'block';
+        targetPanel.style.visibility = 'visible';
+        targetPanel.style.opacity = '1';
+        targetPanel.style.height = 'auto';
+        targetPanel.style.overflow = 'visible';
+        targetPanel.style.position = 'relative';
+        targetPanel.style.left = 'auto';
+        targetPanel.style.pointerEvents = 'auto';
+      }
+      
+      // Activer le bouton correspondant
+      navItems.forEach(btn => {
+        if (btn.dataset.panel === panelId) {
+          btn.classList.add('active');
+          btn.setAttribute('aria-selected', 'true');
+        }
+      });
+
+      // Update hash for shareable links
+      if (panelId === 'landing') {
+        history.replaceState(null, '', '#landing');
+      } else {
+        history.replaceState(null, '', '#');
+      }
+    }
+
+    navItems.forEach(btn => {
+      btn.addEventListener('click', () => setActivePanel(btn.dataset.panel));
+    });
+
+    // Anchor CTA (Accueil -> Landing)
+    document.querySelectorAll('[data-go="landing"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        setActivePanel('landing');
+        document.getElementById('landing')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    // Initialisation immédiate pour éviter le flash de contenu
+    document.addEventListener('DOMContentLoaded', () => {
+      // Désactiver tous les panneaux sauf celui qui a la classe active
+      panels.forEach(p => {
+        if (!p.classList.contains('active')) {
+          p.classList.remove('active');
+          p.style.display = 'none';
+          p.style.visibility = 'hidden';
+          p.style.opacity = '0';
+          p.style.height = '0';
+          p.style.overflow = 'hidden';
+          p.style.position = 'absolute';
+          p.style.left = '-9999px';
+          p.style.pointerEvents = 'none';
+        } else {
+          // S'assurer que le panneau actif est bien visible
+          p.style.display = 'block';
+          p.style.visibility = 'visible';
+          p.style.opacity = '1';
+          p.style.height = 'auto';
+          p.style.overflow = 'visible';
+          p.style.position = 'relative';
+          p.style.left = 'auto';
+          p.style.pointerEvents = 'auto';
+        }
+      });
+    });
+    
+    // Load by hash
+    window.addEventListener('load', () => {
+      // S'assurer que tous les panneaux sont d'abord désactivés
+      panels.forEach(p => {
+        p.classList.remove('active');
+        p.style.display = 'none';
+        p.style.visibility = 'hidden';
+        p.style.opacity = '0';
+        p.style.height = '0';
+        p.style.overflow = 'hidden';
+        p.style.position = 'absolute';
+        p.style.left = '-9999px';
+        p.style.pointerEvents = 'none';
+      });
+      
+      // Puis activer le panneau approprié selon le hash
+      if (location.hash === '#landing') {
+        setActivePanel('landing');
+      } else {
+        setActivePanel('home');
+      }
+    });
+
+    // ============ FORM (STATIC DEMO) ============
+    const emailEl = document.getElementById('email');
+    const countryEl = document.getElementById('country');
+    const interestEl = document.getElementById('interest');
+    const submitBtn = document.getElementById('submitBtn');
+    const toast = document.getElementById('successToast');
+    const metricCount = document.getElementById('metricCount');
+
+    function isValidEmail(email) {
+      // Simple validation (good enough for a static prototype)
+      return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(email).trim());
+    }
+
+    function animateCounter(element, target) {
+      const start = parseInt(element.textContent, 10) || 0;
+      const duration = 700;
+      const startTime = performance.now();
+
+      function tick(now) {
+        const progress = Math.min((now - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const value = Math.floor(start + (target - start) * eased);
+        element.textContent = String(value);
+        if (progress < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    
+    
+// ============ COPY LINK ============
+    const copyLinkBtn = document.getElementById('copyLinkBtn');
+    copyLinkBtn?.addEventListener('click', async (e) => {
+      e.preventDefault();
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        copyLinkBtn.innerHTML = '<i class="fas fa-check"></i> Lien copié';
+        setTimeout(() => {
+          copyLinkBtn.innerHTML = '<i class="fas fa-link"></i> Copier le lien de la page';
+        }, 1800);
+      } catch {
+        // Fallback: no clipboard permissions
+        alert('Copie automatique indisponible. Copiez manuellement l\'URL dans la barre d\'adresse.');
+      }
+    });
+  </script>
+
+<script>
+  // ============ CONFETTI (imported from JDOUR) ============
+  function launchConfetti() {
+            const canvas = document.getElementById('confettiCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const confetti = [];
+            const colors = ['#6366f1', '#a855f7', '#ec4899', '#f59e0b', '#10b981', '#C1272D', '#006233'];
+
+            for (let i = 0; i < 150; i++) {
+                confetti.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    w: Math.random() * 10 + 5,
+                    h: Math.random() * 6 + 4,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    speed: Math.random() * 3 + 2,
+                    angle: Math.random() * 360,
+                    spin: Math.random() * 10 - 5
+                });
+            }
+
+            let frame = 0;
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                confetti.forEach(c => {
+                    c.y += c.speed;
+                    c.angle += c.spin;
+                    c.x += Math.sin(c.angle * Math.PI / 180) * 0.5;
+
+                    ctx.save();
+                    ctx.translate(c.x, c.y);
+                    ctx.rotate(c.angle * Math.PI / 180);
+                    ctx.fillStyle = c.color;
+                    ctx.fillRect(-c.w / 2, -c.h / 2, c.w, c.h);
+                    ctx.restore();
+                });
+
+                frame++;
+                if (frame < 200) {
+                    requestAnimationFrame(animate);
+                } else {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+            }
+            animate();
+        }
+
+  </script>
+
+
+<script>
+(function(){
+  // === Auto-detection du pays (navigateur / IP) ===
+  // Note: la détection IP fait un appel réseau vers ipapi.co (si internet disponible).
+  const countrySelect = document.getElementById('country');
+  if (!countrySelect) return;
+
+  function normalize(s){
+    return (s || '')
+      .toString()
+      .toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g,'')     // accents
+      .replace(/[’']/g,'')                                 // apostrophes
+      .replace(/[^a-z0-9\s-]/g,' ')                        // ponctuation
+      .replace(/\s+/g,' ')
+      .trim();
+  }
+
+  function selectCountryByName(name){
+    if (!name) return false;
+    const targetNorm = normalize(name);
+
+    // 1) match exact (case-insensitive)
+    for (const opt of countrySelect.options){
+      if (normalize(opt.textContent) === targetNorm){
+        countrySelect.value = opt.value || opt.textContent;
+        return true;
+      }
+    }
+    // 2) match "contains" (fallback)
+    for (const opt of countrySelect.options){
+      const optNorm = normalize(opt.textContent);
+      if (optNorm && (optNorm.includes(targetNorm) || targetNorm.includes(optNorm))){
+        countrySelect.value = opt.value || opt.textContent;
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function getRegionFromNavigator(){
+    // ex: "fr-FR" -> "FR"
+    const lang = (navigator.language || navigator.userLanguage || '').trim();
+    const m = lang.match(/-([A-Z]{2})\b/);
+    return m ? m[1] : null;
+  }
+
+  function getFrenchCountryNameFromISO2(iso2){
+    if (!iso2) return null;
+
+    // Intl.DisplayNames donne un nom localisé (FR) à partir d'un code ISO2.
+    try {
+      const dn = new Intl.DisplayNames(['fr'], { type: 'region' });
+      const name = dn.of(iso2.toUpperCase());
+      if (name) return name;
+    } catch(e){}
+
+    return null;
+  }
+
+  // Overrides pour correspondre à votre liste (quelques différences de libellés possibles)
+  const overrides = {
+    "US": "États-Unis",
+    "GB": "Royaume-Uni",
+    "CI": "Côte d’Ivoire",
+    "CD": "RDC",
+    "CG": "Congo",
+    "RU": "Russie",
+    "IR": "Iran",
+    "SY": "Syrie",
+    "VN": "Vietnam",
+    "KR": "Corée du Sud",
+    "KP": "Corée du Nord"
+  };
+
+  function tryApplyISO2(iso2){
+    if (!iso2) return false;
+    const code = iso2.toUpperCase();
+    const preferred = overrides[code] || getFrenchCountryNameFromISO2(code);
+    if (preferred && selectCountryByName(preferred)) return true;
+
+    // dernier fallback: essayer le code lui-même via DisplayNames si dispo
+    const name = getFrenchCountryNameFromISO2(code);
+    if (name && selectCountryByName(name)) return true;
+
+    return false;
+  }
+
+  async function detectByIP(){
+    // ipapi.co/json renvoie country_code (ISO2). Pas besoin de clé.
+    const controller = new AbortController();
+    const t = setTimeout(() => controller.abort(), 2200);
+
+    try {
+      const r = await fetch('https://ipapi.co/json/', { signal: controller.signal, cache: 'no-store' });
+      if (!r.ok) return null;
+      const data = await r.json();
+      return data && (data.country_code || data.country);
+    } catch(e){
+      return null;
+    } finally {
+      clearTimeout(t);
+    }
+  }
+
+  (async function initAutoCountry(){
+    // 1) Fallback navigateur (immédiat)
+    const navISO2 = getRegionFromNavigator();
+    if (tryApplyISO2(navISO2)) return;
+
+    // 2) IP (si disponible)
+    const ipISO2 = await detectByIP();
+    if (tryApplyISO2(ipISO2)) return;
+  })();
+})();
+</script>
+
+
+<script>
+(function(){
+  // === Auto-detection du pays (robuste: navigateur -> IP fetch -> IP JSONP) ===
+  const countrySelect = document.getElementById('country');
+  if (!countrySelect) return;
+
+  // Ne pas écraser si l'utilisateur a déjà choisi un pays
+  if (countrySelect.value && countrySelect.value !== '') return;
+
+  function normalize(s){
+    return (s || '')
+      .toString()
+      .toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g,'')  // accents
+      .replace(/[’']/g,'')                              // apostrophes
+      .replace(/[^a-z0-9\s-]/g,' ')
+      .replace(/\s+/g,' ')
+      .trim();
+  }
+
+  function selectCountryByName(name){
+    if (!name) return false;
+    const targetNorm = normalize(name);
+
+    // exact match
+    for (const opt of countrySelect.options){
+      if (normalize(opt.textContent) === targetNorm){
+        countrySelect.value = opt.value || opt.textContent;
+        return true;
+      }
+    }
+    // contains match
+    for (const opt of countrySelect.options){
+      const optNorm = normalize(opt.textContent);
+      if (optNorm && (optNorm.includes(targetNorm) || targetNorm.includes(optNorm))){
+        countrySelect.value = opt.value || opt.textContent;
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // Overrides pour correspondre à votre liste
+  const overrides = {
+    "US": "États-Unis",
+    "GB": "Royaume-Uni",
+    "CI": "Côte d’Ivoire",
+    "CD": "RDC",
+    "CG": "Congo",
+    "RU": "Russie",
+    "KR": "Corée du Sud",
+    "KP": "Corée du Nord"
+  };
+
+  function countryNameFromISO2(iso2){
+    if (!iso2) return null;
+    const code = iso2.toUpperCase();
+    if (overrides[code]) return overrides[code];
+    try {
+      const dn = new Intl.DisplayNames(['fr'], { type: 'region' });
+      return dn.of(code) || null;
+    } catch(e){
+      return null;
+    }
+  }
+
+  function tryApplyISO2(iso2){
+    const name = countryNameFromISO2(iso2);
+    if (name && selectCountryByName(name)) return true;
+    return false;
+  }
+
+  function iso2FromNavigator(){
+    // navigator.language peut être "fr" sans région sur mobile
+    const langs = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language]).filter(Boolean);
+    for (const l of langs){
+      const m = (l || '').match(/-([A-Z]{2})\b/);
+      if (m) return m[1];
+    }
+    return null;
+  }
+
+  async function detectByIPFetch(){
+    // Peut être bloqué dans certains contextes (file://). On garde en tentative rapide.
+    const controller = new AbortController();
+    const t = setTimeout(() => controller.abort(), 2200);
+    try{
+      const r = await fetch('https://ipapi.co/json/', { signal: controller.signal, cache:'no-store' });
+      if (!r.ok) return null;
+      const d = await r.json();
+      return d && (d.country_code || d.country);
+    }catch(e){
+      return null;
+    }finally{
+      clearTimeout(t);
+    }
+  }
+
+  function detectByIPJsonp(){
+    // JSONP pour contourner les blocages CORS / file://
+    return new Promise((resolve) => {
+      const cb = 'ipapi_cb_' + Math.random().toString(16).slice(2);
+      const s = document.createElement('script');
+      const cleanup = () => {
+        try { delete window[cb]; } catch(e) { window[cb] = undefined; }
+        if (s && s.parentNode) s.parentNode.removeChild(s);
+      };
+      window[cb] = function(data){
+        cleanup();
+        resolve(data && (data.country_code || data.country));
+      };
+      s.src = 'https://ipapi.co/jsonp/?callback=' + encodeURIComponent(cb);
+      s.async = true;
+      s.onerror = function(){
+        cleanup();
+        resolve(null);
+      };
+      document.head.appendChild(s);
+      // timeout sécurité
+      setTimeout(() => { cleanup(); resolve(null); }, 2500);
+    });
+  }
+
+  (async function init(){
+    // 1) navigateur (si région présente)
+    const navISO2 = iso2FromNavigator();
+    if (tryApplyISO2(navISO2)) return;
+
+    // 2) IP fetch
+    const ipISO2 = await detectByIPFetch();
+    if (tryApplyISO2(ipISO2)) return;
+
+    // 3) IP JSONP (fallback le plus compatible)
+    const ipISO2b = await detectByIPJsonp();
+    if (tryApplyISO2(ipISO2b)) return;
+  })();
+
+})();
+</script>
+
+
+<script>
+(function(){
+  const lbl = document.getElementById('autoCountryLabel');
+  const sel = document.getElementById('country');
+  if (!lbl || !sel) return;
+
+  // If value is set on load, show label
+  if (sel.value) lbl.classList.add('visible');
+
+  // Hide label on manual change
+  sel.addEventListener('change', () => lbl.classList.remove('visible'));
+})();
+</script>
+
+
+
+
+
+
+
+
+<script>
+(function(){
+  window.I18N = {"fr": {"langLabel": "Langue", "tabs_home": "Accueil", "tabs_landing": "Landing", "continue": "continuer >>", "madeRespect": "Fait avec respect", "tribute": "Un hommage sincère à cette terre d'histoire, de culture et d'hospitalité. Le Maroc, carrefour des civilisations, où tradition et modernité s'entrelacent avec élégance.", "landing_title_top": "Rejoignez Initiatives", "landing_title_bottom": "Citoyennes", "subtitle": "« Inscrivez-vous pour suivre l’évolution d’une initiative citoyenne ouverte et non partisane, portée par les Marocains du Monde et les amis du Maroc, et être informé des étapes, travaux et dynamiques qui en découlent. »", "emailPh": "Votre adresse email", "countryPh": "Pays de résidence", "intentPh": "Je souhaite…", "intent_group": "Suivre cette initiative", "intent_propose": "Proposer une initiative", "intent_partner": "Devenir partenaire / financeur", "intent_all": "Tout découvrir", "autoCountry": "Pays détecté automatiquement", "toastOk": "Inscription réussie ! Nous vous contacterons bientôt.", "kpiPre": "Pré-inscrits", "kpiCountries": "Pays prioritaires (v1)", "kpiGroups": "Groupes (France / MRE / Europe)", "c1": "✔️ Engagement volontaire & progressif", "c2": "✔️ Sans mandat politique", "c3": "✔️ Sans obligation financière", "join": "Rejoignez", "initiatives": "Initiatives", "citoyennes": "Citoyennes", "submit": "Rejoindre la liste", "submitted": "Inscrit !", "consentLine": "En laissant votre email, vous acceptez d’être informé des suites de l’initiative citoyenne."}, "en": {"langLabel": "Language", "tabs_home": "Home", "tabs_landing": "Landing", "continue": "continue >>", "madeRespect": "Made with respect", "tribute": "A sincere tribute to a land of history, culture, and hospitality. Morocco, a crossroads of civilizations, where tradition and modernity intertwine with elegance.", "landing_title_top": "Join Initiatives", "landing_title_bottom": "Citizens", "subtitle": "“Sign up to follow the progress of an open, non-partisan civic initiative led by Moroccans Worldwide and friends of Morocco, and stay informed about the steps, workstreams, and momentum that follow.”", "emailPh": "Your email address", "countryPh": "Country of residence", "intentPh": "I would like to…", "intent_group": "Follow this initiative", "intent_propose": "Propose an initiative", "intent_partner": "Become a partner / funder", "intent_all": "Discover everything", "autoCountry": "Country detected automatically", "toastOk": "Sign-up successful! We will contact you soon.", "kpiPre": "Pre-registrations", "kpiCountries": "Priority countries (v1)", "kpiGroups": "Groups (France / MRE / Europe)", "c1": "✔️ Voluntary & progressive commitment", "c2": "✔️ No political mandate", "c3": "✔️ No financial obligation", "join": "Rejoignez", "initiatives": "Initiatives", "citoyennes": "Citoyennes", "submit": "Join the list", "submitted": "Signed up!", "consentLine": "By providing your email, you agree to be informed about the next steps of this civic initiative."}, "es": {"langLabel": "Idioma", "tabs_home": "Inicio", "tabs_landing": "Registro", "continue": "continuar >>", "madeRespect": "Hecho con respeto", "tribute": "Un sincero homenaje a esta tierra de historia, cultura y hospitalidad. Marruecos, cruce de civilizaciones, donde la tradición y la modernidad se entrelazan con elegancia.", "landing_title_top": "Únete a Iniciativas", "landing_title_bottom": "Ciudadanas", "subtitle": "« Inscríbete para seguir la evolución de una iniciativa ciudadana abierta y no partidista, impulsada por los Marroquíes del Mundo y los amigos de Marruecos, y estar informado de las etapas, trabajos y dinámicas que se derivan. »", "emailPh": "Tu correo electrónico", "countryPh": "País de residencia", "intentPh": "Quiero…", "intent_group": "Seguir esta iniciativa", "intent_propose": "Proponer una iniciativa", "intent_partner": "Ser socio / financiador", "intent_all": "Descubrirlo todo", "autoCountry": "País detectado automáticamente", "toastOk": "¡Inscripción correcta! Te contactaremos pronto.", "kpiPre": "Preinscritos", "kpiCountries": "Países prioritarios (v1)", "kpiGroups": "Grupos (Francia / MRE / Europa)", "c1": "✔️ Compromiso voluntario y progresivo", "c2": "✔️ Sin mandato político", "c3": "✔️ Sin obligación financiera", "join": "Rejoignez", "initiatives": "Initiatives", "citoyennes": "Citoyennes", "submit": "Unirme a la lista", "submitted": "¡Inscrito!", "consentLine": "Al dejar tu correo, aceptas recibir información sobre las próximas etapas de esta iniciativa ciudadana."}, "nl": {"langLabel": "Taal", "tabs_home": "Start", "tabs_landing": "Landing", "continue": "doorgaan >>", "madeRespect": "Met respect gemaakt", "tribute": "Een oprecht eerbetoon aan een land van geschiedenis, cultuur en gastvrijheid. Marokko, een kruispunt van beschavingen, waar traditie en moderniteit elegant samenkomen.", "landing_title_top": "Doe mee met Initiatieven", "landing_title_bottom": "Burger", "subtitle": "“Schrijf je in om de ontwikkeling te volgen van een open, niet-partijdig burgerinitiatief, gedragen door Marokkanen wereldwijd en vrienden van Marokko, en ontvang updates over stappen, werkzaamheden en dynamiek.”", "emailPh": "Je e-mailadres", "countryPh": "Land van verblijf", "intentPh": "Ik wil…", "intent_group": "Deze initiatief volgen", "intent_propose": "Een initiatief voorstellen", "intent_partner": "Partner / financier worden", "intent_all": "Alles ontdekken", "autoCountry": "Land automatisch gedetecteerd", "toastOk": "Inschrijving gelukt! We nemen binnenkort contact op.", "kpiPre": "Voorinschrijvingen", "kpiCountries": "Prioriteitslanden (v1)", "kpiGroups": "Groepen (Frankrijk / MRE / Europa)", "c1": "✔️ Vrijwillige en stapsgewijze inzet", "c2": "✔️ Geen politiek mandaat", "c3": "✔️ Geen financiële verplichting", "join": "Rejoignez", "initiatives": "Initiatives", "citoyennes": "Citoyennes", "submit": "Aanmelden", "submitted": "Ingeschreven!", "consentLine": "Door je e-mail achter te laten, ga je ermee akkoord updates te ontvangen over de volgende stappen van dit burgerinitiatief."}, "de": {"langLabel": "Sprache", "tabs_home": "Start", "tabs_landing": "Landing", "continue": "weiter >>", "madeRespect": "Mit Respekt gemacht", "tribute": "Eine aufrichtige Würdigung eines Landes voller Geschichte, Kultur und Gastfreundschaft. Marokko, ein Knotenpunkt der Zivilisationen, wo Tradition und Moderne sich elegant verbinden.", "landing_title_top": "Mitmachen bei Initiativen", "landing_title_bottom": "Bürgerlich", "subtitle": "„Melden Sie sich an, um die Entwicklung einer offenen, überparteilichen Bürgerinitiative zu verfolgen, getragen von Marokkanern weltweit und Freunden Marokkos, und über Schritte, Arbeiten und Dynamiken informiert zu werden.“", "emailPh": "Ihre E-Mail-Adresse", "countryPh": "Wohnsitzland", "intentPh": "Ich möchte…", "intent_group": "Diese Initiative verfolgen", "intent_propose": "Eine Initiative vorschlagen", "intent_partner": "Partner / Förderer werden", "intent_all": "Alles entdecken", "autoCountry": "Land automatisch erkannt", "toastOk": "Anmeldung erfolgreich! Wir melden uns bald.", "kpiPre": "Vorregistrierungen", "kpiCountries": "Prioritätsländer (v1)", "kpiGroups": "Gruppen (Frankreich / MRE / Europa)", "c1": "✔️ Freiwilliges und schrittweises Engagement", "c2": "✔️ Ohne politisches Mandat", "c3": "✔️ Keine finanzielle Verpflichtung", "join": "Rejoignez", "initiatives": "Initiatives", "citoyennes": "Citoyennes", "submit": "Zur Liste", "submitted": "Angemeldet!", "consentLine": "Mit der Angabe Ihrer E-Mail-Adresse stimmen Sie zu, über die nächsten Schritte dieser Bürgerinitiative informiert zu werden."}, "it": {"langLabel": "Lingua", "tabs_home": "Home", "tabs_landing": "Iscrizione", "continue": "continua >>", "madeRespect": "Fatto con rispetto", "tribute": "Un sincero omaggio a una terra di storia, cultura e ospitalità. Il Marocco, crocevia di civiltà, dove tradizione e modernità si intrecciano con eleganza.", "landing_title_top": "Unisciti a Iniziative", "landing_title_bottom": "Cittadine", "subtitle": "« Iscriviti per seguire l’evoluzione di un’iniziativa civica aperta e apartitica, portata dai Marocchini nel mondo e dagli amici del Marocco, e ricevere aggiornamenti su tappe, lavori e dinamiche che ne derivano. »", "emailPh": "Il tuo indirizzo email", "countryPh": "Paese di residenza", "intentPh": "Vorrei…", "intent_group": "Seguire questa iniziativa", "intent_propose": "Proporre un’iniziativa", "intent_partner": "Diventare partner / finanziatore", "intent_all": "Scoprire tutto", "autoCountry": "Paese rilevato automaticamente", "toastOk": "Iscrizione riuscita! Ti contatteremo presto.", "kpiPre": "Pre-iscritti", "kpiCountries": "Paesi prioritari (v1)", "kpiGroups": "Gruppi (Francia / MRE / Europa)", "c1": "✔️ Impegno volontario e progressivo", "c2": "✔️ Senza mandato politico", "c3": "✔️ Senza obblighi finanziari", "join": "Rejoignez", "initiatives": "Initiatives", "citoyennes": "Citoyennes", "submit": "Iscriviti", "submitted": "Iscritto!", "consentLine": "Lasciando la tua email, accetti di essere informato sui prossimi passi di questa iniziativa civica."}, "ar": {"langLabel": "اللغة", "tabs_home": "الرئيسية", "tabs_landing": "التسجيل", "continue": "متابعة >>", "madeRespect": "صنع باحترام", "tribute": "تحية صادقة لأرضٍ عريقة بالتاريخ والثقافة وكرم الضيافة. المغرب، ملتقى الحضارات، حيث تتداخل الأصالة والحداثة بأناقة.", "landing_title_top": "انضم إلى مبادرات", "landing_title_bottom": "مواطِنة", "subtitle": "« سجّل لمتابعة تطور مبادرة مواطنة مفتوحة وغير حزبية، يقودها مغاربة العالم وأصدقاء المغرب، وابقَ على اطلاع بالمراحل والأعمال والديناميكيات الناتجة عنها. »", "emailPh": "عنوان البريد الإلكتروني", "countryPh": "بلد الإقامة", "intentPh": "أرغب في…", "intent_group": "متابعة هذه المبادرة", "intent_propose": "اقتراح مبادرة", "intent_partner": "أن تصبح شريكاً / ممولاً", "intent_all": "اكتشاف المزيد", "autoCountry": "تم تحديد البلد تلقائياً", "toastOk": "تم التسجيل بنجاح! سنقوم بالتواصل قريباً.", "kpiPre": "مسجلون مسبقاً", "kpiCountries": "بلدان ذات أولوية (v1)", "kpiGroups": "مجموعات (فرنسا / MRE / أوروبا)", "c1": "✔️ التزام طوعي وتدريجي", "c2": "✔️ دون تفويض سياسي", "c3": "✔️ دون التزام مالي", "join": "انضم", "initiatives": "مبادرات", "citoyennes": "مواطِنة", "submit": "الانضمام إلى القائمة", "submitted": "تم التسجيل!", "consentLine": "بترك بريدك الإلكتروني، فإنك توافق على تلقي معلومات حول الخطوات القادمة لهذه المبادرة المواطنة."}};
+  const ISO2 = ["AF", "AX", "AL", "DZ", "AS", "AD", "AO", "AI", "AQ", "AG", "AR", "AM", "AW", "AU", "AT", "AZ", "BS", "BH", "BD", "BB", "BY", "BE", "BZ", "BJ", "BM", "BT", "BO", "BQ", "BA", "BW", "BV", "BR", "IO", "BN", "BG", "BF", "BI", "KH", "CM", "CA", "CV", "KY", "CF", "TD", "CL", "CN", "CX", "CC", "CO", "KM", "CG", "CD", "CK", "CR", "CI", "HR", "CU", "CW", "CY", "CZ", "DK", "DJ", "DM", "DO", "EC", "EG", "SV", "GQ", "ER", "EE", "SZ", "ET", "FK", "FO", "FJ", "FI", "FR", "GF", "PF", "TF", "GA", "GM", "GE", "DE", "GH", "GI", "GR", "GL", "GD", "GP", "GU", "GT", "GG", "GN", "GW", "GY", "HT", "HM", "VA", "HN", "HK", "HU", "IS", "IN", "ID", "IR", "IQ", "IE", "IM", "IL", "IT", "JM", "JP", "JE", "JO", "KZ", "KE", "KI", "KP", "KR", "KW", "KG", "LA", "LV", "LB", "LS", "LR", "LY", "LI", "LT", "LU", "MO", "MG", "MW", "MY", "MV", "ML", "MT", "MH", "MQ", "MR", "MU", "YT", "MX", "FM", "MD", "MC", "MN", "ME", "MS", "MA", "MZ", "MM", "NA", "NR", "NP", "NL", "NC", "NZ", "NI", "NE", "NG", "NU", "NF", "MK", "MP", "NO", "OM", "PK", "PW", "PS", "PA", "PG", "PY", "PE", "PH", "PN", "PL", "PT", "PR", "QA", "RE", "RO", "RU", "RW", "BL", "SH", "KN", "LC", "MF", "PM", "VC", "WS", "SM", "ST", "SA", "SN", "RS", "SC", "SL", "SG", "SX", "SK", "SI", "SB", "SO", "ZA", "GS", "SS", "ES", "LK", "SD", "SR", "SJ", "SE", "CH", "SY", "TW", "TJ", "TZ", "TH", "TL", "TG", "TK", "TO", "TT", "TN", "TR", "TM", "TC", "TV", "UG", "UA", "AE", "GB", "UM", "US", "UY", "UZ", "VU", "VE", "VN", "VG", "VI", "WF", "EH", "YE", "ZM", "ZW"];
+
+  const sel = document.getElementById('langSelect');
+  const label = document.querySelector('.lang-label');
+
+  function setDir(lang){
+    document.documentElement.lang = lang;
+    if(lang === 'ar') document.documentElement.classList.add('rtl');
+    else document.documentElement.classList.remove('rtl');
+  }
+
+  function setText(id, value){
+    const el = document.getElementById(id);
+    if(el && typeof value === 'string') el.textContent = value;
+  }
+
+  function setHTML(id, html){
+    const el = document.getElementById(id);
+    if(el) el.innerHTML = html;
+  }
+
+  function buildCountries(lang){
+    const country = document.getElementById('country');
+    if(!country) return;
+    const dn = new Intl.DisplayNames([lang], {type:'region'});
+    const current = country.value;
+
+    country.innerHTML = '';
+    const o0 = document.createElement('option');
+    o0.value = '';
+    o0.textContent = (window.I18N[lang]?.countryPh) || window.I18N.fr.countryPh;
+    country.appendChild(o0);
+
+    ISO2.forEach(code => {
+      const opt = document.createElement('option');
+      opt.value = code;
+      opt.textContent = dn.of(code) || code;
+      country.appendChild(opt);
+    });
+
+    if(current && Array.from(country.options).some(o => o.value === current)) {
+      country.value = current;
+    }
+  }
+
+  function translate(lang){
+    const L0 = window.I18N[lang] || window.I18N.fr;
+    const L = Object.assign({hubSubtitle:"Strategy Hub", submit:"Rejoindre la liste", initiativesCitoyennes:(L0.initiatives+" "+L0.citoyennes)}, L0);
+    if(label) label.textContent = L.langLabel;
+
+    // first page
+    setText('madeRespect', L.madeRespect);
+    setText('continueText', L.continue);
+    setText('tributeText', L.tribute);
+
+    // landing
+        setHTML("landingTitle", `${L.join} <span>${L.initiatives} ${L.citoyennes}</span>`);
+    setText("landingSubtitle", L.subtitle);
+    setText("submitText", L.submit);
+    setText("hubSubtitle", L.hubSubtitle);
+    setText('kpiPreLabel', L.kpiPre);
+    setText('kpiCountriesLabel', L.kpiCountries);
+    setText('kpiGroupsLabel', L.kpiGroups);
+
+    setText('commit1', L.c1);
+    setText('commit2', L.c2);
+    setText('commit3', L.c3);
+
+    const email = document.getElementById('email');
+    if(email) email.placeholder = L.emailPh;
+
+    // countries (rebuild)
+    buildCountries(lang);
+
+    const auto = document.getElementById('autoCountryLabel');
+    if(auto) auto.textContent = L.autoCountry;
+
+    const intent = document.getElementById('interest');
+    if(intent){
+      const opt0 = intent.querySelector('option[value=""]');
+      if(opt0) opt0.textContent = L.intentPh;
+      const og = intent.querySelector('option[value="group"]');
+      if(og) og.textContent = L.intent_group;
+      const op = intent.querySelector('option[value="propose"]');
+      if(op) op.textContent = L.intent_propose;
+      const opart = intent.querySelector('option[value="partner"]');
+      if(opart) opart.textContent = L.intent_partner;
+      const oall = intent.querySelector('option[value="all"]');
+      if(oall) oall.textContent = L.intent_all;
+    }
+
+    // toast template
+    window.__IC_TOAST_OK = L.toastOk;
+
+    setDir(lang);
+
+    try{ localStorage.setItem('ic_lang', lang); }catch(e){}
+  }
+
+  function detectInitial(){
+    try {
+      const saved = localStorage.getItem('ic_lang');
+      if(saved && window.I18N[saved]) return saved;
+    } catch(e) {}
+    const nav = (navigator.languages && navigator.languages[0]) || navigator.language || 'fr';
+    const base = nav.split('-')[0].toLowerCase();
+    return window.I18N[base] ? base : 'fr';
+  }
+
+  // bind selector
+  const initial = detectInitial();
+  if(sel){
+    sel.value = initial;
+    sel.addEventListener('change', () => translate(sel.value));
+  }
+  translate(initial);
+
+  // Ensure toast message is translated after submit click
+  document.addEventListener('click', (e) => {
+    const btn = e.target && (e.target.closest ? e.target.closest('#submitBtn') : null);
+    if(!btn) return;
+    setTimeout(() => {
+      const t = document.getElementById('toast');
+      if(t && window.__IC_TOAST_OK){
+        const icon = t.querySelector('i');
+        if(icon) t.innerHTML = icon.outerHTML + ' ' + window.__IC_TOAST_OK;
+        else t.textContent = window.__IC_TOAST_OK;
+      }
+    }, 0);
+  }, true);
+
+})();
+</script>
+
+
+<script>
+(function(){
+  const clean = ()=>{
+    const el = document.getElementById('landingTitle');
+    if(el && el.textContent.includes('undefined')){
+      el.innerHTML = el.innerHTML.replace(/undefined/g,'').trim();
+    }
+  };
+  new MutationObserver(clean).observe(document.body,{subtree:true,childList:true});
+  document.addEventListener('DOMContentLoaded', clean);
+})();
+</script>
+
+
+<script>
+(function(){
+  function hideToast(){
+    const t = document.getElementById('successToast');
+    if(t) t.classList.remove('show');
+  }
+  document.addEventListener('click', (e)=>{
+    const btn = e.target && e.target.closest && e.target.closest('.toast-close');
+    if(btn){ e.preventDefault(); hideToast(); }
+  }, true);
+
+  // When language changes, update toast text if available
+  function syncToastText(){
+    const st = document.getElementById('successText');
+    if(st && window.__IC_I18N_TOAST_OK) st.textContent = window.__IC_I18N_TOAST_OK;
+  }
+  document.addEventListener('ic_lang_applied', syncToastText);
+  document.addEventListener('DOMContentLoaded', syncToastText);
+})();
+</script>
+
+
+<script>
+(function(){
+  const btn = document.getElementById('landingClose');
+  if(!btn) return;
+
+  function hideToast(){
+    const t = document.getElementById('successToast');
+    if(t) t.classList.remove('show');
+  }
+
+  // Hook into navigation: detect active panel changes by observing class changes
+  const landingPanel = document.getElementById('landing');
+  const homePanel = document.getElementById('home');
+  const update = ()=>{
+    const isLanding = landingPanel && landingPanel.classList.contains('active');
+    btn.style.display = isLanding ? 'grid' : 'none';
+  };
+
+  // initial
+  update();
+
+  // click = return to home
+  btn.addEventListener('click', ()=>{
+    hideToast();
+
+    // Best-effort: close the tab/window (works if the page was opened via script)
+    try {
+      window.open('', '_self');
+      window.close();
+    } catch(e) {}
+
+    // Fallback: if the browser blocks window.close(), show a small overlay prompting the user
+    setTimeout(()=>{
+      if (!window.closed) {
+        let ov = document.getElementById('closeBlockedOverlay');
+        if (!ov) {
+          ov = document.createElement('div');
+          ov.id = 'closeBlockedOverlay';
+          ov.style.position = 'fixed';
+          ov.style.inset = '0';
+          ov.style.zIndex = '10090';
+          ov.style.background = 'rgba(0,0,0,0.65)';
+          ov.style.backdropFilter = 'blur(10px)';
+          ov.innerHTML = `
+            <div style="max-width:520px;margin:14vh auto;padding:18px 18px;border-radius:18px;background:rgba(10,12,18,0.85);border:1px solid rgba(255,255,255,0.14);color:#fff;text-align:center;">
+              <div style="font-weight:700;font-size:16px;margin-bottom:8px;">Fermeture du navigateur bloquée</div>
+              <div style="font-size:14px;opacity:0.9;line-height:1.5;">
+                Votre navigateur empêche la fermeture automatique de cet onglet.<br/>
+                Vous pouvez le fermer manuellement (croix de l’onglet / retour navigateur).
+              </div>
+              <button id="closeBlockedOk" style="margin-top:14px;padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.10);color:#fff;cursor:pointer;">OK</button>
+            </div>`;
+          document.body.appendChild(ov);
+          document.getElementById('closeBlockedOk').addEventListener('click', ()=> ov.remove());
+          ov.addEventListener('click', (e)=>{ if(e.target===ov) ov.remove(); });
+        }
+      }
+    }, 120);
+  });
+// Observe panel class changes
+  const obs = new MutationObserver(update);
+  if(landingPanel) obs.observe(landingPanel, {attributes:true, attributeFilter:['class']});
+})();
+</script>
+
+
+<script>
+(function(){
+  function getLang(){
+    const s = (document.getElementById('langSelect') && document.getElementById('langSelect').value) || document.documentElement.lang || 'fr';
+    return (s||'fr').split('-')[0];
+  }
+  function syncConsent(){
+    const el = document.getElementById('consentLine');
+    if(!el) return;
+    const lang = getLang();
+    const L = (window.I18N && window.I18N[lang]) ? window.I18N[lang] : (window.I18N ? window.I18N.fr : null);
+    if(L && L.consentLine) el.textContent = L.consentLine;
+  }
+  document.addEventListener('ic_lang_applied', syncConsent);
+  document.addEventListener('DOMContentLoaded', syncConsent);
+  const sel = document.getElementById('langSelect');
+  if(sel) sel.addEventListener('change', syncConsent);
+})();
+</script>
+
+
+<script>
+const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbznPMyp6KNA5zQpxYO4e8DRCiQLGBqcePZ1MY6w7awpu176ScSo0FlfFyu91ZnqnK-2/exec";
+
+async function submitForm(data) {
+  const res = await fetch(ENDPOINT_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+  return res.json();
+}
+</script>
+
+
+<script>
+(function(){
+  // Minimal toast helper (uses existing toast DOM if present)
+  function showToast(msg){
+    const t = document.getElementById('successToast');
+    const txt = document.getElementById('successText');
+    if(t){
+      if(txt) txt.textContent = msg;
+      t.classList.add('show');
+      // auto-hide after 5s (same style as earlier)
+      clearTimeout(window.__icToastTimer);
+      window.__icToastTimer = setTimeout(()=> t.classList.remove('show'), 5000);
+    } else {
+      alert(msg);
+    }
+  }
+
+  function getLang(){
+    const sel = document.getElementById('langSelect');
+    const v = (sel && sel.value) || document.documentElement.lang || 'fr';
+    return (v||'fr').split('-')[0];
+  }
+
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const btn = document.getElementById('submitBtn');
+    if(!btn) return;
+
+    btn.addEventListener('click', async ()=>{
+      const lang = getLang();
+      const L = (window.I18N && window.I18N[lang]) ? window.I18N[lang] : (window.I18N ? window.I18N.fr : null);
+
+      const email = (document.getElementById('email')?.value || "").trim();
+      const country = (document.getElementById('country')?.value || "").trim();
+      const interest = (document.getElementById('interest')?.value || "").trim();
+      const hp = (document.getElementById('hp')?.value || "").trim();
+
+      if(!email || !country || !interest){
+        showToast((L && (L.toastErr || L.missing)) ? (L.toastErr || L.missing) : "Veuillez compléter les champs.");
+        return;
+      }
+
+      const submitText = document.getElementById('submitText');
+      const previous = submitText ? submitText.textContent : null;
+      if(submitText) submitText.textContent = (L && L.saving) ? L.saving : "Enregistrement…";
+      btn.disabled = true;
+
+      // Lancer les confettis immédiatement (sans attendre la réponse du serveur)
+      try{ if(typeof launchConfetti === "function") launchConfetti(); } catch(e){}
+      
+      // Afficher le toast immédiatement
+      showToast((L && L.toastOk) ? L.toastOk : "Merci, votre inscription a été enregistrée.");
+
+      const payload = {
+        email,
+        country,
+        interest,
+        lang,
+        created_at: new Date().toISOString(),
+        user_agent: navigator.userAgent,
+        hp
+      };
+
+      try{
+        // Apps Script CORS: use no-cors for maximum compatibility
+        await fetch(ENDPOINT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+          mode: "no-cors"
+        });
+
+        // La requête est envoyée en arrière-plan (déjà fait ci-dessus)
+
+        // reset
+        setTimeout(()=>{
+          try{
+            document.getElementById('email').value = "";
+            // keep country preselected
+            document.getElementById('interest').value = "";
+          }catch(e){}
+          btn.disabled = false;
+          if(submitText && previous) submitText.textContent = previous;
+        }, 900);
+
+      }catch(err){
+        showToast((L && L.toastErr) ? L.toastErr : "Une erreur est survenue. Réessayez.");
+        btn.disabled = false;
+        if(submitText && previous) submitText.textContent = previous;
+      }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
