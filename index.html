@@ -1369,10 +1369,7 @@
   // 1) API Render (prod)
   const API_BASE = "https://initiatives-citoyennes-2026-api-1.onrender.com";
 
-  // 2) Règle de cohérence A + B = C
-  const V1_PRIORITY_COUNTRIES = 10;
-
-  // 3) Récupération des éléments
+  // 2) Récupération des éléments
   const elGlobal = document.getElementById("global-count");
   const elTotal  = document.getElementById("metricCount");
   const elA      = document.getElementById("metricCountries");
@@ -1393,11 +1390,29 @@
     if (el) el.textContent = String(value);
   }
 
-  async function fetchCount() {
+  async function fetchCounts() {
+    // Essayer d'abord le nouvel endpoint /counts qui retourne les compteurs séparés
+    try {
+      const r = await fetch(`${API_BASE}/counts`, { cache: "no-store" });
+      if (r.ok) {
+        const data = await r.json();
+        return {
+          total: Number(data.total || 0),
+          v1: Number(data.v1 || 0),
+          mre: Number(data.mre || 0)
+        };
+      }
+    } catch (e) {
+      console.warn("Failed to fetch /counts, falling back to /count", e);
+    }
+
+    // Fallback sur /count si /counts n'est pas disponible
     const r = await fetch(`${API_BASE}/count`, { cache: "no-store" });
     if (!r.ok) throw new Error("count http " + r.status);
     const data = await r.json();
-    return Number(data.count || 0);
+    const total = Number(data.count || 0);
+    // Si on n'a que le total, on ne peut pas calculer v1/mre, donc on retourne seulement le total
+    return { total, v1: 0, mre: 0 };
   }
 
   async function refreshCounts() {
@@ -2432,6 +2447,31 @@ async function submitForm(data) {
       };
 
       try{
+        // Envoyer d'abord à l'API Render pour mettre à jour les KPIs
+        const API_BASE = "https://initiatives-citoyennes-2026-api-1.onrender.com";
+        try {
+          const apiResponse = await fetch(`${API_BASE}/signup`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, country, interest, lang })
+          });
+          
+          if (apiResponse.ok) {
+            // Mettre à jour les KPIs avec la réponse de l'API
+            const responseData = await apiResponse.json();
+            if (responseData.total !== undefined) {
+              const elTotal = document.getElementById('metricCount');
+              const elA = document.getElementById('metricCountries');
+              const elB = document.getElementById('metricGroups');
+              if (elTotal) elTotal.textContent = String(responseData.total);
+              if (elA) elA.textContent = String(responseData.v1 || 0);
+              if (elB) elB.textContent = String(responseData.mre || 0);
+            }
+          }
+        } catch (apiErr) {
+          console.warn("API Render update failed, continuing with Google Apps Script", apiErr);
+        }
+
         // Apps Script CORS: use no-cors for maximum compatibility
         await fetch(ENDPOINT_URL, {
           method: "POST",
@@ -2463,120 +2503,9 @@ async function submitForm(data) {
 })();
 </script>
 
-<script>
-// === Calcul automatique des compteurs de pré-inscrits ===
-// Les KPI affichent le nombre de personnes pré-inscrites, pas le nombre de pays
-// Total pré-inscrits = Pré-inscrits v1 + Pré-inscrits MRE/Communautés partenaires
-(function(){
-  // Valeurs initiales (à mettre à jour selon vos données réelles)
-  const preinscritsV1 = 10;        // Pré-inscrits des 6 pays prioritaires
-  const preinscritsMRE = 7;        // Pré-inscrits MRE et Communautés partenaires
-  const totalPreinscrits = preinscritsV1 + preinscritsMRE; // 17 au total
-  
-  function updateCounters() {
-    const metricCountEl = document.getElementById('metricCount');
-    const metricCountriesEl = document.getElementById('metricCountries');
-    const metricGroupsEl = document.getElementById('metricGroups');
-    
-    if (metricCountEl) {
-      metricCountEl.textContent = totalPreinscrits;
-    }
-    
-    if (metricCountriesEl) {
-      metricCountriesEl.textContent = preinscritsV1;
-    }
-    
-    if (metricGroupsEl) {
-      metricGroupsEl.textContent = preinscritsMRE;
-    }
-  }
-  
-  // Mettre à jour les compteurs quand le DOM est prêt
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', updateCounters);
-  } else {
-    updateCounters();
-  }
-})();
-</script>
+<!-- Script statique supprimé - les compteurs sont maintenant gérés dynamiquement par l'API -->
 
-<script>
-/**
- * Point 1: compteur robuste (non bloquant, timeout, retry, fallback).
- * - Tente /count puis /api/count (au cas où)
- * - Timeout 6000ms
- * - 1 retry si échec
- * - Fallback: valeur affichée + cache localStorage
- */
-(function(){
-  const metricEl = document.getElementById('metricCount');
-  if (!metricEl) return;
-
-  // Mets ici l'URL Render de TON API (celle de ton Web Service Render)
-  // Exemple: https://initiatives-citoyennes-2026-api-1.onrender.com
-  const API_BASE = "https://initiatives-citoyennes-2026-api-1.onrender.com";
-
-  const endpoints = [
-    API_BASE.replace(/\/+$/, '') + "/count",
-    API_BASE.replace(/\/+$/, '') + "/api/count"
-  ];
-
-  const CACHE_KEY = "ic_preinscrits_count";
-  const initial = parseInt(metricEl.textContent, 10);
-  const cached = parseInt(localStorage.getItem(CACHE_KEY) || "", 10);
-
-  // Fallback immédiat (n'empêche jamais l'affichage)
-  if (!Number.isNaN(cached) && (Number.isNaN(initial) || cached > initial)) {
-    metricEl.textContent = String(cached);
-  }
-
-  async function fetchWithTimeout(url, ms){
-    const ctrl = new AbortController();
-    const t = setTimeout(() => ctrl.abort(), ms);
-    try{
-      const res = await fetch(url, { method: "GET", cache: "no-store", signal: ctrl.signal });
-      if(!res.ok) throw new Error("HTTP " + res.status);
-      const data = await res.json();
-      if(!data || typeof data.count !== "number") throw new Error("Bad JSON");
-      return data.count;
-    } finally {
-      clearTimeout(t);
-    }
-  }
-
-  async function refreshCount(){
-    // 1ère passe
-    for (const url of endpoints){
-      try{
-        const n = await fetchWithTimeout(url, 6000);
-        metricEl.textContent = String(n);
-        localStorage.setItem(CACHE_KEY, String(n));
-        return;
-      } catch(e) {}
-    }
-
-    // Retry 1 fois (Render cold start)
-    await new Promise(r => setTimeout(r, 1200));
-
-    for (const url of endpoints){
-      try{
-        const n = await fetchWithTimeout(url, 6000);
-        metricEl.textContent = String(n);
-        localStorage.setItem(CACHE_KEY, String(n));
-        return;
-      } catch(e) {}
-    }
-    // Si on arrive ici: on laisse la valeur affichée (fallback)
-  }
-
-  // Non bloquant
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () => { refreshCount(); });
-  } else {
-    refreshCount();
-  }
-})();
-</script>
+<!-- Script de compteur simple supprimé - remplacé par le script principal qui gère /counts -->
 
 <script>
 /* =========================================================
