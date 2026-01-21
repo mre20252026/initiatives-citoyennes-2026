@@ -935,103 +935,6 @@
       outline:none;
     }
 
-    /* === QR Code Button === */
-    .qr-code-btn {
-      position: fixed;
-      top: 14px;
-      right: 14px;
-      z-index: 10050;
-      width: 44px;
-      height: 44px;
-      border-radius: 14px;
-      background: rgba(10,12,18,0.55);
-      border: 1px solid rgba(99,102,241,0.25);
-      backdrop-filter: blur(10px);
-      color: rgba(255,255,255,0.85);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      transition: all 0.3s ease;
-    }
-    .qr-code-btn:hover {
-      background: rgba(99,102,241,0.3);
-      border-color: rgba(99,102,241,0.5);
-      color: #fff;
-      transform: scale(1.05);
-    }
-
-    /* === QR Code Modal === */
-    .qr-modal {
-      position: fixed;
-      z-index: 100000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0,0,0,0.75);
-      backdrop-filter: blur(5px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .qr-modal-content {
-      background: linear-gradient(135deg, rgba(15,18,26,0.95) 0%, rgba(25,28,36,0.95) 100%);
-      border: 1px solid rgba(99,102,241,0.3);
-      border-radius: 20px;
-      padding: 30px;
-      max-width: 400px;
-      width: 90%;
-      text-align: center;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-    }
-    .qr-modal-content h3 {
-      color: #fff;
-      margin: 0 0 20px 0;
-      font-size: 1.3em;
-    }
-    .qr-modal-close {
-      position: absolute;
-      top: 15px;
-      right: 20px;
-      color: rgba(255,255,255,0.7);
-      font-size: 28px;
-      font-weight: bold;
-      cursor: pointer;
-      line-height: 1;
-      transition: color 0.3s;
-    }
-    .qr-modal-close:hover {
-      color: #fff;
-    }
-    #qrCodeContainer {
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      display: inline-block;
-      margin: 0 auto;
-    }
-    #qrCodeContainer canvas,
-    #qrCodeContainer img {
-      max-width: 100%;
-      height: auto;
-    }
-    .qr-download-btn {
-      margin-top: 15px;
-      padding: 10px 20px;
-      background: rgba(99,102,241,0.3);
-      border: 1px solid rgba(99,102,241,0.5);
-      border-radius: 10px;
-      color: #fff;
-      cursor: pointer;
-      font-size: 14px;
-      transition: all 0.3s;
-    }
-    .qr-download-btn:hover {
-      background: rgba(99,102,241,0.5);
-      transform: translateY(-2px);
-    }
 
     /* === RTL support (Arabic) === */
     html.rtl body { direction: rtl; }
@@ -1148,26 +1051,6 @@
     <option value="de">Deutsch</option>
     <option value="it">Italiano</option>
   </select>
-</div>
-
-<!-- QR Code Button -->
-<button id="qrCodeBtn" class="qr-code-btn" aria-label="Générer QR Code" title="Générer QR Code de cette page">
-  <i class="fas fa-qrcode"></i>
-</button>
-
-<!-- QR Code Modal -->
-<div id="qrCodeModal" class="qr-modal" style="display: none;">
-  <div class="qr-modal-content">
-    <span class="qr-modal-close">&times;</span>
-    <h3>QR Code de cette page</h3>
-    <div id="qrCodeContainer"></div>
-    <p style="margin-top: 15px; font-size: 0.9em; color: rgba(255,255,255,0.7);">
-      Scannez ce code pour partager cette page
-    </p>
-    <button id="qrCodeDownload" class="qr-download-btn">
-      <i class="fas fa-download"></i> Télécharger
-    </button>
-  </div>
 </div>
 
   <canvas id="confettiCanvas"></canvas>
@@ -2688,78 +2571,6 @@ document.addEventListener("DOMContentLoaded", refreshCount);
 </script>
 
 
-<!-- QR Code Generator Script -->
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
-<script>
-(function() {
-  const qrCodeBtn = document.getElementById('qrCodeBtn');
-  const qrCodeModal = document.getElementById('qrCodeModal');
-  const qrCodeContainer = document.getElementById('qrCodeContainer');
-  const qrCodeClose = document.querySelector('.qr-modal-close');
-  const qrCodeDownload = document.getElementById('qrCodeDownload');
-  
-  let qrCodeDataURL = null;
-
-  // Ouvrir la modale
-  if (qrCodeBtn) {
-    qrCodeBtn.addEventListener('click', function() {
-      const currentURL = window.location.href;
-      qrCodeContainer.innerHTML = ''; // Vider le conteneur
-      
-      // Générer le QR code
-      QRCode.toCanvas(qrCodeContainer, currentURL, {
-        width: 256,
-        margin: 2,
-        color: {
-          dark: '#000000',
-          light: '#FFFFFF'
-        }
-      }, function (error) {
-        if (error) {
-          console.error('Erreur génération QR code:', error);
-          qrCodeContainer.innerHTML = '<p style="color: #fff;">Erreur lors de la génération du QR code</p>';
-        } else {
-          // Récupérer l'image du canvas pour le téléchargement
-          const canvas = qrCodeContainer.querySelector('canvas');
-          if (canvas) {
-            qrCodeDataURL = canvas.toDataURL('image/png');
-          }
-        }
-      });
-      
-      qrCodeModal.style.display = 'flex';
-    });
-  }
-
-  // Fermer la modale
-  if (qrCodeClose) {
-    qrCodeClose.addEventListener('click', function() {
-      qrCodeModal.style.display = 'none';
-    });
-  }
-
-  // Fermer en cliquant en dehors
-  if (qrCodeModal) {
-    qrCodeModal.addEventListener('click', function(e) {
-      if (e.target === qrCodeModal) {
-        qrCodeModal.style.display = 'none';
-      }
-    });
-  }
-
-  // Télécharger le QR code
-  if (qrCodeDownload) {
-    qrCodeDownload.addEventListener('click', function() {
-      if (qrCodeDataURL) {
-        const link = document.createElement('a');
-        link.download = 'qrcode-initiatives-citoyennes.png';
-        link.href = qrCodeDataURL;
-        link.click();
-      }
-    });
-  }
-})();
-</script>
 
 </body>
 </html>
