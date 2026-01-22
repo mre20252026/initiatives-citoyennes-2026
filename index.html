@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Initiatives Citoyennes | Accueil & Landing</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🇲🇦</text></svg>">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@600;700;800&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -1044,7 +1045,19 @@
   text-align:center !important;
 }
 
-.conference-note{margin-top:6px;font-size:12px;opacity:.85;text-align:center}
+.conference-note{
+  margin-top:6px !important;
+  font-size:12px !important;
+  opacity:.85 !important;
+  text-align:center !important;
+  display:block !important;
+  width:100% !important;
+  color:var(--text-secondary) !important;
+  line-height:1.4 !important;
+  visibility:visible !important;
+  min-height:1.2em !important;
+  padding:2px 0 !important;
+}
 </style>
 </head>
 
@@ -1371,9 +1384,10 @@
                   <div class="metric-label" id="kpiPreLabel"><span id="kpiPreLabel">Pré-inscrits</span></div>
                 </div>
                 <div class="metric">
-                  <div class="metric-label" id="kpiCountriesLabel"><span>MRE (tous pays) · Communautés partenaires internationales
-<div class="conference-note" id="conferencePrep"></div>
-</span></div>
+                  <div class="metric-label" id="kpiCountriesLabel">
+                    <span id="kpiCountriesText">MRE (tous pays) · Communautés partenaires internationales</span>
+                    <div class="conference-note" id="conferencePrepLanding" style="display:block !important; visibility:visible !important;">Préparation de la Conférence internationale MRE & amis du Maroc – Marrakech, 8–9 mai 2026</div>
+                  </div>
                 </div>
                 <div class="metric">
                   <div class="metric-label" id="kpiGroupsLabel">
@@ -1622,6 +1636,47 @@
       // Update hash for shareable links
       if (panelId === 'landing') {
         history.replaceState(null, '', '#landing');
+        // Mettre à jour la phrase de conférence quand le panneau landing devient actif
+        setTimeout(function() {
+          const lang = (document.getElementById('langSelect') && document.getElementById('langSelect').value) || 'fr';
+          const L = (window.I18N && window.I18N[lang]) ? window.I18N[lang] : (window.I18N ? window.I18N.fr : null);
+          if (L && L.conference_prep) {
+            // Chercher l'élément dans le panneau landing maintenant qu'il est actif
+            const landingPanel = document.getElementById("landing");
+            let confPrepLandingEl = null;
+            
+            if (landingPanel) {
+              confPrepLandingEl = landingPanel.querySelector("#conferencePrepLanding");
+            }
+            if (!confPrepLandingEl) {
+              confPrepLandingEl = document.getElementById("conferencePrepLanding");
+            }
+            if (!confPrepLandingEl) {
+              const kpiCountriesLabel = document.getElementById("kpiCountriesLabel");
+              if (kpiCountriesLabel) {
+                confPrepLandingEl = document.createElement("div");
+                confPrepLandingEl.className = "conference-note";
+                confPrepLandingEl.id = "conferencePrepLanding";
+                confPrepLandingEl.style.cssText = "display:block !important; visibility:visible !important; margin-top:6px !important; font-size:12px !important; opacity:.85 !important; text-align:center !important; width:100% !important; color:var(--text-secondary) !important; line-height:1.4 !important; min-height:1.2em !important; padding:2px 0 !important;";
+                kpiCountriesLabel.appendChild(confPrepLandingEl);
+              }
+            }
+            if (confPrepLandingEl) {
+              confPrepLandingEl.textContent = L.conference_prep;
+              confPrepLandingEl.style.setProperty('display', 'block', 'important');
+              confPrepLandingEl.style.setProperty('visibility', 'visible', 'important');
+            }
+          }
+          // Appeler aussi updateConferencePrep pour double sécurité
+          if (typeof window.updateConferencePrep === 'function') {
+            window.updateConferencePrep();
+          }
+        }, 100);
+        setTimeout(function() {
+          if (typeof window.updateConferencePrep === 'function') {
+            window.updateConferencePrep();
+          }
+        }, 300);
       } else {
         history.replaceState(null, '', '#');
       }
@@ -2084,18 +2139,6 @@
     observer.observe(landingPanel, { attributes: true, attributeFilter: ['class'] });
   }
   
-  // Écouter aussi les changements de panneau via la fonction setActivePanel
-  const originalSetActivePanel = window.setActivePanel;
-  if (originalSetActivePanel) {
-    window.setActivePanel = function(panelId) {
-      originalSetActivePanel(panelId);
-      if (panelId === 'landing') {
-        // Le panneau landing vient d'être activé, réessayer la détection
-        setTimeout(initAutoCountry, 300);
-      }
-    };
-  }
-
 })();
 </script>
 
@@ -2122,19 +2165,71 @@
 
 
 <script>
+try {
 (function(){
-  window.I18N = {"fr": {"langLabel": "Langue", "tabs_home": "Accueil", "tabs_landing": "Landing", "continue": "continuer >>", "madeRespect": "Fait avec respect", "tribute": "Un hommage sincère à cette terre d'histoire, de culture et d'hospitalité. Le Maroc, carrefour des civilisations, où tradition et modernité s'entrelacent avec élégance.", "landing_title_top": "Rejoignez Initiatives", "landing_title_bottom": "Citoyennes", "subtitle": "« Inscrivez-vous pour suivre l’évolution d’une initiative citoyenne ouverte et non partisane, portée par les Marocains du Monde et les amis du Maroc, et être informé des étapes, travaux et dynamiques qui en découlent. »", "emailPh": "Votre adresse email", "countryPh": "Pays de résidence", "intentPh": "Je souhaite…", "intent_group": "Suivre cette initiative", "intent_propose": "Proposer une initiative", "intent_partner": "Devenir partenaire / financeur", "intent_all": "Tout découvrir", "autoCountry": "Pays détecté automatiquement", "toastOk": "Inscription réussie ! Nous vous contacterons bientôt.", "kpiPre": "Pré-inscrits", "kpiCountries": "MRE (tous pays) · Communautés partenaires internationales", "kpiGroups": "Objectif : 5000 INSCRITS avant le 08/05/2026",
+  window.I18N = {"fr": {"langLabel": "Langue", "tabs_home": "Accueil", "tabs_landing": "Landing", "continue": "continuer >>", "madeRespect": "Fait avec respect", "tribute": "Un hommage sincère à cette terre d'histoire, de culture et d'hospitalité. Le Maroc, carrefour des civilisations, où tradition et modernité s'entrelacent avec élégance.", "landing_title_top": "Rejoignez Initiatives", "landing_title_bottom": "Citoyennes", "subtitle": "« Inscrivez-vous pour suivre l'évolution d'une initiative citoyenne ouverte et non partisane, portée par les Marocains du Monde et les amis du Maroc, et être informé des étapes, travaux et dynamiques qui en découlent. »", "emailPh": "Votre adresse email", "countryPh": "Pays de résidence", "intentPh": "Je souhaite…", "intent_group": "Suivre cette initiative", "intent_propose": "Proposer une initiative", "intent_partner": "Devenir partenaire / financeur", "intent_all": "Tout découvrir", "autoCountry": "Pays détecté automatiquement", "toastOk": "Inscription réussie ! Nous vous contacterons bientôt.", "kpiPre": "Pré-inscrits", "kpiCountries": "MRE (tous pays) · Communautés partenaires internationales", "kpiGroups": "Objectif : 5000 INSCRITS avant le 08/05/2026",
 
     "conference_prep": "Préparation de la Conférence internationale MRE & amis du Maroc – Marrakech, 8–9 mai 2026","kpiGroupsHelp": "Aidez-nous en partageant au maximum", "c1": "✔️ Engagement volontaire & progressif", "c2": "✔️ Sans mandat politique", "c3": "✔️ Sans obligation financière", "join": "Rejoignez", "initiatives": "Initiatives", "citoyennes": "Citoyennes", "submit": "Rejoindre la liste", "submitted": "Inscrit !", "consentLine": "En laissant votre email, vous acceptez d’être informé des suites de l’initiative citoyenne."}, "en": {"langLabel": "Language", "tabs_home": "Home", "tabs_landing": "Landing", "continue": "continue >>", "madeRespect": "Made with respect", "tribute": "A sincere tribute to a land of history, culture, and hospitality. Morocco, a crossroads of civilizations, where tradition and modernity intertwine with elegance.", "landing_title_top": "Join Initiatives", "landing_title_bottom": "Citizens", "subtitle": "“Sign up to follow the progress of an open, non-partisan civic initiative led by Moroccans Worldwide and friends of Morocco, and stay informed about the steps, workstreams, and momentum that follow.”", "emailPh": "Your email address", "countryPh": "Country of residence", "intentPh": "I would like to…", "intent_group": "Follow this initiative", "intent_propose": "Propose an initiative", "intent_partner": "Become a partner / funder", "intent_all": "Discover everything", "autoCountry": "Country detected automatically", "toastOk": "Sign-up successful! We will contact you soon.", "kpiPre": "Pre-registrations", "kpiCountries": "MRE (all countries) · International partner communities", "kpiGroups": "Goal: 5000 SIGN-UPS before 05/08/2026",
 
     "conference_prep": "Preparation of the International Conference of Moroccans Worldwide & Friends of Morocco – Marrakech, May 8–9, 2026","kpiGroupsHelp": "Help us by sharing as much as possible", "c1": "✔️ Voluntary & progressive commitment", "c2": "✔️ No political mandate", "c3": "✔️ No financial obligation", "join": "Rejoignez", "initiatives": "Initiatives", "citoyennes": "Citoyennes", "submit": "Join the list", "submitted": "Signed up!", "consentLine": "By providing your email, you agree to be informed about the next steps of this civic initiative."}, "es": {"langLabel": "Idioma", "tabs_home": "Inicio", "tabs_landing": "Registro", "continue": "continuar >>", "madeRespect": "Hecho con respeto", "tribute": "Un sincero homenaje a esta tierra de historia, cultura y hospitalidad. Marruecos, cruce de civilizaciones, donde la tradición y la modernidad se entrelazan con elegancia.", "landing_title_top": "Únete a Iniciativas", "landing_title_bottom": "Ciudadanas", "subtitle": "« Inscríbete para seguir la evolución de una iniciativa ciudadana abierta y no partidista, impulsada por los Marroquíes del Mundo y los amigos de Marruecos, y estar informado de las etapas, trabajos y dinámicas que se derivan. »", "emailPh": "Tu correo electrónico", "countryPh": "País de residencia", "intentPh": "Quiero…", "intent_group": "Seguir esta iniciativa", "intent_propose": "Proponer una iniciativa", "intent_partner": "Ser socio / financiador", "intent_all": "Descubrirlo todo", "autoCountry": "País detectado automáticamente", "toastOk": "¡Inscripción correcta! Te contactaremos pronto.", "kpiPre": "Preinscritos", "kpiCountries": "MRE (todos los países) · Comunidades socias internacionales", "kpiGroups": "Objetivo: 5000 INSCRITOS antes del 08/05/2026",
 
     "conference_prep": "Preparación de la Conferencia Internacional de los Marroquíes del Mundo y Amigos de Marruecos – Marrakech, 8–9 de mayo de 2026","kpiGroupsHelp": "Ayúdanos compartiendo al máximo", "c1": "✔️ Compromiso voluntario y progresivo", "c2": "✔️ Sin mandato político", "c3": "✔️ Sin obligación financiera", "join": "Rejoignez", "initiatives": "Initiatives", "citoyennes": "Citoyennes", "submit": "Unirme a la lista", "submitted": "¡Inscrito!", "consentLine": "Al dejar tu correo, aceptas recibir información sobre las próximas etapas de esta iniciativa ciudadana."}, "nl": {"langLabel": "Taal", "tabs_home": "Start", "tabs_landing": "Landing", "continue": "doorgaan >>", "madeRespect": "Met respect gemaakt", "tribute": "Een oprecht eerbetoon aan een land van geschiedenis, cultuur en gastvrijheid. Marokko, een kruispunt van beschavingen, waar traditie en moderniteit elegant samenkomen.", "landing_title_top": "Doe mee met Initiatieven", "landing_title_bottom": "Burger", "subtitle": "“Schrijf je in om de ontwikkeling te volgen van een open, niet-partijdig burgerinitiatief, gedragen door Marokkanen wereldwijd en vrienden van Marokko, en ontvang updates over stappen, werkzaamheden en dynamiek.”", "emailPh": "Je e-mailadres", "countryPh": "Land van verblijf", "intentPh": "Ik wil…", "intent_group": "Deze initiatief volgen", "intent_propose": "Een initiatief voorstellen", "intent_partner": "Partner / financier worden", "intent_all": "Alles ontdekken", "autoCountry": "Land automatisch gedetecteerd", "toastOk": "Inschrijving gelukt! We nemen binnenkort contact op.", "kpiPre": "Voorinschrijvingen", "kpiCountries": "MRE (alle landen) · Internationale partner gemeenschappen", "kpiGroups": "Doel: 5000 INSCHRIJVINGEN voor 08/05/2026",
-"kpiGroupsHelp": "Help ons door zoveel mogelijk te delen", "c1": "✔️ Vrijwillige en stapsgewijze inzet", "c2": "✔️ Geen politiek mandaat", "c3": "✔️ Geen financiële verplichting", "join": "Rejoignez", "initiatives": "Initiatives", "citoyennes": "Citoyennes", "submit": "Aanmelden", "submitted": "Ingeschreven!", "consentLine": "Door je e-mail achter te laten, ga je ermee akkoord updates te ontvangen over de volgende stappen van dit burgerinitiatief."}, "de": {"langLabel": "Sprache", "tabs_home": "Start", "tabs_landing": "Landing", "continue": "weiter >>", "madeRespect": "Mit Respekt gemacht", "tribute": "Eine aufrichtige Würdigung eines Landes voller Geschichte, Kultur und Gastfreundschaft. Marokko, ein Knotenpunkt der Zivilisationen, wo Tradition und Moderne sich elegant verbinden.", "landing_title_top": "Mitmachen bei Initiativen", "landing_title_bottom": "Bürgerlich", "subtitle": "„Melden Sie sich an, um die Entwicklung einer offenen, überparteilichen Bürgerinitiative zu verfolgen, getragen von Marokkanern weltweit und Freunden Marokkos, und über Schritte, Arbeiten und Dynamiken informiert zu werden.“", "emailPh": "Ihre E-Mail-Adresse", "countryPh": "Wohnsitzland", "intentPh": "Ich möchte…", "intent_group": "Diese Initiative verfolgen", "intent_propose": "Eine Initiative vorschlagen", "intent_partner": "Partner / Förderer werden", "intent_all": "Alles entdecken", "autoCountry": "Land automatisch erkannt", "toastOk": "Anmeldung erfolgreich! Wir melden uns bald.", "kpiPre": "Vorregistrierungen", "kpiCountries": "MRE (alle Länder) · Internationale Partner-Communities", "kpiGroups": "Ziel: 5000 ANMELDUNGEN vor dem 08.05.2026",
-"kpiGroupsHelp": "Helfen Sie uns, indem Sie so viel wie möglich teilen", "c1": "✔️ Freiwilliges und schrittweises Engagement", "c2": "✔️ Ohne politisches Mandat", "c3": "✔️ Keine finanzielle Verpflichtung", "join": "Rejoignez", "initiatives": "Initiatives", "citoyennes": "Citoyennes", "submit": "Zur Liste", "submitted": "Angemeldet!", "consentLine": "Mit der Angabe Ihrer E-Mail-Adresse stimmen Sie zu, über die nächsten Schritte dieser Bürgerinitiative informiert zu werden."}, "it": {"langLabel": "Lingua", "tabs_home": "Home", "tabs_landing": "Iscrizione", "continue": "continua >>", "madeRespect": "Fatto con rispetto", "tribute": "Un sincero omaggio a una terra di storia, cultura e ospitalità. Il Marocco, crocevia di civiltà, dove tradizione e modernità si intrecciano con eleganza.", "landing_title_top": "Unisciti a Iniziative", "landing_title_bottom": "Cittadine", "subtitle": "« Iscriviti per seguire l’evoluzione di un’iniziativa civica aperta e apartitica, portata dai Marocchini nel mondo e dagli amici del Marocco, e ricevere aggiornamenti su tappe, lavori e dinamiche che ne derivano. »", "emailPh": "Il tuo indirizzo email", "countryPh": "Paese di residenza", "intentPh": "Vorrei…", "intent_group": "Seguire questa iniziativa", "intent_propose": "Proporre un’iniziativa", "intent_partner": "Diventare partner / finanziatore", "intent_all": "Scoprire tutto", "autoCountry": "Paese rilevato automaticamente", "toastOk": "Iscrizione riuscita! Ti contatteremo presto.", "kpiPre": "Pre-iscritti", "kpiCountries": "MRE (tutti i paesi) · Comunità partner internazionali", "kpiGroups": "Obiettivo: 5000 ISCRITTI prima dell'08/05/2026",
-"kpiGroupsHelp": "Aiutaci condividendo il più possibile", "c1": "✔️ Impegno volontario e progressivo", "c2": "✔️ Senza mandato politico", "c3": "✔️ Senza obblighi finanziari", "join": "Rejoignez", "initiatives": "Initiatives", "citoyennes": "Citoyennes", "submit": "Iscriviti", "submitted": "Iscritto!", "consentLine": "Lasciando la tua email, accetti di essere informato sui prossimi passi di questa iniziativa civica."}, "ar": {"langLabel": "اللغة", "tabs_home": "الرئيسية", "tabs_landing": "التسجيل", "continue": "متابعة >>", "madeRespect": "صنع باحترام", "tribute": "تحية صادقة لأرضٍ عريقة بالتاريخ والثقافة وكرم الضيافة. المغرب، ملتقى الحضارات، حيث تتداخل الأصالة والحداثة بأناقة.", "landing_title_top": "انضم إلى مبادرات", "landing_title_bottom": "مواطِنة", "subtitle": "« سجّل لمتابعة تطور مبادرة مواطنة مفتوحة وغير حزبية، يقودها مغاربة العالم وأصدقاء المغرب، وابقَ على اطلاع بالمراحل والأعمال والديناميكيات الناتجة عنها. »", "emailPh": "عنوان البريد الإلكتروني", "countryPh": "بلد الإقامة", "intentPh": "أرغب في…", "intent_group": "متابعة هذه المبادرة", "intent_propose": "اقتراح مبادرة", "intent_partner": "أن تصبح شريكاً / ممولاً", "intent_all": "اكتشاف المزيد", "autoCountry": "تم تحديد البلد تلقائياً", "toastOk": "تم التسجيل بنجاح! سنقوم بالتواصل قريباً.", "kpiPre": "مسجلون مسبقاً", "kpiCountries": "مغاربة العالم (جميع البلدان) · المجتمعات الشريكة الدولية", "kpiGroups": "الهدف: 5000 مسجل قبل 08/05/2026",
+
+    "conference_prep": "Voorbereiding van de Internationale Conferentie van Marokkanen wereldwijd & Vrienden van Marokko – Marrakech, 8–9 mei 2026","kpiGroupsHelp": "Help ons door zoveel mogelijk te delen", "c1": "✔️ Vrijwillige en stapsgewijze inzet", "c2": "✔️ Geen politiek mandaat", "c3": "✔️ Geen financiële verplichting", "join": "Rejoignez", "initiatives": "Initiatives", "citoyennes": "Citoyennes", "submit": "Aanmelden", "submitted": "Ingeschreven!", "consentLine": "Door je e-mail achter te laten, ga je ermee akkoord updates te ontvangen over de volgende stappen van dit burgerinitiatief."}, "de": {"langLabel": "Sprache", "tabs_home": "Start", "tabs_landing": "Landing", "continue": "weiter >>", "madeRespect": "Mit Respekt gemacht", "tribute": "Eine aufrichtige Würdigung eines Landes voller Geschichte, Kultur und Gastfreundschaft. Marokko, ein Knotenpunkt der Zivilisationen, wo Tradition und Moderne sich elegant verbinden.", "landing_title_top": "Mitmachen bei Initiativen", "landing_title_bottom": "Bürgerlich", "subtitle": "„Melden Sie sich an, um die Entwicklung einer offenen, überparteilichen Bürgerinitiative zu verfolgen, getragen von Marokkanern weltweit und Freunden Marokkos, und über Schritte, Arbeiten und Dynamiken informiert zu werden.“", "emailPh": "Ihre E-Mail-Adresse", "countryPh": "Wohnsitzland", "intentPh": "Ich möchte…", "intent_group": "Diese Initiative verfolgen", "intent_propose": "Eine Initiative vorschlagen", "intent_partner": "Partner / Förderer werden", "intent_all": "Alles entdecken", "autoCountry": "Land automatisch erkannt", "toastOk": "Anmeldung erfolgreich! Wir melden uns bald.", "kpiPre": "Vorregistrierungen", "kpiCountries": "MRE (alle Länder) · Internationale Partner-Communities", "kpiGroups": "Ziel: 5000 ANMELDUNGEN vor dem 08.05.2026",
+
+    "conference_prep": "Vorbereitung der Internationalen Konferenz der Marokkaner weltweit & Freunde Marokkos – Marrakesch, 8.–9. Mai 2026","kpiGroupsHelp": "Helfen Sie uns, indem Sie so viel wie möglich teilen", "c1": "✔️ Freiwilliges und schrittweises Engagement", "c2": "✔️ Ohne politisches Mandat", "c3": "✔️ Keine finanzielle Verpflichtung", "join": "Rejoignez", "initiatives": "Initiatives", "citoyennes": "Citoyennes", "submit": "Zur Liste", "submitted": "Angemeldet!", "consentLine": "Mit der Angabe Ihrer E-Mail-Adresse stimmen Sie zu, über die nächsten Schritte dieser Bürgerinitiative informiert zu werden."}, "it": {"langLabel": "Lingua", "tabs_home": "Home", "tabs_landing": "Iscrizione", "continue": "continua >>", "madeRespect": "Fatto con rispetto", "tribute": "Un sincero omaggio a una terra di storia, cultura e ospitalità. Il Marocco, crocevia di civiltà, dove tradizione e modernità si intrecciano con eleganza.", "landing_title_top": "Unisciti a Iniziative", "landing_title_bottom": "Cittadine", "subtitle": "« Iscriviti per seguire l’evoluzione di un’iniziativa civica aperta e apartitica, portata dai Marocchini nel mondo e dagli amici del Marocco, e ricevere aggiornamenti su tappe, lavori e dinamiche che ne derivano. »", "emailPh": "Il tuo indirizzo email", "countryPh": "Paese di residenza", "intentPh": "Vorrei…", "intent_group": "Seguire questa iniziativa", "intent_propose": "Proporre un’iniziativa", "intent_partner": "Diventare partner / finanziatore", "intent_all": "Scoprire tutto", "autoCountry": "Paese rilevato automaticamente", "toastOk": "Iscrizione riuscita! Ti contatteremo presto.", "kpiPre": "Pre-iscritti", "kpiCountries": "MRE (tutti i paesi) · Comunità partner internazionali", "kpiGroups": "Obiettivo: 5000 ISCRITTI prima dell'08/05/2026",
+
+    "conference_prep": "Preparazione della Conferenza Internazionale dei Marocchini nel Mondo e Amici del Marocco – Marrakech, 8–9 maggio 2026","kpiGroupsHelp": "Aiutaci condividendo il più possibile", "c1": "✔️ Impegno volontario e progressivo", "c2": "✔️ Senza mandato politico", "c3": "✔️ Senza obblighi finanziari", "join": "Rejoignez", "initiatives": "Initiatives", "citoyennes": "Citoyennes", "submit": "Iscriviti", "submitted": "Iscritto!", "consentLine": "Lasciando la tua email, accetti di essere informato sui prossimi passi di questa iniziativa civica."}, "ar": {"langLabel": "اللغة", "tabs_home": "الرئيسية", "tabs_landing": "التسجيل", "continue": "متابعة >>", "madeRespect": "صنع باحترام", "tribute": "تحية صادقة لأرضٍ عريقة بالتاريخ والثقافة وكرم الضيافة. المغرب، ملتقى الحضارات، حيث تتداخل الأصالة والحداثة بأناقة.", "landing_title_top": "انضم إلى مبادرات", "landing_title_bottom": "مواطِنة", "subtitle": "« سجّل لمتابعة تطور مبادرة مواطنة مفتوحة وغير حزبية، يقودها مغاربة العالم وأصدقاء المغرب، وابقَ على اطلاع بالمراحل والأعمال والديناميكيات الناتجة عنها. »", "emailPh": "عنوان البريد الإلكتروني", "countryPh": "بلد الإقامة", "intentPh": "أرغب في…", "intent_group": "متابعة هذه المبادرة", "intent_propose": "اقتراح مبادرة", "intent_partner": "أن تصبح شريكاً / ممولاً", "intent_all": "اكتشاف المزيد", "autoCountry": "تم تحديد البلد تلقائياً", "toastOk": "تم التسجيل بنجاح! سنقوم بالتواصل قريباً.", "kpiPre": "مسجلون مسبقاً", "kpiCountries": "مغاربة العالم (جميع البلدان) · المجتمعات الشريكة الدولية", "kpiGroups": "الهدف: 5000 مسجل قبل 08/05/2026",
 
     "conference_prep": "التحضير للمؤتمر الدولي لمغاربة العالم وأصدقاء المغرب – مراكش، 8–9 ماي 2026","kpiGroupsHelp": "ساعدونا بمشاركة الحد الأقصى", "c1": "✔️ التزام طوعي وتدريجي", "c2": "✔️ دون تفويض سياسي", "c3": "✔️ دون التزام مالي", "join": "انضم", "initiatives": "مبادرات", "citoyennes": "مواطِنة", "submit": "الانضمام إلى القائمة", "submitted": "تم التسجيل!", "consentLine": "بترك بريدك الإلكتروني، فإنك توافق على تلقي معلومات حول الخطوات القادمة لهذه المبادرة المواطنة."}};
+  
+  // Fonction globale pour mettre à jour la phrase de conférence (landing)
+  // Définie ici pour être accessible partout
+  console.log('Script updateConferencePrep: début (dans IIFE)');
+  window.updateConferencePrep = function() {
+    try {
+      const langSelect = document.getElementById('langSelect');
+      const lang = (langSelect && langSelect.value) || 'fr';
+      if (!window.I18N) {
+        console.warn('window.I18N n\'est pas encore défini');
+        return;
+      }
+      const L = window.I18N[lang] || window.I18N.fr || null;
+      if (L && L.conference_prep) {
+        // Essayer plusieurs méthodes pour trouver l'élément
+        let confPrepLandingEl = document.getElementById("conferencePrepLanding");
+        if (!confPrepLandingEl) {
+          const landingPanel = document.getElementById("landing");
+          if (landingPanel) {
+            confPrepLandingEl = landingPanel.querySelector("#conferencePrepLanding");
+          }
+        }
+        if (!confPrepLandingEl) {
+          confPrepLandingEl = document.querySelector("#conferencePrepLanding");
+        }
+        // Si l'élément n'existe toujours pas, le créer
+        if (!confPrepLandingEl) {
+          const kpiCountriesLabel = document.getElementById("kpiCountriesLabel");
+          if (kpiCountriesLabel) {
+            confPrepLandingEl = document.createElement("div");
+            confPrepLandingEl.className = "conference-note";
+            confPrepLandingEl.id = "conferencePrepLanding";
+            confPrepLandingEl.style.cssText = "display:block !important; visibility:visible !important; margin-top:6px !important; font-size:12px !important; opacity:.85 !important; text-align:center !important; width:100% !important; color:var(--text-secondary) !important; line-height:1.4 !important; min-height:1.2em !important; padding:2px 0 !important;";
+            kpiCountriesLabel.appendChild(confPrepLandingEl);
+          }
+        }
+        if (confPrepLandingEl) {
+          confPrepLandingEl.textContent = L.conference_prep;
+          confPrepLandingEl.style.setProperty('display', 'block', 'important');
+          confPrepLandingEl.style.setProperty('visibility', 'visible', 'important');
+        }
+      }
+    } catch (e) {
+      console.error('Erreur dans updateConferencePrep:', e);
+    }
+  };
+  console.log('Script updateConferencePrep: fonction définie (dans IIFE), type:', typeof window.updateConferencePrep);
+  
   const ISO2 = ["AF", "AX", "AL", "DZ", "AS", "AD", "AO", "AI", "AQ", "AG", "AR", "AM", "AW", "AU", "AT", "AZ", "BS", "BH", "BD", "BB", "BY", "BE", "BZ", "BJ", "BM", "BT", "BO", "BQ", "BA", "BW", "BV", "BR", "IO", "BN", "BG", "BF", "BI", "KH", "CM", "CA", "CV", "KY", "CF", "TD", "CL", "CN", "CX", "CC", "CO", "KM", "CG", "CD", "CK", "CR", "CI", "HR", "CU", "CW", "CY", "CZ", "DK", "DJ", "DM", "DO", "EC", "EG", "SV", "GQ", "ER", "EE", "SZ", "ET", "FK", "FO", "FJ", "FI", "FR", "GF", "PF", "TF", "GA", "GM", "GE", "DE", "GH", "GI", "GR", "GL", "GD", "GP", "GU", "GT", "GG", "GN", "GW", "GY", "HT", "HM", "VA", "HN", "HK", "HU", "IS", "IN", "ID", "IR", "IQ", "IE", "IM", "IL", "IT", "JM", "JP", "JE", "JO", "KZ", "KE", "KI", "KP", "KR", "KW", "KG", "LA", "LV", "LB", "LS", "LR", "LY", "LI", "LT", "LU", "MO", "MG", "MW", "MY", "MV", "ML", "MT", "MH", "MQ", "MR", "MU", "YT", "MX", "FM", "MD", "MC", "MN", "ME", "MS", "MA", "MZ", "MM", "NA", "NR", "NP", "NL", "NC", "NZ", "NI", "NE", "NG", "NU", "NF", "MK", "MP", "NO", "OM", "PK", "PW", "PS", "PA", "PG", "PY", "PE", "PH", "PN", "PL", "PT", "PR", "QA", "RE", "RO", "RU", "RW", "BL", "SH", "KN", "LC", "MF", "PM", "VC", "WS", "SM", "ST", "SA", "SN", "RS", "SC", "SL", "SG", "SX", "SK", "SI", "SB", "SO", "ZA", "GS", "SS", "ES", "LK", "SD", "SR", "SJ", "SE", "CH", "SY", "TW", "TJ", "TZ", "TH", "TL", "TG", "TK", "TO", "TT", "TN", "TR", "TM", "TC", "TV", "UG", "UA", "AE", "GB", "UM", "US", "UY", "UZ", "VU", "VE", "VN", "VG", "VI", "WF", "EH", "YE", "ZM", "ZW"];
 
   const sel = document.getElementById('langSelect');
@@ -2194,11 +2289,60 @@
         setHTML("landingTitle", `${L.join} <span>${L.initiatives} ${L.citoyennes}</span>`);
     setText("landingSubtitle", L.subtitle);
     
-  setText("conferencePrep", L.conference_prep);
+  // Mettre à jour la note de conférence (landing)
+  setTimeout(function() {
+    // Essayer plusieurs méthodes pour trouver l'élément
+    let confPrepLandingEl = document.getElementById("conferencePrepLanding");
+    if (!confPrepLandingEl) {
+      const landingPanel = document.getElementById("landing");
+      if (landingPanel) {
+        confPrepLandingEl = landingPanel.querySelector("#conferencePrepLanding");
+      }
+    }
+    if (!confPrepLandingEl) {
+      confPrepLandingEl = document.querySelector("#conferencePrepLanding");
+    }
+    if (confPrepLandingEl && L.conference_prep) {
+      confPrepLandingEl.textContent = L.conference_prep;
+    }
+  }, 100);
+  // Mettre à jour la note de conférence (home)
+  const confPrepHomeEl = document.getElementById("conferencePrep");
+  if (confPrepHomeEl && L.conference_prep) {
+    confPrepHomeEl.textContent = L.conference_prep;
+  }
 setText("submitText", L.submit);
     setText("hubSubtitle", L.hubSubtitle);
     setText('kpiPreLabel', L.kpiPre);
-    setText('kpiCountriesLabel', L.kpiCountries);
+    setText('kpiCountriesText', L.kpiCountries);
+    // Mettre à jour la phrase de conférence APRÈS avoir mis à jour le texte
+    setTimeout(function() {
+      const kpiLabel = document.getElementById("kpiCountriesLabel");
+      if (kpiLabel) {
+        let confEl = document.getElementById("conferencePrepLanding");
+        if (!confEl) {
+          // Chercher dans le panneau landing même s'il est caché
+          const landingPanel = document.getElementById("landing");
+          if (landingPanel) {
+            confEl = landingPanel.querySelector("#conferencePrepLanding");
+          }
+        }
+        if (!confEl) {
+          // Créer l'élément s'il n'existe pas
+          confEl = document.createElement("div");
+          confEl.className = "conference-note";
+          confEl.id = "conferencePrepLanding";
+          confEl.style.cssText = "display:block !important; visibility:visible !important; margin-top:6px !important; font-size:12px !important; opacity:.85 !important; text-align:center !important; width:100% !important; color:var(--text-secondary) !important; line-height:1.4 !important; min-height:1.2em !important; padding:2px 0 !important;";
+          kpiLabel.appendChild(confEl);
+        }
+        if (confEl && L.conference_prep) {
+          confEl.textContent = L.conference_prep;
+          // Forcer la visibilité
+          confEl.style.setProperty('display', 'block', 'important');
+          confEl.style.setProperty('visibility', 'visible', 'important');
+        }
+      }
+    }, 50);
     setText('kpiGroupsLabelText', L.kpiGroups);
     setText('kpiGroupsLabelHelp', L.kpiGroupsHelp || 'Aidez-nous en partageant au maximum');
 
@@ -2255,6 +2399,60 @@ setText("submitText", L.submit);
   }
   translate(initial);
 
+  // Mettre à jour au chargement et périodiquement (utiliser la version globale)
+  setTimeout(function() {
+    if (typeof window.updateConferencePrep === 'function') {
+      window.updateConferencePrep();
+    }
+  }, 200);
+  setTimeout(function() {
+    if (typeof window.updateConferencePrep === 'function') {
+      window.updateConferencePrep();
+    }
+  }, 500);
+  setTimeout(function() {
+    if (typeof window.updateConferencePrep === 'function') {
+      window.updateConferencePrep();
+    }
+  }, 1000);
+  setTimeout(function() {
+    if (typeof window.updateConferencePrep === 'function') {
+      window.updateConferencePrep();
+    }
+  }, 2000);
+  
+  // Mettre à jour quand la langue change
+  if(sel) {
+    sel.addEventListener('change', function() {
+      setTimeout(function() {
+        if (typeof window.updateConferencePrep === 'function') {
+          window.updateConferencePrep();
+        }
+      }, 100);
+    });
+  }
+  
+  // Vérifier périodiquement et forcer l'affichage
+  setInterval(function() {
+    const confEl = document.getElementById("conferencePrepLanding");
+    const kpiLabel = document.getElementById("kpiCountriesLabel");
+    if (kpiLabel && !confEl) {
+      // L'élément n'existe pas, le créer
+      if (typeof window.updateConferencePrep === 'function') {
+        window.updateConferencePrep();
+      }
+    } else if (confEl) {
+      // L'élément existe, s'assurer qu'il est visible
+      confEl.style.display = 'block';
+      confEl.style.visibility = 'visible';
+      const lang = (sel && sel.value) || initial;
+      const L = (window.I18N && window.I18N[lang]) ? window.I18N[lang] : (window.I18N ? window.I18N.fr : null);
+      if (L && L.conference_prep && !confEl.textContent.trim()) {
+        confEl.textContent = L.conference_prep;
+      }
+    }
+  }, 2000);
+
   // Ensure toast message is translated after submit click
   document.addEventListener('click', (e) => {
     const btn = e.target && (e.target.closest ? e.target.closest('#submitBtn') : null);
@@ -2270,7 +2468,61 @@ setText("submitText", L.submit);
   }, true);
 
 })();
+} catch (e) {
+  console.error('Erreur dans l\'IIFE I18N:', e);
+}
 </script>
+
+<script>
+// Fonction globale pour mettre à jour la phrase de conférence (landing)
+// Définie dans un script séparé pour être toujours accessible
+console.log('Script updateConferencePrep: début (script séparé)');
+window.updateConferencePrep = function() {
+    try {
+      const langSelect = document.getElementById('langSelect');
+      const lang = (langSelect && langSelect.value) || 'fr';
+      if (!window.I18N) {
+        console.warn('window.I18N n\'est pas encore défini');
+        return;
+      }
+      const L = window.I18N[lang] || window.I18N.fr || null;
+      if (L && L.conference_prep) {
+        // Essayer plusieurs méthodes pour trouver l'élément
+        let confPrepLandingEl = document.getElementById("conferencePrepLanding");
+        if (!confPrepLandingEl) {
+          const landingPanel = document.getElementById("landing");
+          if (landingPanel) {
+            confPrepLandingEl = landingPanel.querySelector("#conferencePrepLanding");
+          }
+        }
+        if (!confPrepLandingEl) {
+          confPrepLandingEl = document.querySelector("#conferencePrepLanding");
+        }
+        // Si l'élément n'existe toujours pas, le créer
+        if (!confPrepLandingEl) {
+          const kpiCountriesLabel = document.getElementById("kpiCountriesLabel");
+          if (kpiCountriesLabel) {
+            confPrepLandingEl = document.createElement("div");
+            confPrepLandingEl.className = "conference-note";
+            confPrepLandingEl.id = "conferencePrepLanding";
+            confPrepLandingEl.style.cssText = "display:block !important; visibility:visible !important; margin-top:6px !important; font-size:12px !important; opacity:.85 !important; text-align:center !important; width:100% !important; color:var(--text-secondary) !important; line-height:1.4 !important; min-height:1.2em !important; padding:2px 0 !important;";
+            kpiCountriesLabel.appendChild(confPrepLandingEl);
+          }
+        }
+        if (confPrepLandingEl) {
+          confPrepLandingEl.textContent = L.conference_prep;
+          confPrepLandingEl.style.setProperty('display', 'block', 'important');
+          confPrepLandingEl.style.setProperty('visibility', 'visible', 'important');
+        }
+      }
+    } catch (e) {
+      console.error('Erreur dans updateConferencePrep:', e);
+    }
+};
+console.log('Script updateConferencePrep: fonction définie (script séparé), type:', typeof window.updateConferencePrep);
+console.log('window.updateConferencePrep existe:', 'updateConferencePrep' in window);
+</script>
+
 
 
 <script>
