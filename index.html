@@ -2501,8 +2501,8 @@ setText("submitText", L.submit);
 
     // Best-effort: close the tab/window (works if the page was opened via script)
     try {
-      window.open('', '_self');
-      window.close();
+// [DISABLED]       window.open('', '_self');
+// [DISABLED]       window.close();
     } catch(e) {}
 
     // Fallback: if the browser blocks window.close(), show a small overlay prompting the user
