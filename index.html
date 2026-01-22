@@ -2505,9 +2505,9 @@ setText("submitText", L.submit);
 // [DISABLED]       window.close();
     } catch(e) {}
 
-    // Fallback: if the browser blocks window.close(), show a small overlay prompting the user
+// [DISABLED]     // Fallback: if the browser blocks window.close(), show a small overlay prompting the user
     setTimeout(()=>{
-      if (!window.closed) {
+// [DISABLED]       if (!window.closed) {
         let ov = document.getElementById('closeBlockedOverlay');
         if (!ov) {
           ov = document.createElement('div');
