@@ -6,7 +6,7 @@ Ce site permet la consultation du projet et l’inscription des participants, av
 ---
 
 ## 🌍 URL de production
-https://mre20252026.github.io/initiatives-citoyennes-2026/
+https://mre20252026.github.io/initiatives-citoyennes-20262030/
 
 ---
 
