@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Initiatives Citoyennes | Accueil & Landing</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🇲🇦</text></svg>">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@600;700;800&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
@@ -33,13 +33,23 @@
     
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    html { 
+      scroll-behavior: smooth;
+      font-size: 16px !important; /* Force une taille de base cohérente */
+      zoom: 1 !important; /* Force le zoom à 100% */
+    }
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg-primary);
       color: var(--text-primary);
       line-height: 1.6;
       overflow-x: hidden;
+      font-size: 16px !important; /* Force une taille de base cohérente */
+      zoom: 1 !important; /* Force le zoom à 100% */
+      -webkit-text-size-adjust: 100% !important; /* Empêche l'ajustement automatique sur iOS */
+      -moz-text-size-adjust: 100% !important;
+      -ms-text-size-adjust: 100% !important;
+      transform: scale(1) !important; /* Empêche toute transformation */
     }
 
     .bg-gradient {
@@ -355,6 +365,11 @@
       background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
       overflow: hidden;
     }
+    
+    /* Réduction de 10% de la hauteur pour le landing */
+    #landing .landing-hero {
+      padding: 18.954px !important; /* 21.06px - 10% = 18.954px */
+    }
 
     .landing-glow {
       position: absolute;
@@ -374,6 +389,11 @@
       letter-spacing: -0.03em;
       margin-bottom: 10px;
     }
+    
+    /* Réduction de 10% des espacements verticaux dans le landing */
+    #landing .landing-title {
+      margin-bottom: 7.29px !important; /* 8.1px - 10% = 7.29px */
+    }
 
     .landing-title span {
       background: var(--accent-gradient);
@@ -382,7 +402,7 @@
       color: transparent;
     }
 
-    .landing-subtitle { color: var(--text-secondary); max-width: 840px; text-align: center; margin: 0 auto; }
+    .landing-subtitle { color: var(--text-secondary); max-width: 756px; text-align: center; margin: 0 auto; } /* 840px - 10% = 756px */
 
     .form-wrapper {
       margin-top: 18px;
@@ -392,8 +412,19 @@
       padding: 14px;
       backdrop-filter: blur(10px);
     }
+    
+    /* Réduction de 10% des espacements verticaux dans le landing */
+    #landing .form-wrapper {
+      margin-top: 13.122px !important; /* 14.58px - 10% = 13.122px */
+      padding: 10.206px !important; /* 11.34px - 10% = 10.206px */
+    }
 
     .input-group { display: grid; gap: 10px; }
+    
+    /* Réduction de 10% des gaps dans le landing */
+    #landing .input-group {
+      gap: 7.29px !important; /* 8.1px - 10% = 7.29px */
+    }
 
     .form-input, .form-select {
       width: 100%;
@@ -404,8 +435,12 @@
       color: var(--text-primary);
       outline: none;
     }
-
     
+    /* Réduction de 10% du padding vertical dans le landing */
+    #landing .form-input, #landing .form-select {
+      padding-top: 8.748px !important; /* 9.72px - 10% = 8.748px */
+      padding-bottom: 8.748px !important; /* 9.72px - 10% = 8.748px */
+    }
 
     .form-input::placeholder { color: var(--text-tertiary); }
 
@@ -457,6 +492,15 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
     }
+    
+    /* Réduction de 10% pour la barre de métriques dans le landing */
+    #landing .metrics-bar {
+      max-width: 756px !important; /* 840px - 10% = 756px */
+      margin-left: auto !important;
+      margin-right: auto !important;
+      margin-top: 11.664px !important; /* 12.96px - 10% = 11.664px */
+      gap: 7.29px !important; /* 8.1px - 10% = 7.29px */
+    }
 
     .metric {
       border: 1px solid var(--border);
@@ -464,6 +508,11 @@
       border-radius: 16px;
       padding: 12px;
       text-align: center;
+    }
+    
+    /* Réduction de 10% du padding dans le landing */
+    #landing .metric {
+      padding: 8.748px !important; /* 9.72px - 10% = 8.748px */
     }
 
     .metric-value {
@@ -662,12 +711,16 @@
       ) !important;
     }
 
-    /* === RÉDUCTION RÉELLE LARGEUR FICHE / FORMULAIRE === */
+    /* === LARGEUR UNIFIÉE POUR TOUS LES ÉLÉMENTS === */
+    /* Note: La page landing utilise 588px (voir règles spécifiques #landing) */
     .landing-form,
     .form-card,
     .card,
-    form {
-      max-width: 520px !important;   /* ≈ moitié écran desktop */
+    form,
+    .landing,
+    .landing-container,
+    .landing-card {
+      max-width: 840px !important;   /* Largeur pour les autres pages */
       width: 100% !important;
       margin-left: auto !important;
       margin-right: auto !important;
@@ -677,23 +730,12 @@
       .landing-form,
       .form-card,
       .card,
-      form {
+      form,
+      .landing,
+      .landing-container,
+      .landing-card {
         max-width: 100% !important;
       }
-    }
-
-    
-    /* === RÉDUCTION STRICTE DE LA LARGEUR (CONFORME CAPTURE) === */
-    .landing,
-    .landing-container,
-    .landing-card,
-    .form-card,
-    .card,
-    .landing-form {
-      max-width: 760px !important;   /* strictement inférieur à la zone entourée en rouge */
-      width: 100% !important;
-      margin-left: auto !important;
-      margin-right: auto !important;
     }
 
     /* Champs restent fluides à l'intérieur */
@@ -745,7 +787,7 @@
     #landing .landing-hero,
     #landing .landing-content,
     #landing .form-wrapper {
-      max-width: 840px !important;
+      max-width: 756px !important; /* 840px - 10% = 756px */
       width: 100% !important;
       margin: 0 auto !important;
       border-radius: 18px !important;
@@ -753,7 +795,7 @@
 
     /* On garde les infos, mais on évite que le titre prenne toute la largeur écran */
     #landing h1, #landing h2, #landing .title, #landing .headline {
-      max-width: 840px !important;
+      max-width: 756px !important; /* 840px - 10% = 756px */
       margin-left: auto !important;
       margin-right: auto !important;
       text-align: left;
@@ -960,6 +1002,12 @@
       color: rgba(255,255,255,0.8);
       text-align: left;
     }
+    
+    /* Réduction de 10% des espacements verticaux pour les engagements dans le landing */
+    #landing .commitments {
+      margin-top: 10.8px !important; /* 12px - 10% = 10.8px */
+      margin-bottom: 16.2px !important; /* 18px - 10% = 16.2px */
+    }
     .commitments div{
       display: flex;
       gap: 6px;
@@ -1023,12 +1071,18 @@
     /* === Consent line (mailing) === */
     .consent-line{
       margin: 8px auto 14px auto;
-      max-width: 520px;
+      max-width: 756px; /* 840px - 10% = 756px */
       font-size: 12.5px;
       line-height: 1.5;
       color: rgba(255,255,255,0.72);
       text-align: center;
       position: relative;
+    }
+    
+    /* Réduction de 10% des espacements verticaux dans le landing */
+    #landing .consent-line {
+      margin-top: 5.832px !important; /* 6.48px - 10% = 5.832px */
+      margin-bottom: 10.206px !important; /* 11.34px - 10% = 10.206px */
     }
 
     /* === Info icon with popup === */
@@ -1237,7 +1291,7 @@
 #landingSubtitle{
   display:block;
   width:100%;
-  max-width:840px;
+  max-width:756px; /* 840px - 10% = 756px */
   margin:0 auto;
   text-align:center !important;
 }
@@ -1259,6 +1313,57 @@
 </head>
 
 <body>
+<script>
+// Normaliser la taille de la page pour correspondre exactement à GitHub Pages
+(function() {
+  function normalizeSize() {
+    // Forcer le zoom à 100%
+    if (typeof document.body.style.zoom !== 'undefined') {
+      document.body.style.zoom = '1';
+      document.documentElement.style.zoom = '1';
+    }
+    
+    // Normaliser la taille de la police de base
+    document.documentElement.style.fontSize = '16px';
+    document.body.style.fontSize = '16px';
+    
+    // Forcer la largeur du viewport
+    const viewport = document.querySelector('meta[name="viewport"]');
+    if (viewport) {
+      viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+    }
+    
+    // Empêcher toute transformation CSS
+    document.body.style.transform = 'scale(1)';
+    document.documentElement.style.transform = 'scale(1)';
+    
+    // Forcer la largeur du body à 100% de la fenêtre
+    document.body.style.width = '100%';
+    document.body.style.maxWidth = '100%';
+    document.body.style.minWidth = '0';
+    
+    // Normaliser le container principal
+    const main = document.querySelector('.main');
+    if (main) {
+      main.style.width = '100%';
+      main.style.maxWidth = '100%';
+    }
+  }
+  
+  // Exécuter immédiatement
+  normalizeSize();
+  
+  // Réexécuter après le chargement complet
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', normalizeSize);
+  }
+  window.addEventListener('load', normalizeSize);
+  
+  // Réexécuter après un court délai pour s'assurer que tout est chargé
+  setTimeout(normalizeSize, 100);
+  setTimeout(normalizeSize, 500);
+})();
+</script>
 
 <div class="lang-switch" aria-label="Language selector">
   <label for="langSelect" class="lang-label">Langue</label>
@@ -1293,8 +1398,8 @@
           <div class="ic-container">
 
             <div class="ic-logo">
-              <span class="ic-green">Initiatives</span>
-              <span class="ic-red">Citoyennes</span>
+              <span class="ic-green" id="logoInitiatives">Initiatives</span>
+              <span class="ic-red" id="logoCitoyennes">Citoyennes</span>
             </div>
 <div id="conferencePrep" style="margin-top:6px;font-size:12px;opacity:.85;text-align:center;"></div>
             <div class="ic-subtitle" id="hubSubtitle">Strategy Hub</div>
@@ -1323,6 +1428,10 @@
                 <span class="ic-r"></span>
               </div>
               <span id="madeRespect">Fait avec respect</span>
+              <span style="margin: 0 8px; color: var(--text-tertiary);">•</span>
+              <a href="#" onclick="event.preventDefault(); if(typeof window.setActivePanel === 'function') window.setActivePanel('privacy');" style="color: var(--text-secondary); text-decoration: none; transition: color 0.15s ease;" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-secondary)'">
+                <span id="privacyLinkText">Politique de confidentialité</span>
+              </a>
             </div>
             <div style="margin-top:14px;">
               <a href="#landing" class="ic-btn" data-go="landing"><span id="continueText">continuer &gt;&gt;</span></a>
@@ -1568,7 +1677,7 @@
 </div>
 
 <div class="consent-line" id="consentLine">
-  En laissant votre email, vous acceptez d'être informé des suites de l'initiative citoyenne.
+  <span id="consentLineText">En laissant votre email, vous acceptez d'être informé des suites de l'initiative citoyenne.</span>
   <span class="info-icon-wrapper">
     <span class="info-icon" id="infoIcon" aria-label="Information">i</span>
     <div class="info-popup" id="infoPopup">
@@ -1588,6 +1697,12 @@
       </div>
     </div>
   </span>
+</div>
+
+<div style="text-align: center; margin-top: 7.2px; margin-bottom: 10.206px; font-size: 11px; color: rgba(255,255,255,0.6); max-width: 756px; margin-left: auto; margin-right: auto;">
+  <a href="#" onclick="event.preventDefault(); if(typeof window.setActivePanel === 'function') window.setActivePanel('privacy');" style="color: rgba(255,255,255,0.6); text-decoration: underline; transition: color 0.15s ease;" onmouseover="this.style.color='rgba(255,255,255,0.85)'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">
+    <span id="privacyLinkFormText">Consultez notre politique de confidentialité</span>
+  </a>
 </div>
 
 
@@ -1677,6 +1792,20 @@
   }
 
   // --------- SUBMIT (API /signup) ----------
+  // Mapping des choix vers des chiffres pour Google Sheets
+  const interestMapping = {
+    'group': 1,        // suivre cette initiative
+    'propose': 2,      // Proposer une initiative
+    'partner': 3,      // Devenir partenaire
+    'funder': 4,       // Devenir financeur
+    'support': 5,      // Soutenir ou accompagner l'initiative
+    'events': 6,       // Être informé des rencontres et événements
+    'observer': 7      // Observateur / Suivi institutionnel
+  };
+
+  // URL de votre Google Apps Script (à remplacer par votre URL)
+  const GOOGLE_SHEETS_WEBAPP_URL = ''; // À configurer : URL de votre Google Apps Script déployé
+
   async function submitSignup(event) {
     if (event) event.preventDefault();
 
@@ -1690,7 +1819,10 @@
       return;
     }
 
-    // POST /signup
+    // Convertir le choix en chiffre
+    const interestCode = interestMapping[interest] || 0;
+
+    // POST /signup (API existante)
     const r = await fetch(`${API_BASE}/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -1699,8 +1831,29 @@
 
     if (!r.ok) {
       const txt = await r.text().catch(() => "");
-      alert("Erreur d’inscription. " + txt);
+      alert("Erreur d'inscription. " + txt);
       return;
+    }
+
+    // Envoyer vers Google Sheets (en arrière-plan, ne bloque pas l'utilisateur)
+    if (GOOGLE_SHEETS_WEBAPP_URL) {
+      try {
+        await fetch(GOOGLE_SHEETS_WEBAPP_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: email,
+            country: country,
+            interest: interest,
+            interestCode: interestCode,
+            timestamp: new Date().toISOString()
+          })
+        }).catch(err => {
+          console.warn("Erreur lors de l'envoi vers Google Sheets (non bloquant):", err);
+        });
+      } catch (err) {
+        console.warn("Erreur lors de l'envoi vers Google Sheets (non bloquant):", err);
+      }
     }
 
     // feedback (toast + confetti si existants)
@@ -1764,12 +1917,14 @@
 
 
 
-              <div class="legal-mentions" id="legalMentions" style="margin-top:20px; text-align:left; color:rgba(255,255,255,0.65); font-size:11.5px; line-height:0.8; max-width:680px; margin-left:auto; margin-right:auto; padding:14px 16px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.08); border-radius:10px;">
-                <h3 style="margin:0 0 12px 0; font-size:13px; font-weight:600; color:rgba(255,255,255,0.85);">Mentions légales</h3>
-                <p style="margin:0 0 8px 0; line-height:0.8;"><strong>Nature de l'initiative :</strong> <span id="legalNatureText">Initiatives Citoyennes est une initiative citoyenne collective, née d'échanges et de rencontres entre plusieurs personnes partageant une volonté commune de dialogue, d'information et d'entraide.</span></p>
-                <p style="margin:0 0 8px 0; line-height:0.8;"><strong>Fondateur de l'initiative :</strong> <span id="legalFounderText">Mbarak Chniouer</span></p>
-                <p style="margin:0 0 8px 0; line-height:0.8;"><strong>Coordination et animation numérique :</strong> <span id="legalCoordinationText">assurées par des membres du collectif.</span></p>
-                <p style="margin:0; line-height:0.8;"><strong>Multimédia et supports de communication :</strong> <span id="legalMediaText">MEDEV PARTENARIAT COMPANY (Maroc)</span></p>
+              <div class="legal-mentions" id="legalMentions" style="margin-top:14.58px; text-align:left; color:rgba(255,255,255,0.65); font-size:11.5px; line-height:1.6; max-width:756px; margin-left:auto; margin-right:auto; padding:10.206px 16px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.08); border-radius:10px;">
+                <h3 style="margin:0 0 8.748px 0; font-size:13px; font-weight:600; color:rgba(255,255,255,0.85);" id="legalMentionsTitle">Mentions légales</h3>
+                <div>
+                  <p style="margin:0 0 8px 0; line-height:1.15;"><strong id="legalNatureLabel">Nature de l'initiative :</strong> <span id="legalNatureText">Initiatives Citoyennes est une initiative citoyenne collective, née d'échanges et de rencontres entre plusieurs personnes partageant une volonté commune de dialogue, d'information et d'entraide.</span></p>
+                  <p style="margin:0 0 8px 0; line-height:1.1;"><strong id="legalFounderLabel">Fondateur de l'initiative :</strong> <span id="legalFounderText">Mbarak Chniouer</span></p>
+                  <p style="margin:0 0 8px 0; line-height:1.1;"><strong id="legalCoordinationLabel">Coordination et animation numérique :</strong> <span id="legalCoordinationText">assurées par des membres du collectif.</span></p>
+                  <p style="margin:0; line-height:1.1;"><strong id="legalMediaLabel">Multimédia :</strong> <span id="legalMediaText">MEDEV PARTENARIAT COMPANY (Maroc)</span> - <a href="mailto:medevpartenariatcompany@gmail.com" style="color: #3b82f6; text-decoration: none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">medevpartenariatcompany@gmail.com</a></p>
+                </div>
               </div>
             </div>
           </div>
@@ -1783,6 +1938,78 @@
   
 </div>
 </section>
+
+      <!-- Panneau Politique de confidentialité -->
+      <section class="panel" id="privacy" style="display: none !important; visibility: hidden !important; opacity: 0 !important; height: 0 !important; overflow: hidden !important; position: absolute !important; left: -9999px !important; pointer-events: none !important;">
+        <div class="section-header">
+          <h2 id="privacyTitle">Politique de confidentialité</h2>
+          <p id="privacySubtitle">Protection de vos données personnelles</p>
+        </div>
+
+        <div class="card" style="max-width: 840px; margin: 0 auto; padding: 24px;">
+          <div style="text-align: left; line-height: 1.6; color: var(--text-primary);">
+            <h3 style="margin-top: 0; margin-bottom: 16px; font-size: 18px; font-weight: 600;" id="privacySection1Title">1. Objet</h3>
+            <p id="privacySection1Text" style="margin-bottom: 20px;">La présente politique de confidentialité a pour objet d'informer les utilisateurs du site sur la manière dont leurs données personnelles sont collectées, utilisées et protégées dans le cadre de l'initiative citoyenne Initiatives Citoyennes.</p>
+            <p id="privacySection1Text2" style="margin-bottom: 20px;">Cette démarche s'inscrit dans un objectif de transparence, de respect de la vie privée et de conformité à la réglementation applicable.</p>
+
+            <h3 style="margin-top: 24px; margin-bottom: 16px; font-size: 18px; font-weight: 600;" id="privacySection2Title">2. Données collectées</h3>
+            <p id="privacySection2Text" style="margin-bottom: 12px;">Dans le cadre de la pré-inscription, seules les données strictement nécessaires sont collectées :</p>
+            <ul id="privacySection2List" style="margin-bottom: 20px; padding-left: 20px;">
+              <li>adresse email,</li>
+              <li>pays de résidence,</li>
+              <li>intention ou choix déclaré (suivre l'initiative, être informé, proposer une idée, etc.).</li>
+            </ul>
+            <p id="privacySection2Text2" style="margin-bottom: 20px;">Aucune donnée sensible n'est collectée.</p>
+
+            <h3 style="margin-top: 24px; margin-bottom: 16px; font-size: 18px; font-weight: 600;" id="privacySection3Title">3. Finalité du traitement</h3>
+            <p id="privacySection3Text" style="margin-bottom: 12px;">Les données collectées ont pour finalité :</p>
+            <ul id="privacySection3List" style="margin-bottom: 20px; padding-left: 20px;">
+              <li>d'informer les personnes inscrites de l'évolution de l'initiative citoyenne,</li>
+              <li>de communiquer des informations relatives à des échanges, rencontres ou événements éventuels liés à cette initiative,</li>
+              <li>de permettre une communication volontaire, non engageante et non partisane.</li>
+            </ul>
+            <p id="privacySection3Text2" style="margin-bottom: 20px;">Les données ne sont pas utilisées à des fins commerciales, publicitaires, politiques ou électorales.</p>
+
+            <h3 style="margin-top: 24px; margin-bottom: 16px; font-size: 18px; font-weight: 600;" id="privacySection4Title">4. Base légale du traitement</h3>
+            <p id="privacySection4Text" style="margin-bottom: 20px;">Le traitement des données personnelles repose sur le consentement libre et explicite des personnes concernées, exprimé lors de la soumission du formulaire de pré-inscription.</p>
+
+            <h3 style="margin-top: 24px; margin-bottom: 16px; font-size: 18px; font-weight: 600;" id="privacySection5Title">5. Destinataires des données et évolution du projet</h3>
+            <p id="privacySection5Text" style="margin-bottom: 12px;">Les données collectées sont accessibles uniquement aux personnes en charge de la coordination et de l'animation de l'initiative citoyenne.</p>
+            <p id="privacySection5Text2" style="margin-bottom: 12px;">Dans le cadre de l'évolution de l'initiative (notamment structuration juridique, partenariat, rapprochement, transmission ou reprise), les données personnelles pourront être transférées à une entité partenaire ou repreneuse, dans le respect de la réglementation applicable.</p>
+            <p id="privacySection5Text3" style="margin-bottom: 20px;">Les personnes concernées seront informées préalablement de toute évolution affectant le traitement de leurs données, et l'ensemble de leurs droits restera pleinement garanti.</p>
+
+            <h3 style="margin-top: 24px; margin-bottom: 16px; font-size: 18px; font-weight: 600;" id="privacySection6Title">6. Durée de conservation</h3>
+            <p id="privacySection6Text" style="margin-bottom: 12px;">Les données sont conservées pendant la durée nécessaire à l'information des personnes inscrites concernant l'initiative citoyenne.</p>
+            <p id="privacySection6Text2" style="margin-bottom: 20px;">Chaque personne peut demander la suppression de ses données ou le retrait de son consentement à tout moment, sans justification.</p>
+
+            <h3 style="margin-top: 24px; margin-bottom: 16px; font-size: 18px; font-weight: 600;" id="privacySection7Title">7. Droits des personnes</h3>
+            <p id="privacySection7Text" style="margin-bottom: 12px;">Conformément à la réglementation applicable, chaque personne dispose des droits suivants :</p>
+            <ul id="privacySection7List" style="margin-bottom: 12px; padding-left: 20px;">
+              <li>droit d'accès à ses données personnelles,</li>
+              <li>droit de rectification,</li>
+              <li>droit de suppression,</li>
+              <li>droit d'opposition,</li>
+              <li>droit de retrait du consentement.</li>
+            </ul>
+            <p id="privacySection7Text2" style="margin-bottom: 12px;">Ces droits peuvent être exercés en contactant l'initiative à l'adresse suivante :</p>
+            <p id="privacySection7Text3" style="margin-bottom: 12px;"><a href="mailto:mre20252026@gmail.com" style="color: #3b82f6; text-decoration: none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">mre20252026@gmail.com</a></p>
+            <p id="privacySection7Text4" style="margin-bottom: 20px;">En cas de difficulté, toute personne peut également saisir l'autorité compétente, notamment la CNIL.</p>
+
+            <h3 style="margin-top: 24px; margin-bottom: 16px; font-size: 18px; font-weight: 600;" id="privacySection8Title">8. Sécurité des données</h3>
+            <p id="privacySection8Text" style="margin-bottom: 20px;">Des mesures techniques et organisationnelles raisonnables sont mises en œuvre afin de protéger les données contre tout accès non autorisé, toute perte, altération ou utilisation abusive.</p>
+
+            <h3 style="margin-top: 24px; margin-bottom: 16px; font-size: 18px; font-weight: 600;" id="privacySection9Title">9. Évolution de la politique</h3>
+            <p id="privacySection9Text" style="margin-bottom: 12px;">La présente politique de confidentialité peut être amenée à évoluer afin de tenir compte de l'évolution du cadre légal, technique ou organisationnel de l'initiative.</p>
+            <p id="privacySection9Text2" style="margin-bottom: 0;">La version applicable est celle publiée sur le site au moment de la consultation.</p>
+          </div>
+
+          <div style="margin-top: 32px; text-align: center;">
+            <button class="ic-btn" onclick="if(typeof window.setActivePanel === 'function') window.setActivePanel('home');" style="cursor: pointer;">
+              <span id="privacyBackText">Retour à l'accueil</span>
+            </button>
+          </div>
+        </div>
+      </section>
     </main>
   </div>
 
@@ -2428,19 +2655,19 @@ try {
 (function(){
   window.I18N = {"fr": {"langLabel": "Langue", "tabs_home": "Accueil", "tabs_landing": "Landing", "continue": "continuer >>", "madeRespect": "Fait avec respect", "tribute": "Un hommage sincère à cette terre d'histoire, de culture et d'hospitalité. Le Maroc, carrefour des civilisations, où tradition et modernité s'entrelacent avec élégance.", "landing_title_top": "Rejoignez Initiatives", "landing_title_bottom": "Citoyennes", "subtitle": "« Inscrivez-vous pour suivre l'évolution d'une initiative citoyenne ouverte et non partisane, portée par les Marocains du Monde et les amis du Maroc, et être informé des étapes, travaux et dynamiques qui en découlent. »", "emailPh": "Votre adresse email", "countryPh": "Pays de résidence", "intentPh": "Je souhaite…", "intent_group": "Suivre cette initiative", "intent_propose": "Proposer une initiative", "intent_partner": "Devenir partenaire", "intent_funder": "Devenir financeur", "intent_support": "Soutenir ou accompagner l'initiative", "intent_events": "Être informé des rencontres et événements", "intent_observer": "Observateur / Suivi institutionnel", "intent_all": "Tout découvrir", "autoCountry": "Pays détecté automatiquement", "toastOk": "Inscription réussie ! Nous vous contacterons bientôt.", "kpiPre": "Pré-inscrits", "kpiCountries": "MRE (tous pays) · Communautés partenaires internationales", "kpiGroups": "Un maximum d'inscriptions",
 
-    "conference_prep": "Préparation de la Conférence internationale MRE & amis du Maroc – Marrakech, 8–9 mai 2026","kpiGroupsHelp": "Aidez-nous en partageant largement.", "c1": "✔️ Engagement volontaire & progressif", "c2": "✔️ Sans mandat politique", "c3": "✔️ Sans obligation financière", "join": "Rejoignez", "initiatives": "Initiatives", "citoyennes": "Citoyennes", "submit": "Rejoindre la liste", "submitted": "Inscrit !", "consentLine": "En laissant votre email, vous acceptez d'être informé des suites de l'initiative citoyenne.", "clarificationIntro": "La présente pré-inscription a pour seul objet de manifester un intérêt général pour l'initiative citoyenne.", "clarificationNot": "Elle ne constitue pas :", "clarificationItem1": "une inscription à un événement ou à une conférence,", "clarificationItem2": "une participation automatique à une activité,", "clarificationItem3": "une adhésion à une structure,", "clarificationItem4": "ni un engagement de quelque nature que ce soit.", "conferenceClarificationText": "Les rencontres, conférences ou rendez-vous éventuellement mentionnés (notamment à Marrakech ou dans d'autres pays) sont communiqués à titre informatif.", "conferenceClarificationDetails": "Leur organisation, leurs modalités et leur accessibilité dépendent de conditions ultérieures et ne concernent que les personnes qui souhaitent y participer volontairement.", "initiativeNatureText": "L'initiative citoyenne s'inscrit dans une démarche continue, indépendante de tout événement ponctuel ou localisation géographique.", "transparencyText": "Les informations publiées sur ce site sont accessibles publiquement et ont vocation à assurer une information transparente, y compris à destination des institutions et autorités compétentes.", "legalNatureText": "Initiatives Citoyennes est une initiative citoyenne collective, née d'échanges et de rencontres entre plusieurs personnes partageant une volonté commune de dialogue, d'information et d'entraide.", "legalFounderText": "Mbarak Chniouer", "legalCoordinationText": "assurées par des membres du collectif.", "legalMediaText": "MEDEV PARTENARIAT COMPANY (Maroc)"}, "en": {"langLabel": "Language", "tabs_home": "Home", "tabs_landing": "Landing", "continue": "continue >>", "madeRespect": "Made with respect", "tribute": "A sincere tribute to a land of history, culture, and hospitality. Morocco, a crossroads of civilizations, where tradition and modernity intertwine with elegance.", "landing_title_top": "Join Initiatives", "landing_title_bottom": "Citizens", "subtitle": "“Sign up to follow the progress of an open, non-partisan civic initiative led by Moroccans Worldwide and friends of Morocco, and stay informed about the steps, workstreams, and momentum that follow.”", "emailPh": "Your email address", "countryPh": "Country of residence", "intentPh": "I would like to…", "intent_group": "Follow this initiative", "intent_propose": "Propose an initiative", "intent_partner": "Become a partner", "intent_funder": "Become a funder", "intent_support": "Support or accompany the initiative", "intent_events": "Be informed about meetings and events", "intent_observer": "Observer / Institutional monitoring", "intent_all": "Discover everything", "autoCountry": "Country detected automatically", "toastOk": "Sign-up successful! We will contact you soon.", "kpiPre": "Pre-registrations", "kpiCountries": "MRE (all countries) · International partner communities", "kpiGroups": "Maximum sign-ups",
+    "conference_prep": "Préparation de la Conférence internationale MRE & amis du Maroc – Marrakech, 8–9 mai 2026","kpiGroupsHelp": "Aidez-nous en partageant largement.", "c1": "✔️ Engagement volontaire & progressif", "c2": "✔️ Sans mandat politique", "c3": "✔️ Sans obligation financière", "join": "Rejoignez", "initiatives": "Initiatives", "citoyennes": "Citoyennes", "submit": "Rejoindre la liste", "submitted": "Inscrit !", "consentLine": "En laissant votre email, vous acceptez d'être informé des suites de l'initiative citoyenne.", "clarificationIntro": "La présente pré-inscription a pour seul objet de manifester un intérêt général pour l'initiative citoyenne.", "clarificationNot": "Elle ne constitue pas :", "clarificationItem1": "une inscription à un événement ou à une conférence,", "clarificationItem2": "une participation automatique à une activité,", "clarificationItem3": "une adhésion à une structure,", "clarificationItem4": "ni un engagement de quelque nature que ce soit.", "conferenceClarificationText": "Les rencontres, conférences ou rendez-vous éventuellement mentionnés (notamment à Marrakech ou dans d'autres pays) sont communiqués à titre informatif.", "conferenceClarificationDetails": "Leur organisation, leurs modalités et leur accessibilité dépendent de conditions ultérieures et ne concernent que les personnes qui souhaitent y participer volontairement.", "initiativeNatureText": "L'initiative citoyenne s'inscrit dans une démarche continue, indépendante de tout événement ponctuel ou localisation géographique.", "transparencyText": "Les informations publiées sur ce site sont accessibles publiquement et ont vocation à assurer une information transparente, y compris à destination des institutions et autorités compétentes.", "legalMentionsTitle": "Mentions légales", "legalNatureLabel": "Nature de l'initiative :", "legalNatureText": "Initiatives Citoyennes est une initiative citoyenne collective, née d'échanges et de rencontres entre plusieurs personnes partageant une volonté commune de dialogue, d'information et d'entraide.", "legalFounderLabel": "Fondateur de l'initiative :", "legalFounderText": "Mbarak Chniouer", "legalCoordinationLabel": "Coordination et animation numérique :", "legalCoordinationText": "assurées par des membres du collectif.", "legalMediaLabel": "Multimédia :", "legalMediaText": "MEDEV PARTENARIAT COMPANY (Maroc)", "privacyLinkText": "Politique de confidentialité", "privacyLinkFooterText": "Politique de confidentialité", "privacyLinkFormText": "Consultez notre politique de confidentialité", "privacyTitle": "Politique de confidentialité", "privacySubtitle": "Protection de vos données personnelles", "privacySection1Title": "1. Objet", "privacySection1Text": "La présente politique de confidentialité a pour objet d'informer les utilisateurs du site sur la manière dont leurs données personnelles sont collectées, utilisées et protégées dans le cadre de l'initiative citoyenne Initiatives Citoyennes.", "privacySection1Text2": "Cette démarche s'inscrit dans un objectif de transparence, de respect de la vie privée et de conformité à la réglementation applicable.", "privacySection2Title": "2. Données collectées", "privacySection2Text": "Dans le cadre de la pré-inscription, seules les données strictement nécessaires sont collectées :", "privacySection2List1": "adresse email,", "privacySection2List2": "pays de résidence,", "privacySection2List3": "intention ou choix déclaré (suivre l'initiative, être informé, proposer une idée, etc.).", "privacySection2Text2": "Aucune donnée sensible n'est collectée.", "privacySection3Title": "3. Finalité du traitement", "privacySection3Text": "Les données collectées ont pour finalité :", "privacySection3List1": "d'informer les personnes inscrites de l'évolution de l'initiative citoyenne,", "privacySection3List2": "de communiquer des informations relatives à des échanges, rencontres ou événements éventuels liés à cette initiative,", "privacySection3List3": "de permettre une communication volontaire, non engageante et non partisane.", "privacySection3Text2": "Les données ne sont pas utilisées à des fins commerciales, publicitaires, politiques ou électorales.", "privacySection4Title": "4. Base légale du traitement", "privacySection4Text": "Le traitement des données personnelles repose sur le consentement libre et explicite des personnes concernées, exprimé lors de la soumission du formulaire de pré-inscription.", "privacySection5Title": "5. Destinataires des données et évolution du projet", "privacySection5Text": "Les données collectées sont accessibles uniquement aux personnes en charge de la coordination et de l'animation de l'initiative citoyenne.", "privacySection5Text2": "Dans le cadre de l'évolution de l'initiative (notamment structuration juridique, partenariat, rapprochement, transmission ou reprise), les données personnelles pourront être transférées à une entité partenaire ou repreneuse, dans le respect de la réglementation applicable.", "privacySection5Text3": "Les personnes concernées seront informées préalablement de toute évolution affectant le traitement de leurs données, et l'ensemble de leurs droits restera pleinement garanti.", "privacySection6Title": "6. Durée de conservation", "privacySection6Text": "Les données sont conservées pendant la durée nécessaire à l'information des personnes inscrites concernant l'initiative citoyenne.", "privacySection6Text2": "Chaque personne peut demander la suppression de ses données ou le retrait de son consentement à tout moment, sans justification.", "privacySection7Title": "7. Droits des personnes", "privacySection7Text": "Conformément à la réglementation applicable, chaque personne dispose des droits suivants :", "privacySection7List1": "droit d'accès à ses données personnelles,", "privacySection7List2": "droit de rectification,", "privacySection7List3": "droit de suppression,", "privacySection7List4": "droit d'opposition,", "privacySection7List5": "droit de retrait du consentement.", "privacySection7Text2": "Ces droits peuvent être exercés en contactant l'initiative à l'adresse suivante :", "privacySection7Text3": "mre20252026@gmail.com", "privacySection7Text4": "En cas de difficulté, toute personne peut également saisir l'autorité compétente, notamment la CNIL.", "privacySection8Title": "8. Sécurité des données", "privacySection8Text": "Des mesures techniques et organisationnelles raisonnables sont mises en œuvre afin de protéger les données contre tout accès non autorisé, toute perte, altération ou utilisation abusive.", "privacySection9Title": "9. Évolution de la politique", "privacySection9Text": "La présente politique de confidentialité peut être amenée à évoluer afin de tenir compte de l'évolution du cadre légal, technique ou organisationnel de l'initiative.", "privacySection9Text2": "La version applicable est celle publiée sur le site au moment de la consultation.", "privacyBackText": "Retour à l'accueil"}, "en": {"langLabel": "Language", "tabs_home": "Home", "tabs_landing": "Landing", "continue": "continue >>", "madeRespect": "Made with respect", "tribute": "A sincere tribute to a land of history, culture, and hospitality. Morocco, a crossroads of civilizations, where tradition and modernity intertwine with elegance.", "landing_title_top": "Join Initiatives", "landing_title_bottom": "Citizens", "subtitle": "“Sign up to follow the progress of an open, non-partisan civic initiative led by Moroccans Worldwide and friends of Morocco, and stay informed about the steps, workstreams, and momentum that follow.”", "emailPh": "Your email address", "countryPh": "Country of residence", "intentPh": "I would like to…", "intent_group": "Follow this initiative", "intent_propose": "Propose an initiative", "intent_partner": "Become a partner", "intent_funder": "Become a funder", "intent_support": "Support or accompany the initiative", "intent_events": "Be informed about meetings and events", "intent_observer": "Observer / Institutional monitoring", "intent_all": "Discover everything", "autoCountry": "Country detected automatically", "toastOk": "Sign-up successful! We will contact you soon.", "kpiPre": "Pre-registrations", "kpiCountries": "MRE (all countries) · International partner communities", "kpiGroups": "Maximum sign-ups",
 
-    "conference_prep": "Preparation of the International Conference of Moroccans Worldwide & Friends of Morocco – Marrakech, May 8–9, 2026","kpiGroupsHelp": "Help us by sharing widely.", "c1": "✔️ Voluntary & progressive commitment", "c2": "✔️ No political mandate", "c3": "✔️ No financial obligation", "join": "Rejoignez", "initiatives": "Initiatives", "citoyennes": "Citoyennes", "submit": "Join the list", "submitted": "Signed up!", "consentLine": "By providing your email, you agree to be informed about the next steps of this civic initiative.", "clarificationIntro": "This pre-registration is solely intended to express general interest in the civic initiative.", "clarificationNot": "It does not constitute:", "clarificationItem1": "registration for an event or conference,", "clarificationItem2": "automatic participation in an activity,", "clarificationItem3": "membership in an organization,", "clarificationItem4": "nor any commitment of any kind.", "conferenceClarificationText": "Any meetings, conferences or appointments mentioned (notably in Marrakech or in other countries) are communicated for informational purposes only.", "conferenceClarificationDetails": "Their organization, terms and accessibility depend on subsequent conditions and only concern people who wish to participate voluntarily.", "initiativeNatureText": "The civic initiative is part of an ongoing process, independent of any one-time event or geographical location.", "transparencyText": "The information published on this site is publicly accessible and is intended to ensure transparent information, including for competent institutions and authorities.", "legalNatureText": "Citizen Initiatives is a collective citizen initiative, born from exchanges and meetings between several people sharing a common will for dialogue, information and mutual aid.", "legalFounderText": "Mbarak Chniouer", "legalCoordinationText": "provided by members of the collective.", "legalMediaText": "MEDEV PARTENARIAT COMPANY (Morocco)"}, "es": {"langLabel": "Idioma", "tabs_home": "Inicio", "tabs_landing": "Registro", "continue": "continuar >>", "madeRespect": "Hecho con respeto", "tribute": "Un sincero homenaje a esta tierra de historia, cultura y hospitalidad. Marruecos, cruce de civilizaciones, donde la tradición y la modernidad se entrelazan con elegancia.", "landing_title_top": "Únete a Iniciativas", "landing_title_bottom": "Ciudadanas", "subtitle": "« Inscríbete para seguir la evolución de una iniciativa ciudadana abierta y no partidista, impulsada por los Marroquíes del Mundo y los amigos de Marruecos, y estar informado de las etapas, trabajos y dinámicas que se derivan. »", "emailPh": "Tu correo electrónico", "countryPh": "País de residencia", "intentPh": "Quiero…", "intent_group": "Seguir esta iniciativa", "intent_propose": "Proponer una iniciativa", "intent_partner": "Ser socio", "intent_funder": "Ser financiador", "intent_support": "Apoyar o acompañar la iniciativa", "intent_events": "Ser informado de encuentros y eventos", "intent_observer": "Observador / Seguimiento institucional", "intent_all": "Descubrirlo todo", "autoCountry": "País detectado automáticamente", "toastOk": "¡Inscripción correcta! Te contactaremos pronto.", "kpiPre": "Preinscritos", "kpiCountries": "MRE (todos los países) · Comunidades socias internacionales", "kpiGroups": "Máximo de inscripciones",
+    "conference_prep": "Preparation of the International Conference of Moroccans Worldwide & Friends of Morocco – Marrakech, May 8–9, 2026","kpiGroupsHelp": "Help us by sharing widely.", "c1": "✔️ Voluntary & progressive commitment", "c2": "✔️ No political mandate", "c3": "✔️ No financial obligation", "join": "Rejoignez", "initiatives": "Initiatives", "citoyennes": "Citoyennes", "submit": "Join the list", "submitted": "Signed up!", "consentLine": "By providing your email, you agree to be informed about the next steps of this civic initiative.", "clarificationIntro": "This pre-registration is solely intended to express general interest in the civic initiative.", "clarificationNot": "It does not constitute:", "clarificationItem1": "registration for an event or conference,", "clarificationItem2": "automatic participation in an activity,", "clarificationItem3": "membership in an organization,", "clarificationItem4": "nor any commitment of any kind.", "conferenceClarificationText": "Any meetings, conferences or appointments mentioned (notably in Marrakech or in other countries) are communicated for informational purposes only.", "conferenceClarificationDetails": "Their organization, terms and accessibility depend on subsequent conditions and only concern people who wish to participate voluntarily.", "initiativeNatureText": "The civic initiative is part of an ongoing process, independent of any one-time event or geographical location.", "transparencyText": "The information published on this site is publicly accessible and is intended to ensure transparent information, including for competent institutions and authorities.", "legalMentionsTitle": "Legal Notices", "legalNatureLabel": "Nature of the initiative:", "legalNatureText": "Citizen Initiatives is a collective citizen initiative, born from exchanges and meetings between several people sharing a common will for dialogue, information and mutual aid.", "legalFounderLabel": "Founder of the initiative:", "legalFounderText": "Mbarak Chniouer", "legalCoordinationLabel": "Coordination and digital animation:", "legalCoordinationText": "provided by members of the collective.", "legalMediaLabel": "Multimedia:", "legalMediaText": "MEDEV PARTENARIAT COMPANY (Morocco)", "privacyLinkText": "Privacy Policy", "privacyLinkFooterText": "Privacy Policy", "privacyLinkFormText": "View our privacy policy", "privacyTitle": "Privacy Policy", "privacySubtitle": "Protection of your personal data", "privacySection1Title": "1. Purpose", "privacySection1Text": "This privacy policy aims to inform users of the website about how their personal data is collected, used and protected in the context of the citizen initiative Initiatives Citoyennes.", "privacySection1Text2": "This approach is part of an objective of transparency, respect for privacy and compliance with applicable regulations.", "privacySection2Title": "2. Data Collected", "privacySection2Text": "In the context of pre-registration, only strictly necessary data is collected:", "privacySection2List1": "email address,", "privacySection2List2": "country of residence,", "privacySection2List3": "declared intent or choice (follow the initiative, be informed, propose an idea, etc.).", "privacySection2Text2": "No sensitive data is collected.", "privacySection3Title": "3. Purpose of Processing", "privacySection3Text": "The data collected is intended for:", "privacySection3List1": "informing registered persons about the evolution of the citizen initiative,", "privacySection3List2": "communicating information relating to exchanges, meetings or events possibly related to this initiative,", "privacySection3List3": "enabling voluntary, non-binding and non-partisan communication.", "privacySection3Text2": "The data is not used for commercial, advertising, political or electoral purposes.", "privacySection4Title": "4. Legal Basis for Processing", "privacySection4Text": "The processing of personal data is based on the free and explicit consent of the persons concerned, expressed when submitting the pre-registration form.", "privacySection5Title": "5. Data Recipients and Project Evolution", "privacySection5Text": "The data collected is accessible only to persons in charge of coordinating and animating the citizen initiative.", "privacySection5Text2": "In the context of the evolution of the initiative (notably legal structuring, partnership, merger, transfer or takeover), personal data may be transferred to a partner or acquiring entity, in compliance with applicable regulations.", "privacySection5Text3": "The persons concerned will be informed in advance of any evolution affecting the processing of their data, and all their rights will remain fully guaranteed.", "privacySection6Title": "6. Retention Period", "privacySection6Text": "Data is retained for the duration necessary to inform registered persons about the citizen initiative.", "privacySection6Text2": "Each person may request deletion of their data or withdrawal of their consent at any time, without justification.", "privacySection7Title": "7. Rights of Individuals", "privacySection7Text": "In accordance with applicable regulations, each person has the following rights:", "privacySection7List1": "right of access to their personal data,", "privacySection7List2": "right of rectification,", "privacySection7List3": "right of deletion,", "privacySection7List4": "right of opposition,", "privacySection7List5": "right to withdraw consent.", "privacySection7Text2": "These rights may be exercised by contacting the initiative at the following address:", "privacySection7Text3": "mre20252026@gmail.com", "privacySection7Text4": "In case of difficulty, any person may also contact the competent authority, notably the CNIL.", "privacySection8Title": "8. Data Security", "privacySection8Text": "Reasonable technical and organizational measures are implemented to protect data against any unauthorized access, loss, alteration or misuse.", "privacySection9Title": "9. Policy Evolution", "privacySection9Text": "This privacy policy may be updated to take into account the evolution of the legal, technical or organizational framework of the initiative.", "privacySection9Text2": "The applicable version is the one published on the website at the time of consultation.", "privacyBackText": "Back to home"}, "es": {"langLabel": "Idioma", "tabs_home": "Inicio", "tabs_landing": "Registro", "continue": "continuar >>", "madeRespect": "Hecho con respeto", "tribute": "Un sincero homenaje a esta tierra de historia, cultura y hospitalidad. Marruecos, cruce de civilizaciones, donde la tradición y la modernidad se entrelazan con elegancia.", "landing_title_top": "Únete a Iniciativas", "landing_title_bottom": "Ciudadanas", "subtitle": "« Inscríbete para seguir la evolución de una iniciativa ciudadana abierta y no partidista, impulsada por los Marroquíes del Mundo y los amigos de Marruecos, y estar informado de las etapas, trabajos y dinámicas que se derivan. »", "emailPh": "Tu correo electrónico", "countryPh": "País de residencia", "intentPh": "Quiero…", "intent_group": "Seguir esta iniciativa", "intent_propose": "Proponer una iniciativa", "intent_partner": "Ser socio", "intent_funder": "Ser financiador", "intent_support": "Apoyar o acompañar la iniciativa", "intent_events": "Ser informado de encuentros y eventos", "intent_observer": "Observador / Seguimiento institucional", "intent_all": "Descubrirlo todo", "autoCountry": "País detectado automáticamente", "toastOk": "¡Inscripción correcta! Te contactaremos pronto.", "kpiPre": "Preinscritos", "kpiCountries": "MRE (todos los países) · Comunidades socias internacionales", "kpiGroups": "Máximo de inscripciones",
 
-    "conference_prep": "Preparación de la Conferencia Internacional de los Marroquíes del Mundo y Amigos de Marruecos – Marrakech, 8–9 de mayo de 2026","kpiGroupsHelp": "Ayúdanos compartiendo ampliamente.", "c1": "✔️ Compromiso voluntario y progresivo", "c2": "✔️ Sin mandato político", "c3": "✔️ Sin obligación financiera", "join": "Rejoignez", "initiatives": "Initiatives", "citoyennes": "Citoyennes", "submit": "Unirme a la lista", "submitted": "¡Inscrito!", "consentLine": "Al dejar tu correo, aceptas recibir información sobre las próximas etapas de esta iniciativa ciudadana.", "clarificationIntro": "Esta preinscripción tiene como único objeto manifestar un interés general por la iniciativa ciudadana.", "clarificationNot": "No constituye:", "clarificationItem1": "una inscripción a un evento o conferencia,", "clarificationItem2": "una participación automática en una actividad,", "clarificationItem3": "una adhesión a una estructura,", "clarificationItem4": "ni un compromiso de cualquier naturaleza.", "conferenceClarificationText": "Los encuentros, conferencias o citas eventualmente mencionados (en particular en Marrakech o en otros países) se comunican a título informativo.", "conferenceClarificationDetails": "Su organización, modalidades y accesibilidad dependen de condiciones posteriores y solo conciernen a las personas que deseen participar voluntariamente.", "initiativeNatureText": "La iniciativa ciudadana se inscribe en un proceso continuo, independiente de cualquier evento puntual o localización geográfica.", "transparencyText": "La información publicada en este sitio es de acceso público y tiene como objetivo garantizar una información transparente, incluso para las instituciones y autoridades competentes.", "legalNatureText": "Iniciativas Ciudadanas es una iniciativa ciudadana colectiva, nacida de intercambios y encuentros entre varias personas que comparten una voluntad común de diálogo, información y ayuda mutua.", "legalFounderText": "Mbarak Chniouer", "legalCoordinationText": "aseguradas por miembros del colectivo.", "legalMediaText": "MEDEV PARTENARIAT COMPANY (Marruecos)"}, "nl": {"langLabel": "Taal", "tabs_home": "Start", "tabs_landing": "Landing", "continue": "doorgaan >>", "madeRespect": "Met respect gemaakt", "tribute": "Een oprecht eerbetoon aan een land van geschiedenis, cultuur en gastvrijheid. Marokko, een kruispunt van beschavingen, waar traditie en moderniteit elegant samenkomen.", "landing_title_top": "Doe mee met Initiatieven", "landing_title_bottom": "Burger", "subtitle": "“Schrijf je in om de ontwikkeling te volgen van een open, niet-partijdig burgerinitiatief, gedragen door Marokkanen wereldwijd en vrienden van Marokko, en ontvang updates over stappen, werkzaamheden en dynamiek.”", "emailPh": "Je e-mailadres", "countryPh": "Land van verblijf", "intentPh": "Ik wil…", "intent_group": "Deze initiatief volgen", "intent_propose": "Een initiatief voorstellen", "intent_partner": "Partner worden", "intent_funder": "Financier worden", "intent_support": "Het initiatief steunen of begeleiden", "intent_events": "Op de hoogte blijven van bijeenkomsten en evenementen", "intent_observer": "Waarnemer / Institutionele monitoring", "intent_all": "Alles ontdekken", "autoCountry": "Land automatisch gedetecteerd", "toastOk": "Inschrijving gelukt! We nemen binnenkort contact op.", "kpiPre": "Voorinschrijvingen", "kpiCountries": "MRE (alle landen) · Internationale partner gemeenschappen", "kpiGroups": "Maximum aantal inschrijvingen",
+    "conference_prep": "Preparación de la Conferencia Internacional de los Marroquíes del Mundo y Amigos de Marruecos – Marrakech, 8–9 de mayo de 2026","kpiGroupsHelp": "Ayúdanos compartiendo ampliamente.", "c1": "✔️ Compromiso voluntario y progresivo", "c2": "✔️ Sin mandato político", "c3": "✔️ Sin obligación financiera", "join": "Rejoignez", "initiatives": "Initiatives", "citoyennes": "Citoyennes", "submit": "Unirme a la lista", "submitted": "¡Inscrito!", "consentLine": "Al dejar tu correo, aceptas recibir información sobre las próximas etapas de esta iniciativa ciudadana.", "clarificationIntro": "Esta preinscripción tiene como único objeto manifestar un interés general por la iniciativa ciudadana.", "clarificationNot": "No constituye:", "clarificationItem1": "una inscripción a un evento o conferencia,", "clarificationItem2": "una participación automática en una actividad,", "clarificationItem3": "una adhesión a una estructura,", "clarificationItem4": "ni un compromiso de cualquier naturaleza.", "conferenceClarificationText": "Los encuentros, conferencias o citas eventualmente mencionados (en particular en Marrakech o en otros países) se comunican a título informativo.", "conferenceClarificationDetails": "Su organización, modalidades y accesibilidad dependen de condiciones posteriores y solo conciernen a las personas que deseen participar voluntariamente.", "initiativeNatureText": "La iniciativa ciudadana se inscribe en un proceso continuo, independiente de cualquier evento puntual o localización geográfica.", "transparencyText": "La información publicada en este sitio es de acceso público y tiene como objetivo garantizar una información transparente, incluso para las instituciones y autoridades competentes.", "legalMentionsTitle": "Menciones legales", "legalNatureLabel": "Naturaleza de la iniciativa:", "legalNatureText": "Iniciativas Ciudadanas es una iniciativa ciudadana colectiva, nacida de intercambios y encuentros entre varias personas que comparten una voluntad común de diálogo, información y ayuda mutua.", "legalFounderLabel": "Fundador de la iniciativa:", "legalFounderText": "Mbarak Chniouer", "legalCoordinationLabel": "Coordinación y animación digital:", "legalCoordinationText": "aseguradas por miembros del colectivo.", "legalMediaLabel": "Multimedia:", "legalMediaText": "MEDEV PARTENARIAT COMPANY (Marruecos)", "privacyLinkText": "Política de privacidad", "privacyLinkFooterText": "Política de privacidad", "privacyLinkFormText": "Consulte nuestra política de privacidad", "privacyTitle": "Política de privacidad", "privacySubtitle": "Protección de sus datos personales", "privacySection1Title": "1. Objeto", "privacySection1Text": "La presente política de privacidad tiene por objeto informar a los usuarios del sitio sobre la manera en que sus datos personales son recopilados, utilizados y protegidos en el marco de la iniciativa ciudadana Iniciativas Ciudadanas.", "privacySection1Text2": "Este enfoque se inscribe en un objetivo de transparencia, respeto de la vida privada y conformidad con la normativa aplicable.", "privacySection2Title": "2. Datos recopilados", "privacySection2Text": "En el marco de la preinscripción, solo se recopilan los datos estrictamente necesarios:", "privacySection2List1": "dirección de correo electrónico,", "privacySection2List2": "país de residencia,", "privacySection2List3": "intención o elección declarada (seguir la iniciativa, ser informado, proponer una idea, etc.).", "privacySection2Text2": "No se recopilan datos sensibles.", "privacySection3Title": "3. Finalidad del tratamiento", "privacySection3Text": "Los datos recopilados tienen por finalidad:", "privacySection3List1": "informar a las personas inscritas sobre la evolución de la iniciativa ciudadana,", "privacySection3List2": "comunicar información relativa a intercambios, encuentros o eventos eventuales relacionados con esta iniciativa,", "privacySection3List3": "permitir una comunicación voluntaria, no vinculante y no partidista.", "privacySection3Text2": "Los datos no se utilizan con fines comerciales, publicitarios, políticos o electorales.", "privacySection4Title": "4. Base legal del tratamiento", "privacySection4Text": "El tratamiento de los datos personales se basa en el consentimiento libre y explícito de las personas concernidas, expresado al enviar el formulario de preinscripción.", "privacySection5Title": "5. Destinatarios de los datos y evolución del proyecto", "privacySection5Text": "Los datos recopilados son accesibles únicamente a las personas encargadas de la coordinación y animación de la iniciativa ciudadana.", "privacySection5Text2": "En el marco de la evolución de la iniciativa (en particular estructuración jurídica, asociación, acercamiento, transmisión o reanudación), los datos personales podrán ser transferidos a una entidad asociada o adquirente, respetando la normativa aplicable.", "privacySection5Text3": "Las personas concernidas serán informadas previamente de toda evolución que afecte al tratamiento de sus datos, y el conjunto de sus derechos permanecerá plenamente garantizado.", "privacySection6Title": "6. Duración de conservación", "privacySection6Text": "Los datos se conservan durante el tiempo necesario para informar a las personas inscritas sobre la iniciativa ciudadana.", "privacySection6Text2": "Cada persona puede solicitar la supresión de sus datos o el retiro de su consentimiento en cualquier momento, sin justificación.", "privacySection7Title": "7. Derechos de las personas", "privacySection7Text": "De conformidad con la normativa aplicable, cada persona dispone de los siguientes derechos:", "privacySection7List1": "derecho de acceso a sus datos personales,", "privacySection7List2": "derecho de rectificación,", "privacySection7List3": "derecho de supresión,", "privacySection7List4": "derecho de oposición,", "privacySection7List5": "derecho de retiro del consentimiento.", "privacySection7Text2": "Estos derechos pueden ejercerse contactando a la iniciativa en la siguiente dirección:", "privacySection7Text3": "mre20252026@gmail.com", "privacySection7Text4": "En caso de dificultad, cualquier persona también puede recurrir a la autoridad competente, en particular la CNIL.", "privacySection8Title": "8. Seguridad de los datos", "privacySection8Text": "Se implementan medidas técnicas y organizativas razonables para proteger los datos contra todo acceso no autorizado, pérdida, alteración o uso indebido.", "privacySection9Title": "9. Evolución de la política", "privacySection9Text": "La presente política de privacidad puede evolucionar para tener en cuenta la evolución del marco legal, técnico u organizativo de la iniciativa.", "privacySection9Text2": "La versión aplicable es la publicada en el sitio en el momento de la consulta.", "privacyBackText": "Volver al inicio"}, "nl": {"langLabel": "Taal", "tabs_home": "Start", "tabs_landing": "Landing", "continue": "doorgaan >>", "madeRespect": "Met respect gemaakt", "tribute": "Een oprecht eerbetoon aan een land van geschiedenis, cultuur en gastvrijheid. Marokko, een kruispunt van beschavingen, waar traditie en moderniteit elegant samenkomen.", "landing_title_top": "Doe mee met Initiatieven", "landing_title_bottom": "Burger", "subtitle": "“Schrijf je in om de ontwikkeling te volgen van een open, niet-partijdig burgerinitiatief, gedragen door Marokkanen wereldwijd en vrienden van Marokko, en ontvang updates over stappen, werkzaamheden en dynamiek.”", "emailPh": "Je e-mailadres", "countryPh": "Land van verblijf", "intentPh": "Ik wil…", "intent_group": "Deze initiatief volgen", "intent_propose": "Een initiatief voorstellen", "intent_partner": "Partner worden", "intent_funder": "Financier worden", "intent_support": "Het initiatief steunen of begeleiden", "intent_events": "Op de hoogte blijven van bijeenkomsten en evenementen", "intent_observer": "Waarnemer / Institutionele monitoring", "intent_all": "Alles ontdekken", "autoCountry": "Land automatisch gedetecteerd", "toastOk": "Inschrijving gelukt! We nemen binnenkort contact op.", "kpiPre": "Voorinschrijvingen", "kpiCountries": "MRE (alle landen) · Internationale partner gemeenschappen", "kpiGroups": "Maximum aantal inschrijvingen",
 
-    "conference_prep": "Voorbereiding van de Internationale Conferentie van Marokkanen wereldwijd & Vrienden van Marokko – Marrakech, 8–9 mei 2026","kpiGroupsHelp": "Help ons door ruim te delen.", "c1": "✔️ Vrijwillige en stapsgewijze inzet", "c2": "✔️ Geen politiek mandaat", "c3": "✔️ Geen financiële verplichting", "join": "Rejoignez", "initiatives": "Initiatives", "citoyennes": "Citoyennes", "submit": "Aanmelden", "submitted": "Ingeschreven!", "consentLine": "Door je e-mail achter te laten, ga je ermee akkoord updates te ontvangen over de volgende stappen van dit burgerinitiatief.", "clarificationIntro": "Deze voorinschrijving heeft als enig doel een algemene interesse in het burgerinitiatief te tonen.", "clarificationNot": "Het vormt geen:", "clarificationItem1": "inschrijving voor een evenement of conferentie,", "clarificationItem2": "automatische deelname aan een activiteit,", "clarificationItem3": "lidmaatschap van een organisatie,", "clarificationItem4": "noch enige verbintenis van welke aard dan ook.", "conferenceClarificationText": "De ontmoetingen, conferenties of afspraken die eventueel worden genoemd (met name in Marrakech of in andere landen) worden uitsluitend ter informatie meegedeeld.", "conferenceClarificationDetails": "Hun organisatie, modaliteiten en toegankelijkheid zijn afhankelijk van latere voorwaarden en betreffen alleen personen die er vrijwillig aan willen deelnemen.", "initiativeNatureText": "Het burgerinitiatief maakt deel uit van een continu proces, onafhankelijk van elk eenmalig evenement of geografische locatie.", "transparencyText": "De informatie die op deze site wordt gepubliceerd, is openbaar toegankelijk en heeft tot doel transparante informatie te verstrekken, ook aan bevoegde instellingen en autoriteiten.", "legalNatureText": "Burgerinitiatieven is een collectief burgerinitiatief, ontstaan uit uitwisselingen en ontmoetingen tussen verschillende mensen die een gemeenschappelijke wil delen voor dialoog, informatie en onderlinge hulp.", "legalFounderText": "Mbarak Chniouer", "legalCoordinationText": "verzorgd door leden van het collectief.", "legalMediaText": "MEDEV PARTENARIAT COMPANY (Marokko)"}, "de": {"langLabel": "Sprache", "tabs_home": "Start", "tabs_landing": "Landing", "continue": "weiter >>", "madeRespect": "Mit Respekt gemacht", "tribute": "Eine aufrichtige Würdigung eines Landes voller Geschichte, Kultur und Gastfreundschaft. Marokko, ein Knotenpunkt der Zivilisationen, wo Tradition und Moderne sich elegant verbinden.", "landing_title_top": "Mitmachen bei Initiativen", "landing_title_bottom": "Bürgerlich", "subtitle": "„Melden Sie sich an, um die Entwicklung einer offenen, überparteilichen Bürgerinitiative zu verfolgen, getragen von Marokkanern weltweit und Freunden Marokkos, und über Schritte, Arbeiten und Dynamiken informiert zu werden.“", "emailPh": "Ihre E-Mail-Adresse", "countryPh": "Wohnsitzland", "intentPh": "Ich möchte…", "intent_group": "Diese Initiative verfolgen", "intent_propose": "Eine Initiative vorschlagen", "intent_partner": "Partner werden", "intent_funder": "Förderer werden", "intent_support": "Die Initiative unterstützen oder begleiten", "intent_events": "Über Treffen und Veranstaltungen informiert werden", "intent_observer": "Beobachter / Institutionelle Überwachung", "intent_all": "Alles entdecken", "autoCountry": "Land automatisch erkannt", "toastOk": "Anmeldung erfolgreich! Wir melden uns bald.", "kpiPre": "Vorregistrierungen", "kpiCountries": "MRE (alle Länder) · Internationale Partner-Communities", "kpiGroups": "Maximale Anmeldungen",
+    "conference_prep": "Voorbereiding van de Internationale Conferentie van Marokkanen wereldwijd & Vrienden van Marokko – Marrakech, 8–9 mei 2026","kpiGroupsHelp": "Help ons door ruim te delen.", "c1": "✔️ Vrijwillige en stapsgewijze inzet", "c2": "✔️ Geen politiek mandaat", "c3": "✔️ Geen financiële verplichting", "join": "Rejoignez", "initiatives": "Initiatives", "citoyennes": "Citoyennes", "submit": "Aanmelden", "submitted": "Ingeschreven!", "consentLine": "Door je e-mail achter te laten, ga je ermee akkoord updates te ontvangen over de volgende stappen van dit burgerinitiatief.", "clarificationIntro": "Deze voorinschrijving heeft als enig doel een algemene interesse in het burgerinitiatief te tonen.", "clarificationNot": "Het vormt geen:", "clarificationItem1": "inschrijving voor een evenement of conferentie,", "clarificationItem2": "automatische deelname aan een activiteit,", "clarificationItem3": "lidmaatschap van een organisatie,", "clarificationItem4": "noch enige verbintenis van welke aard dan ook.", "conferenceClarificationText": "De ontmoetingen, conferenties of afspraken die eventueel worden genoemd (met name in Marrakech of in andere landen) worden uitsluitend ter informatie meegedeeld.", "conferenceClarificationDetails": "Hun organisatie, modaliteiten en toegankelijkheid zijn afhankelijk van latere voorwaarden en betreffen alleen personen die er vrijwillig aan willen deelnemen.", "initiativeNatureText": "Het burgerinitiatief maakt deel uit van een continu proces, onafhankelijk van elk eenmalig evenement of geografische locatie.", "transparencyText": "De informatie die op deze site wordt gepubliceerd, is openbaar toegankelijk en heeft tot doel transparante informatie te verstrekken, ook aan bevoegde instellingen en autoriteiten.", "legalMentionsTitle": "Juridische mededelingen", "legalNatureLabel": "Aard van het initiatief:", "legalNatureText": "Burgerinitiatieven is een collectief burgerinitiatief, ontstaan uit uitwisselingen en ontmoetingen tussen verschillende mensen die een gemeenschappelijke wil delen voor dialoog, informatie en onderlinge hulp.", "legalFounderLabel": "Oprichter van het initiatief:", "legalFounderText": "Mbarak Chniouer", "legalCoordinationLabel": "Coördinatie en digitale animatie:", "legalCoordinationText": "verzorgd door leden van het collectief.", "legalMediaLabel": "Multimedia:", "legalMediaText": "MEDEV PARTENARIAT COMPANY (Marokko)", "privacyLinkText": "Privacybeleid", "privacyLinkFooterText": "Privacybeleid", "privacyLinkFormText": "Bekijk ons privacybeleid", "privacyTitle": "Privacybeleid", "privacySubtitle": "Bescherming van uw persoonlijke gegevens", "privacySection1Title": "1. Gegevensverzameling", "privacySection1Text": "We verzamelen alleen de gegevens die nodig zijn voor uw voorinschrijving: uw e-mailadres, uw land van verblijf en uw deelname-intentie. Deze informatie wordt vrijwillig verzameld bij uw inschrijving.", "privacySection2Title": "2. Gebruik van gegevens", "privacySection2Text": "Uw gegevens worden uitsluitend gebruikt om u te informeren over de volgende stappen van het burgerinitiatief. Ze worden nooit gedeeld met derden voor commerciële doeleinden of gebruikt voor andere doeleinden dan de genoemde.", "privacySection3Title": "3. Bewaring van gegevens", "privacySection3Text": "Uw gegevens worden bewaard zolang nodig om u te informeren over de evolutie van het initiatief. U kunt op elk moment om verwijdering van uw gegevens vragen.", "privacySection4Title": "4. Uw rechten", "privacySection4Text": "In overeenstemming met de toepasselijke regelgeving heeft u het recht op toegang, rectificatie, verwijdering en bezwaar met betrekking tot uw persoonlijke gegevens. Om deze rechten uit te oefenen, kunt u contact met ons opnemen via de contactgegevens vermeld in de juridische mededelingen.", "privacySection5Title": "5. Beveiliging", "privacySection5Text": "We implementeren passende technische en organisatorische maatregelen om uw gegevens te beschermen tegen ongeautoriseerde toegang, verlies of vernietiging.", "privacyBackText": "Terug naar start"}, "de": {"langLabel": "Sprache", "tabs_home": "Start", "tabs_landing": "Landing", "continue": "weiter >>", "madeRespect": "Mit Respekt gemacht", "tribute": "Eine aufrichtige Würdigung eines Landes voller Geschichte, Kultur und Gastfreundschaft. Marokko, ein Knotenpunkt der Zivilisationen, wo Tradition und Moderne sich elegant verbinden.", "landing_title_top": "Mitmachen bei Initiativen", "landing_title_bottom": "Bürgerlich", "subtitle": "„Melden Sie sich an, um die Entwicklung einer offenen, überparteilichen Bürgerinitiative zu verfolgen, getragen von Marokkanern weltweit und Freunden Marokkos, und über Schritte, Arbeiten und Dynamiken informiert zu werden.“", "emailPh": "Ihre E-Mail-Adresse", "countryPh": "Wohnsitzland", "intentPh": "Ich möchte…", "intent_group": "Diese Initiative verfolgen", "intent_propose": "Eine Initiative vorschlagen", "intent_partner": "Partner werden", "intent_funder": "Förderer werden", "intent_support": "Die Initiative unterstützen oder begleiten", "intent_events": "Über Treffen und Veranstaltungen informiert werden", "intent_observer": "Beobachter / Institutionelle Überwachung", "intent_all": "Alles entdecken", "autoCountry": "Land automatisch erkannt", "toastOk": "Anmeldung erfolgreich! Wir melden uns bald.", "kpiPre": "Vorregistrierungen", "kpiCountries": "MRE (alle Länder) · Internationale Partner-Communities", "kpiGroups": "Maximale Anmeldungen",
 
-    "conference_prep": "Vorbereitung der Internationalen Konferenz der Marokkaner weltweit & Freunde Marokkos – Marrakesch, 8.–9. Mai 2026","kpiGroupsHelp": "Helfen Sie uns, indem Sie weit teilen.", "c1": "✔️ Freiwilliges und schrittweises Engagement", "c2": "✔️ Ohne politisches Mandat", "c3": "✔️ Keine finanzielle Verpflichtung", "join": "Rejoignez", "initiatives": "Initiatives", "citoyennes": "Citoyennes", "submit": "Zur Liste", "submitted": "Angemeldet!", "consentLine": "Mit der Angabe Ihrer E-Mail-Adresse stimmen Sie zu, über die nächsten Schritte dieser Bürgerinitiative informiert zu werden.", "clarificationIntro": "Diese Voranmeldung dient ausschließlich dazu, ein allgemeines Interesse an der Bürgerinitiative zu bekunden.", "clarificationNot": "Sie stellt keine dar:", "clarificationItem1": "Anmeldung für eine Veranstaltung oder Konferenz,", "clarificationItem2": "automatische Teilnahme an einer Aktivität,", "clarificationItem3": "Mitgliedschaft in einer Organisation,", "clarificationItem4": "noch eine Verpflichtung jeglicher Art.", "conferenceClarificationText": "Die möglicherweise erwähnten Treffen, Konferenzen oder Termine (insbesondere in Marrakesch oder in anderen Ländern) werden nur zu Informationszwecken mitgeteilt.", "conferenceClarificationDetails": "Ihre Organisation, Modalitäten und Zugänglichkeit hängen von nachfolgenden Bedingungen ab und betreffen nur Personen, die freiwillig daran teilnehmen möchten.", "initiativeNatureText": "Die Bürgerinitiative ist Teil eines kontinuierlichen Prozesses, unabhängig von jedem einmaligen Ereignis oder geografischen Standort.", "transparencyText": "Die auf dieser Website veröffentlichten Informationen sind öffentlich zugänglich und sollen transparente Informationen gewährleisten, einschließlich für zuständige Institutionen und Behörden.", "legalNatureText": "Bürgerinitiativen ist eine kollektive Bürgerinitiative, entstanden aus Austausch und Begegnungen zwischen mehreren Menschen, die einen gemeinsamen Willen zum Dialog, zur Information und zur gegenseitigen Hilfe teilen.", "legalFounderText": "Mbarak Chniouer", "legalCoordinationText": "gewährleistet von Mitgliedern des Kollektivs.", "legalMediaText": "MEDEV PARTENARIAT COMPANY (Marokko)"}, "it": {"langLabel": "Lingua", "tabs_home": "Home", "tabs_landing": "Iscrizione", "continue": "continua >>", "madeRespect": "Fatto con rispetto", "tribute": "Un sincero omaggio a una terra di storia, cultura e ospitalità. Il Marocco, crocevia di civiltà, dove tradizione e modernità si intrecciano con eleganza.", "landing_title_top": "Unisciti a Iniziative", "landing_title_bottom": "Cittadine", "subtitle": "« Iscriviti per seguire l’evoluzione di un’iniziativa civica aperta e apartitica, portata dai Marocchini nel mondo e dagli amici del Marocco, e ricevere aggiornamenti su tappe, lavori e dinamiche che ne derivano. »", "emailPh": "Il tuo indirizzo email", "countryPh": "Paese di residenza", "intentPh": "Vorrei…", "intent_group": "Seguire questa iniziativa", "intent_propose": "Proporre un’iniziativa", "intent_partner": "Diventare partner", "intent_funder": "Diventare finanziatore", "intent_support": "Sostenere o accompagnare l'iniziativa", "intent_events": "Essere informati su incontri ed eventi", "intent_observer": "Osservatore / Monitoraggio istituzionale", "intent_all": "Scoprire tutto", "autoCountry": "Paese rilevato automaticamente", "toastOk": "Iscrizione riuscita! Ti contatteremo presto.", "kpiPre": "Pre-iscritti", "kpiCountries": "MRE (tutti i paesi) · Comunità partner internazionali", "kpiGroups": "Massimo di iscrizioni",
+    "conference_prep": "Vorbereitung der Internationalen Konferenz der Marokkaner weltweit & Freunde Marokkos – Marrakesch, 8.–9. Mai 2026","kpiGroupsHelp": "Helfen Sie uns, indem Sie weit teilen.", "c1": "✔️ Freiwilliges und schrittweises Engagement", "c2": "✔️ Ohne politisches Mandat", "c3": "✔️ Keine finanzielle Verpflichtung", "join": "Rejoignez", "initiatives": "Initiatives", "citoyennes": "Citoyennes", "submit": "Zur Liste", "submitted": "Angemeldet!", "consentLine": "Mit der Angabe Ihrer E-Mail-Adresse stimmen Sie zu, über die nächsten Schritte dieser Bürgerinitiative informiert zu werden.", "clarificationIntro": "Diese Voranmeldung dient ausschließlich dazu, ein allgemeines Interesse an der Bürgerinitiative zu bekunden.", "clarificationNot": "Sie stellt keine dar:", "clarificationItem1": "Anmeldung für eine Veranstaltung oder Konferenz,", "clarificationItem2": "automatische Teilnahme an einer Aktivität,", "clarificationItem3": "Mitgliedschaft in einer Organisation,", "clarificationItem4": "noch eine Verpflichtung jeglicher Art.", "conferenceClarificationText": "Die möglicherweise erwähnten Treffen, Konferenzen oder Termine (insbesondere in Marrakesch oder in anderen Ländern) werden nur zu Informationszwecken mitgeteilt.", "conferenceClarificationDetails": "Ihre Organisation, Modalitäten und Zugänglichkeit hängen von nachfolgenden Bedingungen ab und betreffen nur Personen, die freiwillig daran teilnehmen möchten.", "initiativeNatureText": "Die Bürgerinitiative ist Teil eines kontinuierlichen Prozesses, unabhängig von jedem einmaligen Ereignis oder geografischen Standort.", "transparencyText": "Die auf dieser Website veröffentlichten Informationen sind öffentlich zugänglich und sollen transparente Informationen gewährleisten, einschließlich für zuständige Institutionen und Behörden.", "legalMentionsTitle": "Rechtliche Hinweise", "legalNatureLabel": "Art der Initiative:", "legalNatureText": "Bürgerinitiativen ist eine kollektive Bürgerinitiative, entstanden aus Austausch und Begegnungen zwischen mehreren Menschen, die einen gemeinsamen Willen zum Dialog, zur Information und zur gegenseitigen Hilfe teilen.", "legalFounderLabel": "Gründer der Initiative:", "legalFounderText": "Mbarak Chniouer", "legalCoordinationLabel": "Koordination und digitale Animation:", "legalCoordinationText": "gewährleistet von Mitgliedern des Kollektivs.", "legalMediaLabel": "Multimedia:", "legalMediaText": "MEDEV PARTENARIAT COMPANY (Marokko)", "privacyLinkText": "Datenschutzerklärung", "privacyLinkFooterText": "Datenschutzerklärung", "privacyLinkFormText": "Lesen Sie unsere Datenschutzerklärung", "privacyTitle": "Datenschutzerklärung", "privacySubtitle": "Schutz Ihrer persönlichen Daten", "privacySection1Title": "1. Zweck", "privacySection1Text": "Diese Datenschutzerklärung soll die Nutzer der Website darüber informieren, wie ihre persönlichen Daten im Rahmen der Bürgerinitiative Initiatives Citoyennes erfasst, verwendet und geschützt werden.", "privacySection1Text2": "Dieser Ansatz ist Teil eines Ziels der Transparenz, des Respekts für die Privatsphäre und der Einhaltung der geltenden Vorschriften.", "privacySection2Title": "2. Erfasste Daten", "privacySection2Text": "Im Rahmen der Voranmeldung werden nur die unbedingt erforderlichen Daten erfasst:", "privacySection2List1": "E-Mail-Adresse,", "privacySection2List2": "Wohnsitzland,", "privacySection2List3": "erklärte Absicht oder Wahl (der Initiative folgen, informiert werden, eine Idee vorschlagen usw.).", "privacySection2Text2": "Es werden keine sensiblen Daten erfasst.", "privacySection3Title": "3. Zweck der Verarbeitung", "privacySection3Text": "Die erfassten Daten dienen folgenden Zwecken:", "privacySection3List1": "Information der eingetragenen Personen über die Entwicklung der Bürgerinitiative,", "privacySection3List2": "Kommunikation von Informationen zu möglichen Austauschen, Treffen oder Veranstaltungen im Zusammenhang mit dieser Initiative,", "privacySection3List3": "Ermöglichung einer freiwilligen, unverbindlichen und überparteilichen Kommunikation.", "privacySection3Text2": "Die Daten werden nicht für kommerzielle, werbliche, politische oder Wahlzwecke verwendet.", "privacySection4Title": "4. Rechtsgrundlage der Verarbeitung", "privacySection4Text": "Die Verarbeitung personenbezogener Daten beruht auf der freien und ausdrücklichen Einwilligung der betroffenen Personen, die bei der Übermittlung des Voranmeldeformulars erteilt wird.", "privacySection5Title": "5. Empfänger der Daten und Entwicklung des Projekts", "privacySection5Text": "Die erfassten Daten sind nur den für die Koordinierung und Animation der Bürgerinitiative zuständigen Personen zugänglich.", "privacySection5Text2": "Im Rahmen der Entwicklung der Initiative (insbesondere rechtliche Strukturierung, Partnerschaft, Annäherung, Übertragung oder Übernahme) können personenbezogene Daten an eine Partner- oder übernehmende Einheit übertragen werden, wobei die geltenden Vorschriften eingehalten werden.", "privacySection5Text3": "Die betroffenen Personen werden im Voraus über alle Entwicklungen informiert, die die Verarbeitung ihrer Daten betreffen, und alle ihre Rechte bleiben vollständig gewährleistet.", "privacySection6Title": "6. Aufbewahrungsdauer", "privacySection6Text": "Die Daten werden so lange aufbewahrt, wie es für die Information der eingetragenen Personen über die Bürgerinitiative erforderlich ist.", "privacySection6Text2": "Jede Person kann jederzeit ohne Begründung die Löschung ihrer Daten oder den Widerruf ihrer Einwilligung beantragen.", "privacySection7Title": "7. Rechte der betroffenen Personen", "privacySection7Text": "Gemäß den geltenden Vorschriften hat jede Person folgende Rechte:", "privacySection7List1": "Recht auf Zugang zu ihren persönlichen Daten,", "privacySection7List2": "Recht auf Berichtigung,", "privacySection7List3": "Recht auf Löschung,", "privacySection7List4": "Widerspruchsrecht,", "privacySection7List5": "Recht auf Widerruf der Einwilligung.", "privacySection7Text2": "Diese Rechte können ausgeübt werden, indem die Initiative unter folgender Adresse kontaktiert wird:", "privacySection7Text3": "mre20252026@gmail.com", "privacySection7Text4": "Bei Schwierigkeiten kann sich jede Person auch an die zuständige Behörde wenden, insbesondere an die CNIL.", "privacySection8Title": "8. Datensicherheit", "privacySection8Text": "Es werden angemessene technische und organisatorische Maßnahmen umgesetzt, um die Daten vor unbefugtem Zugriff, Verlust, Änderung oder Missbrauch zu schützen.", "privacySection9Title": "9. Entwicklung der Richtlinie", "privacySection9Text": "Diese Datenschutzerklärung kann aktualisiert werden, um die Entwicklung des rechtlichen, technischen oder organisatorischen Rahmens der Initiative zu berücksichtigen.", "privacySection9Text2": "Die gültige Version ist die zum Zeitpunkt der Konsultation auf der Website veröffentlichte Version.", "privacyBackText": "Zurück zur Startseite"}, "it": {"langLabel": "Lingua", "tabs_home": "Home", "tabs_landing": "Iscrizione", "continue": "continua >>", "madeRespect": "Fatto con rispetto", "tribute": "Un sincero omaggio a una terra di storia, cultura e ospitalità. Il Marocco, crocevia di civiltà, dove tradizione e modernità si intrecciano con eleganza.", "landing_title_top": "Unisciti a Iniziative", "landing_title_bottom": "Cittadine", "subtitle": "« Iscriviti per seguire l’evoluzione di un’iniziativa civica aperta e apartitica, portata dai Marocchini nel mondo e dagli amici del Marocco, e ricevere aggiornamenti su tappe, lavori e dinamiche che ne derivano. »", "emailPh": "Il tuo indirizzo email", "countryPh": "Paese di residenza", "intentPh": "Vorrei…", "intent_group": "Seguire questa iniziativa", "intent_propose": "Proporre un’iniziativa", "intent_partner": "Diventare partner", "intent_funder": "Diventare finanziatore", "intent_support": "Sostenere o accompagnare l'iniziativa", "intent_events": "Essere informati su incontri ed eventi", "intent_observer": "Osservatore / Monitoraggio istituzionale", "intent_all": "Scoprire tutto", "autoCountry": "Paese rilevato automaticamente", "toastOk": "Iscrizione riuscita! Ti contatteremo presto.", "kpiPre": "Pre-iscritti", "kpiCountries": "MRE (tutti i paesi) · Comunità partner internazionali", "kpiGroups": "Massimo di iscrizioni",
 
-    "conference_prep": "Preparazione della Conferenza Internazionale dei Marocchini nel Mondo e Amici del Marocco – Marrakech, 8–9 maggio 2026","kpiGroupsHelp": "Aiutaci condividendo ampiamente.", "c1": "✔️ Impegno volontario e progressivo", "c2": "✔️ Senza mandato politico", "c3": "✔️ Senza obblighi finanziari", "join": "Rejoignez", "initiatives": "Initiatives", "citoyennes": "Citoyennes", "submit": "Iscriviti", "submitted": "Iscritto!", "consentLine": "Lasciando la tua email, accetti di essere informato sui prossimi passi di questa iniziativa civica.", "clarificationIntro": "Questa pre-iscrizione ha come unico scopo manifestare un interesse generale per l'iniziativa civica.", "clarificationNot": "Non costituisce:", "clarificationItem1": "un'iscrizione a un evento o conferenza,", "clarificationItem2": "una partecipazione automatica a un'attività,", "clarificationItem3": "un'adesione a una struttura,", "clarificationItem4": "né un impegno di qualsiasi natura.", "conferenceClarificationText": "Gli incontri, le conferenze o gli appuntamenti eventualmente menzionati (in particolare a Marrakech o in altri paesi) sono comunicati a solo titolo informativo.", "conferenceClarificationDetails": "La loro organizzazione, modalità e accessibilità dipendono da condizioni successive e riguardano solo le persone che desiderano parteciparvi volontariamente.", "initiativeNatureText": "L'iniziativa civica si inserisce in un processo continuo, indipendente da qualsiasi evento puntuale o localizzazione geografica.", "transparencyText": "Le informazioni pubblicate su questo sito sono accessibili pubblicamente e hanno lo scopo di garantire un'informazione trasparente, anche per le istituzioni e le autorità competenti.", "legalNatureText": "Iniziative Cittadine è un'iniziativa cittadina collettiva, nata da scambi e incontri tra diverse persone che condividono una volontà comune di dialogo, informazione e mutuo aiuto.", "legalFounderText": "Mbarak Chniouer", "legalCoordinationText": "garantite da membri del collettivo.", "legalMediaText": "MEDEV PARTENARIAT COMPANY (Marocco)"}, "ar": {"langLabel": "اللغة", "tabs_home": "الرئيسية", "tabs_landing": "التسجيل", "continue": "متابعة >>", "madeRespect": "صنع باحترام", "tribute": "تحية صادقة لأرضٍ عريقة بالتاريخ والثقافة وكرم الضيافة. المغرب، ملتقى الحضارات، حيث تتداخل الأصالة والحداثة بأناقة.", "landing_title_top": "انضم إلى مبادرات", "landing_title_bottom": "مواطِنة", "subtitle": "« سجّل لمتابعة تطور مبادرة مواطنة مفتوحة وغير حزبية، يقودها مغاربة العالم وأصدقاء المغرب، وابقَ على اطلاع بالمراحل والأعمال والديناميكيات الناتجة عنها. »", "emailPh": "عنوان البريد الإلكتروني", "countryPh": "بلد الإقامة", "intentPh": "أرغب في…", "intent_group": "متابعة هذه المبادرة", "intent_propose": "اقتراح مبادرة", "intent_partner": "أن تصبح شريكاً", "intent_funder": "أن تصبح ممولاً", "intent_support": "دعم أو مرافقة المبادرة", "intent_events": "أن يتم إعلامك باللقاءات والفعاليات", "intent_observer": "مراقب / متابعة مؤسسية", "intent_all": "اكتشاف المزيد", "autoCountry": "تم تحديد البلد تلقائياً", "toastOk": "تم التسجيل بنجاح! سنقوم بالتواصل قريباً.", "kpiPre": "مسجلون مسبقاً", "kpiCountries": "مغاربة العالم (جميع البلدان) · المجتمعات الشريكة الدولية", "kpiGroups": "أقصى عدد من التسجيلات",
+    "conference_prep": "Preparazione della Conferenza Internazionale dei Marocchini nel Mondo e Amici del Marocco – Marrakech, 8–9 maggio 2026","kpiGroupsHelp": "Aiutaci condividendo ampiamente.", "c1": "✔️ Impegno volontario e progressivo", "c2": "✔️ Senza mandato politico", "c3": "✔️ Senza obblighi finanziari", "join": "Rejoignez", "initiatives": "Initiatives", "citoyennes": "Citoyennes", "submit": "Iscriviti", "submitted": "Iscritto!", "consentLine": "Lasciando la tua email, accetti di essere informato sui prossimi passi di questa iniziativa civica.", "clarificationIntro": "Questa pre-iscrizione ha come unico scopo manifestare un interesse generale per l'iniziativa civica.", "clarificationNot": "Non costituisce:", "clarificationItem1": "un'iscrizione a un evento o conferenza,", "clarificationItem2": "una partecipazione automatica a un'attività,", "clarificationItem3": "un'adesione a una struttura,", "clarificationItem4": "né un impegno di qualsiasi natura.", "conferenceClarificationText": "Gli incontri, le conferenze o gli appuntamenti eventualmente menzionati (in particolare a Marrakech o in altri paesi) sono comunicati a solo titolo informativo.", "conferenceClarificationDetails": "La loro organizzazione, modalità e accessibilità dipendono da condizioni successive e riguardano solo le persone che desiderano parteciparvi volontariamente.", "initiativeNatureText": "L'iniziativa civica si inserisce in un processo continuo, indipendente da qualsiasi evento puntuale o localizzazione geografica.", "transparencyText": "Le informazioni pubblicate su questo sito sono accessibili pubblicamente e hanno lo scopo di garantire un'informazione trasparente, anche per le istituzioni e le autorità competenti.", "legalMentionsTitle": "Note legali", "legalNatureLabel": "Natura dell'iniziativa:", "legalNatureText": "Iniziative Cittadine è un'iniziativa cittadina collettiva, nata da scambi e incontri tra diverse persone che condividono una volontà comune di dialogo, informazione e mutuo aiuto.", "legalFounderLabel": "Fondatore dell'iniziativa:", "legalFounderText": "Mbarak Chniouer", "legalCoordinationLabel": "Coordinamento e animazione digitale:", "legalCoordinationText": "garantite da membri del collettivo.", "legalMediaLabel": "Multimedia:", "legalMediaText": "MEDEV PARTENARIAT COMPANY (Marocco)", "privacyLinkText": "Informativa sulla privacy", "privacyLinkFooterText": "Informativa sulla privacy", "privacyLinkFormText": "Consulta la nostra informativa sulla privacy", "privacyTitle": "Informativa sulla privacy", "privacySubtitle": "Protezione dei tuoi dati personali", "privacySection1Title": "1. Oggetto", "privacySection1Text": "La presente informativa sulla privacy ha per oggetto informare gli utenti del sito sul modo in cui i loro dati personali sono raccolti, utilizzati e protetti nel quadro dell'iniziativa cittadina Iniziative Cittadine.", "privacySection1Text2": "Questo approccio si inserisce in un obiettivo di trasparenza, rispetto della vita privata e conformità alla normativa applicabile.", "privacySection2Title": "2. Dati raccolti", "privacySection2Text": "Nel quadro della pre-iscrizione, vengono raccolti solo i dati strettamente necessari:", "privacySection2List1": "indirizzo email,", "privacySection2List2": "paese di residenza,", "privacySection2List3": "intenzione o scelta dichiarata (seguire l'iniziativa, essere informati, proporre un'idea, ecc.).", "privacySection2Text2": "Nessun dato sensibile viene raccolto.", "privacySection3Title": "3. Finalità del trattamento", "privacySection3Text": "I dati raccolti hanno per finalità:", "privacySection3List1": "informare le persone iscritte sull'evoluzione dell'iniziativa cittadina,", "privacySection3List2": "comunicare informazioni relative a scambi, incontri o eventi eventuali legati a questa iniziativa,", "privacySection3List3": "permettere una comunicazione volontaria, non vincolante e apartitica.", "privacySection3Text2": "I dati non sono utilizzati a fini commerciali, pubblicitari, politici o elettorali.", "privacySection4Title": "4. Base legale del trattamento", "privacySection4Text": "Il trattamento dei dati personali si basa sul consenso libero ed esplicito delle persone interessate, espresso al momento dell'invio del modulo di pre-iscrizione.", "privacySection5Title": "5. Destinatari dei dati ed evoluzione del progetto", "privacySection5Text": "I dati raccolti sono accessibili unicamente alle persone incaricate della coordinazione e dell'animazione dell'iniziativa cittadina.", "privacySection5Text2": "Nel quadro dell'evoluzione dell'iniziativa (in particolare strutturazione giuridica, partenariato, avvicinamento, trasmissione o ripresa), i dati personali potranno essere trasferiti a un'entità partner o rilevatrice, nel rispetto della normativa applicabile.", "privacySection5Text3": "Le persone interessate saranno informate preventivamente di ogni evoluzione che riguarda il trattamento dei loro dati, e l'insieme dei loro diritti rimarrà pienamente garantito.", "privacySection6Title": "6. Durata di conservazione", "privacySection6Text": "I dati sono conservati per il tempo necessario a informare le persone iscritte riguardo all'iniziativa cittadina.", "privacySection6Text2": "Ogni persona può richiedere la cancellazione dei propri dati o il ritiro del proprio consenso in qualsiasi momento, senza giustificazione.", "privacySection7Title": "7. Diritti delle persone", "privacySection7Text": "Conformemente alla normativa applicabile, ogni persona dispone dei seguenti diritti:", "privacySection7List1": "diritto di accesso ai propri dati personali,", "privacySection7List2": "diritto di rettifica,", "privacySection7List3": "diritto di cancellazione,", "privacySection7List4": "diritto di opposizione,", "privacySection7List5": "diritto di ritiro del consenso.", "privacySection7Text2": "Questi diritti possono essere esercitati contattando l'iniziativa al seguente indirizzo:", "privacySection7Text3": "mre20252026@gmail.com", "privacySection7Text4": "In caso di difficoltà, qualsiasi persona può anche rivolgersi all'autorità competente, in particolare la CNIL.", "privacySection8Title": "8. Sicurezza dei dati", "privacySection8Text": "Vengono implementate misure tecniche e organizzative ragionevoli al fine di proteggere i dati contro qualsiasi accesso non autorizzato, perdita, alterazione o uso improprio.", "privacySection9Title": "9. Evoluzione dell'informativa", "privacySection9Text": "La presente informativa sulla privacy può essere aggiornata per tenere conto dell'evoluzione del quadro legale, tecnico o organizzativo dell'iniziativa.", "privacySection9Text2": "La versione applicabile è quella pubblicata sul sito al momento della consultazione.", "privacyBackText": "Torna alla home"}, "ar": {"langLabel": "اللغة", "tabs_home": "الرئيسية", "tabs_landing": "التسجيل", "continue": "متابعة >>", "madeRespect": "صنع باحترام", "tribute": "تحية صادقة لأرضٍ عريقة بالتاريخ والثقافة وكرم الضيافة. المغرب، ملتقى الحضارات، حيث تتداخل الأصالة والحداثة بأناقة.", "landing_title_top": "انضم إلى مبادرات", "landing_title_bottom": "مواطِنة", "subtitle": "« سجّل لمتابعة تطور مبادرة مواطنة مفتوحة وغير حزبية، يقودها مغاربة العالم وأصدقاء المغرب، وابقَ على اطلاع بالمراحل والأعمال والديناميكيات الناتجة عنها. »", "emailPh": "عنوان البريد الإلكتروني", "countryPh": "بلد الإقامة", "intentPh": "أرغب في…", "intent_group": "متابعة هذه المبادرة", "intent_propose": "اقتراح مبادرة", "intent_partner": "أن تصبح شريكاً", "intent_funder": "أن تصبح ممولاً", "intent_support": "دعم أو مرافقة المبادرة", "intent_events": "أن يتم إعلامك باللقاءات والفعاليات", "intent_observer": "مراقب / متابعة مؤسسية", "intent_all": "اكتشاف المزيد", "autoCountry": "تم تحديد البلد تلقائياً", "toastOk": "تم التسجيل بنجاح! سنقوم بالتواصل قريباً.", "kpiPre": "مسجلون مسبقاً", "kpiCountries": "مغاربة العالم (جميع البلدان) · المجتمعات الشريكة الدولية", "kpiGroups": "أقصى عدد من التسجيلات",
 
-    "conference_prep": "التحضير للمؤتمر الدولي لمغاربة العالم وأصدقاء المغرب – مراكش، 8–9 ماي 2026","kpiGroupsHelp": "ساعدونا بمشاركة واسعة.", "c1": "✔️ التزام طوعي وتدريجي", "c2": "✔️ دون تفويض سياسي", "c3": "✔️ دون التزام مالي", "join": "انضم", "initiatives": "مبادرات", "citoyennes": "مواطِنة", "submit": "الانضمام إلى القائمة", "submitted": "تم التسجيل!", "consentLine": "بترك بريدك الإلكتروني، فإنك توافق على تلقي معلومات حول الخطوات القادمة لهذه المبادرة المواطنة.", "clarificationIntro": "هذا التسجيل المسبق يهدف فقط إلى إظهار اهتمام عام بالمبادرة المواطنة.", "clarificationNot": "لا يشكل:", "clarificationItem1": "تسجيلاً في حدث أو مؤتمر،", "clarificationItem2": "مشاركة تلقائية في نشاط،", "clarificationItem3": "انضماماً إلى هيكل،", "clarificationItem4": "ولا التزاماً من أي نوع كان.", "conferenceClarificationText": "اللقاءات أو المؤتمرات أو المواعيد التي قد تُذكر (خاصة في مراكش أو في بلدان أخرى) تُبلغ لأغراض إعلامية فقط.", "conferenceClarificationDetails": "تنظيمها وطرقها وإمكانية الوصول إليها تعتمد على شروط لاحقة ولا ت concern إلا الأشخاص الذين يرغبون في المشاركة فيها طواعية.", "initiativeNatureText": "المبادرة المواطنة تندرج في إطار عملية مستمرة، مستقلة عن أي حدث محدد أو موقع جغرافي.", "transparencyText": "المعلومات المنشورة على هذا الموقع متاحة للجمهور وتهدف إلى ضمان معلومات شفافة، بما في ذلك للمؤسسات والسلطات المختصة.", "legalNatureText": "مبادرات مواطنة هي مبادرة مواطنة جماعية، نشأت من تبادلات ولقاءات بين عدة أشخاص يتشاركون إرادة مشتركة للحوار والمعلومات والمساعدة المتبادلة.", "legalFounderText": "مبارك شنيور", "legalCoordinationText": "مكفولة من قبل أعضاء المجموعة.", "legalMediaText": "ميديف شراكة شركة (المغرب)"}};
+    "conference_prep": "التحضير للمؤتمر الدولي لمغاربة العالم وأصدقاء المغرب – مراكش، 8–9 ماي 2026","kpiGroupsHelp": "ساعدونا بمشاركة واسعة.", "c1": "✔️ التزام طوعي وتدريجي", "c2": "✔️ دون تفويض سياسي", "c3": "✔️ دون التزام مالي", "join": "انضم", "initiatives": "مبادرات", "citoyennes": "مواطِنة", "submit": "الانضمام إلى القائمة", "submitted": "تم التسجيل!", "consentLine": "بترك بريدك الإلكتروني، فإنك توافق على تلقي معلومات حول الخطوات القادمة لهذه المبادرة المواطنة.", "clarificationIntro": "هذا التسجيل المسبق يهدف فقط إلى إظهار اهتمام عام بالمبادرة المواطنة.", "clarificationNot": "لا يشكل:", "clarificationItem1": "تسجيلاً في حدث أو مؤتمر،", "clarificationItem2": "مشاركة تلقائية في نشاط،", "clarificationItem3": "انضماماً إلى هيكل،", "clarificationItem4": "ولا التزاماً من أي نوع كان.", "conferenceClarificationText": "اللقاءات أو المؤتمرات أو المواعيد التي قد تُذكر (خاصة في مراكش أو في بلدان أخرى) تُبلغ لأغراض إعلامية فقط.", "conferenceClarificationDetails": "تنظيمها وطرقها وإمكانية الوصول إليها تعتمد على شروط لاحقة ولا ت concern إلا الأشخاص الذين يرغبون في المشاركة فيها طواعية.", "initiativeNatureText": "المبادرة المواطنة تندرج في إطار عملية مستمرة، مستقلة عن أي حدث محدد أو موقع جغرافي.", "transparencyText": "المعلومات المنشورة على هذا الموقع متاحة للجمهور وتهدف إلى ضمان معلومات شفافة، بما في ذلك للمؤسسات والسلطات المختصة.", "legalMentionsTitle": "الإشعارات القانونية", "legalNatureLabel": "طبيعة المبادرة:", "legalNatureText": "مبادرات مواطنة هي مبادرة مواطنة جماعية، نشأت من تبادلات ولقاءات بين عدة أشخاص يتشاركون إرادة مشتركة للحوار والمعلومات والمساعدة المتبادلة.", "legalFounderLabel": "مؤسس المبادرة:", "legalFounderText": "مبارك شنيور", "legalCoordinationLabel": "التنسيق والتحريك الرقمي:", "legalCoordinationText": "مكفولة من قبل أعضاء المجموعة.", "legalMediaLabel": "وسائط متعددة:", "legalMediaText": "ميديف شراكة شركة (المغرب)", "privacyLinkText": "سياسة الخصوصية", "privacyLinkFooterText": "سياسة الخصوصية", "privacyLinkFormText": "اطلع على سياسة الخصوصية الخاصة بنا", "privacyTitle": "سياسة الخصوصية", "privacySubtitle": "حماية بياناتك الشخصية", "privacySection1Title": "1. الهدف", "privacySection1Text": "تهدف سياسة الخصوصية هذه إلى إعلام مستخدمي الموقع حول كيفية جمع بياناتهم الشخصية واستخدامها وحمايتها في إطار المبادرة المواطنة مبادرات مواطنة.", "privacySection1Text2": "يأتي هذا النهج في إطار هدف الشفافية واحترام الحياة الخاصة والامتثال للوائح المعمول بها.", "privacySection2Title": "2. البيانات المجمعة", "privacySection2Text": "في إطار التسجيل المسبق، يتم جمع البيانات الضرورية فقط:", "privacySection2List1": "عنوان البريد الإلكتروني،", "privacySection2List2": "بلد الإقامة،", "privacySection2List3": "النية أو الخيار المعلن (متابعة المبادرة، أن يتم إعلامك، اقتراح فكرة، إلخ).", "privacySection2Text2": "لا يتم جمع أي بيانات حساسة.", "privacySection3Title": "3. الغرض من المعالجة", "privacySection3Text": "البيانات المجمعة لها الغرض التالي:", "privacySection3List1": "إعلام الأشخاص المسجلين بتطور المبادرة المواطنة،", "privacySection3List2": "توصيل معلومات متعلقة بتبادلات أو لقاءات أو أحداث محتملة مرتبطة بهذه المبادرة،", "privacySection3List3": "تمكين التواصل الطوعي وغير الملزم وغير الحزبي.", "privacySection3Text2": "لا يتم استخدام البيانات لأغراض تجارية أو إعلانية أو سياسية أو انتخابية.", "privacySection4Title": "4. الأساس القانوني للمعالجة", "privacySection4Text": "تعتمد معالجة البيانات الشخصية على الموافقة الحرة والصريحة للأشخاص المعنيين، المعبر عنها عند تقديم نموذج التسجيل المسبق.", "privacySection5Title": "5. مستلمو البيانات وتطور المشروع", "privacySection5Text": "البيانات المجمعة متاحة فقط للأشخاص المسؤولين عن تنسيق وتنشيط المبادرة المواطنة.", "privacySection5Text2": "في إطار تطور المبادرة (خاصة الهيكلة القانونية، الشراكة، التقارب، النقل أو الاستئناف)، قد يتم نقل البيانات الشخصية إلى كيان شريك أو مستحوذ، مع احترام اللوائح المعمول بها.", "privacySection5Text3": "سيتم إعلام الأشخاص المعنيين مسبقاً بأي تطور يؤثر على معالجة بياناتهم، وستبقى جميع حقوقهم مضمونة بالكامل.", "privacySection6Title": "6. مدة الحفظ", "privacySection6Text": "يتم الاحتفاظ بالبيانات طالما كان ذلك ضرورياً لإعلام الأشخاص المسجلين حول المبادرة المواطنة.", "privacySection6Text2": "يمكن لأي شخص طلب حذف بياناته أو سحب موافقته في أي وقت، دون مبرر.", "privacySection7Title": "7. حقوق الأشخاص", "privacySection7Text": "وفقاً للوائح المعمول بها، لكل شخص الحقوق التالية:", "privacySection7List1": "حق الوصول إلى بياناته الشخصية،", "privacySection7List2": "حق التصحيح،", "privacySection7List3": "حق الحذف،", "privacySection7List4": "حق الاعتراض،", "privacySection7List5": "حق سحب الموافقة.", "privacySection7Text2": "يمكن ممارسة هذه الحقوق من خلال الاتصال بالمبادرة على العنوان التالي:", "privacySection7Text3": "mre20252026@gmail.com", "privacySection7Text4": "في حالة الصعوبة، يمكن لأي شخص أيضاً اللجوء إلى السلطة المختصة، خاصة CNIL.", "privacySection8Title": "8. أمان البيانات", "privacySection8Text": "يتم تنفيذ تدابير تقنية وتنظيمية معقولة لحماية البيانات من أي وصول غير مصرح به أو فقدان أو تغيير أو استخدام غير لائق.", "privacySection9Title": "9. تطور السياسة", "privacySection9Text": "قد تتطور سياسة الخصوصية هذه لمراعاة تطور الإطار القانوني أو التقني أو التنظيمي للمبادرة.", "privacySection9Text2": "النسخة المعمول بها هي المنشورة على الموقع في وقت الاستشارة.", "privacyBackText": "العودة إلى الصفحة الرئيسية"}};
   
   // Fonction globale pour mettre à jour la phrase de conférence (landing)
   // Définie ici pour être accessible partout
@@ -2595,10 +2822,94 @@ try {
     setText('transparencyText', L.transparencyText);
     
     // Mettre à jour les mentions légales
+    setText('legalMentionsTitle', L.legalMentionsTitle || 'Mentions légales');
+    setText('legalNatureLabel', L.legalNatureLabel || 'Nature de l\'initiative :');
     setText('legalNatureText', L.legalNatureText);
+    setText('legalFounderLabel', L.legalFounderLabel || 'Fondateur de l\'initiative :');
     setText('legalFounderText', L.legalFounderText);
+    setText('legalCoordinationLabel', L.legalCoordinationLabel || 'Coordination et animation numérique :');
     setText('legalCoordinationText', L.legalCoordinationText);
+    setText('legalMediaLabel', L.legalMediaLabel || 'Multimédia :');
     setText('legalMediaText', L.legalMediaText);
+    
+    // Mettre à jour la ligne de consentement
+    setText('consentLineText', L.consentLine);
+    
+    // Mettre à jour le logo
+    setText('logoInitiatives', L.initiatives || 'Initiatives');
+    setText('logoCitoyennes', L.citoyennes || 'Citoyennes');
+
+    // Politique de confidentialité
+    setText('privacyLinkText', L.privacyLinkText);
+    setText('privacyLinkFooterText', L.privacyLinkFooterText);
+    setText('privacyLinkFormText', L.privacyLinkFormText);
+    setText('privacyTitle', L.privacyTitle);
+    setText('privacySubtitle', L.privacySubtitle);
+    setText('privacySection1Title', L.privacySection1Title);
+    setText('privacySection1Text', L.privacySection1Text);
+    if (L.privacySection1Text2) setText('privacySection1Text2', L.privacySection1Text2);
+    setText('privacySection2Title', L.privacySection2Title);
+    setText('privacySection2Text', L.privacySection2Text);
+    if (L.privacySection2List1) {
+      const list2 = document.getElementById('privacySection2List');
+      if (list2 && list2.children.length >= 3) {
+        list2.children[0].textContent = L.privacySection2List1;
+        list2.children[1].textContent = L.privacySection2List2;
+        list2.children[2].textContent = L.privacySection2List3;
+      }
+    }
+    if (L.privacySection2Text2) setText('privacySection2Text2', L.privacySection2Text2);
+    setText('privacySection3Title', L.privacySection3Title);
+    setText('privacySection3Text', L.privacySection3Text);
+    if (L.privacySection3List1) {
+      const list3 = document.getElementById('privacySection3List');
+      if (list3 && list3.children.length >= 3) {
+        list3.children[0].textContent = L.privacySection3List1;
+        list3.children[1].textContent = L.privacySection3List2;
+        list3.children[2].textContent = L.privacySection3List3;
+      }
+    }
+    if (L.privacySection3Text2) setText('privacySection3Text2', L.privacySection3Text2);
+    setText('privacySection4Title', L.privacySection4Title);
+    setText('privacySection4Text', L.privacySection4Text);
+    setText('privacySection5Title', L.privacySection5Title);
+    setText('privacySection5Text', L.privacySection5Text);
+    if (L.privacySection5Text2) setText('privacySection5Text2', L.privacySection5Text2);
+    if (L.privacySection5Text3) setText('privacySection5Text3', L.privacySection5Text3);
+    setText('privacySection6Title', L.privacySection6Title);
+    setText('privacySection6Text', L.privacySection6Text);
+    if (L.privacySection6Text2) setText('privacySection6Text2', L.privacySection6Text2);
+    setText('privacySection7Title', L.privacySection7Title);
+    setText('privacySection7Text', L.privacySection7Text);
+    if (L.privacySection7List1) {
+      const list7 = document.getElementById('privacySection7List');
+      if (list7 && list7.children.length >= 5) {
+        list7.children[0].textContent = L.privacySection7List1;
+        list7.children[1].textContent = L.privacySection7List2;
+        list7.children[2].textContent = L.privacySection7List3;
+        list7.children[3].textContent = L.privacySection7List4;
+        list7.children[4].textContent = L.privacySection7List5;
+      }
+    }
+    if (L.privacySection7Text2) setText('privacySection7Text2', L.privacySection7Text2);
+    if (L.privacySection7Text3) {
+      const el7Text3 = document.getElementById('privacySection7Text3');
+      if (el7Text3) {
+        const link = el7Text3.querySelector('a');
+        if (link) {
+          link.textContent = L.privacySection7Text3;
+        } else {
+          el7Text3.textContent = L.privacySection7Text3;
+        }
+      }
+    }
+    if (L.privacySection7Text4) setText('privacySection7Text4', L.privacySection7Text4);
+    setText('privacySection8Title', L.privacySection8Title);
+    setText('privacySection8Text', L.privacySection8Text);
+    setText('privacySection9Title', L.privacySection9Title);
+    setText('privacySection9Text', L.privacySection9Text);
+    if (L.privacySection9Text2) setText('privacySection9Text2', L.privacySection9Text2);
+    setText('privacyBackText', L.privacyBackText);
 
     const email = document.getElementById('email');
     if(email) email.placeholder = L.emailPh;
